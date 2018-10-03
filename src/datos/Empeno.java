@@ -271,7 +271,7 @@ public class Empeno implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Empeno[ idempeno=" + idempeno + " ]";
+        return "datos.Empeno[ idempeno=" + idempeno + " ]";
     }
     
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="532.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIParametrosController">
+   <children>
+      <Label layoutX="261.0" layoutY="65.0" text="Configuración de parametros">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="132.0" layoutY="163.0" text="IVA">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="132.0" layoutY="211.0" text="CAT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="132.0" layoutY="366.0" text="Porcentaje de comercializacion">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="132.0" layoutY="258.0" text="Porcentaje mutuo">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="132.0" layoutY="312.0" text="Interes mensual">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="463.0" layoutY="158.0" />
+      <TextField layoutX="463.0" layoutY="206.0" />
+      <TextField layoutX="463.0" layoutY="253.0" />
+      <TextField layoutX="463.0" layoutY="307.0" />
+      <TextField layoutX="463.0" layoutY="360.0" />
+      <Button layoutX="506.0" layoutY="419.0" mnemonicParsing="false" text="Habilitar campos" />
+      <Button layoutX="506.0" layoutY="461.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Guardar" />
+   </children>
+</AnchorPane>

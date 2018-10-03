@@ -113,7 +113,7 @@ public class Fotocliente implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Fotocliente[ idfotoCliente=" + idfotoCliente + " ]";
+        return "datos.Fotocliente[ idfotoCliente=" + idfotoCliente + " ]";
     }
     
 }

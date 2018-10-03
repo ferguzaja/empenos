@@ -105,7 +105,7 @@ public class Cotitular implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Cotitular[ idcotitular=" + idcotitular + " ]";
+        return "datos.Cotitular[ idcotitular=" + idcotitular + " ]";
     }
     
 }

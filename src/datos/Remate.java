@@ -138,7 +138,7 @@ public class Remate implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Remate[ idremate=" + idremate + " ]";
+        return "datos.Remate[ idremate=" + idremate + " ]";
     }
     
 }

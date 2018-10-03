@@ -113,7 +113,7 @@ public class Fotoprenda implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Fotoprenda[ idfotoPrenda=" + idfotoPrenda + " ]";
+        return "datos.Fotoprenda[ idfotoPrenda=" + idfotoPrenda + " ]";
     }
     
 }

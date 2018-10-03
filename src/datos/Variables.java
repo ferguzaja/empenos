@@ -129,7 +129,7 @@ public class Variables implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Variables[ idvariables=" + idvariables + " ]";
+        return "datos.Variables[ idvariables=" + idvariables + " ]";
     }
     
 }

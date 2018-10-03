@@ -152,7 +152,7 @@ public class Articuloventa implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Articuloventa[ idarticuloventa=" + idarticuloventa + " ]";
+        return "datos.Articuloventa[ idarticuloventa=" + idarticuloventa + " ]";
     }
     
 }

@@ -212,7 +212,7 @@ public class Empleado implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Empleado[ idempleado=" + idempleado + " ]";
+        return "datos.Empleado[ idempleado=" + idempleado + " ]";
     }
     
 }

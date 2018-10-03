@@ -129,7 +129,7 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Empresa[ idempresa=" + idempresa + " ]";
+        return "datos.Empresa[ idempresa=" + idempresa + " ]";
     }
     
 }

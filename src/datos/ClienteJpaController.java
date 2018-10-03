@@ -54,6 +54,11 @@ public class ClienteJpaController implements Serializable {
                 catalogoIdcatalogo = em.getReference(catalogoIdcatalogo.getClass(), catalogoIdcatalogo.getIdcatalogo());
                 cliente.setCatalogoIdcatalogo(catalogoIdcatalogo);
             }
+            Catalogo catalogoIdcatalogo1 = cliente.getCatalogoIdcatalogo1();
+            if (catalogoIdcatalogo1 != null) {
+                catalogoIdcatalogo1 = em.getReference(catalogoIdcatalogo1.getClass(), catalogoIdcatalogo1.getIdcatalogo());
+                cliente.setCatalogoIdcatalogo1(catalogoIdcatalogo1);
+            }
             Ciudad ciudadIdciudad = cliente.getCiudadIdciudad();
             if (ciudadIdciudad != null) {
                 ciudadIdciudad = em.getReference(ciudadIdciudad.getClass(), ciudadIdciudad.getIdciudad());
@@ -87,6 +92,10 @@ public class ClienteJpaController implements Serializable {
             if (catalogoIdcatalogo != null) {
                 catalogoIdcatalogo.getClienteList().add(cliente);
                 catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
+            }
+            if (catalogoIdcatalogo1 != null) {
+                catalogoIdcatalogo1.getClienteList().add(cliente);
+                catalogoIdcatalogo1 = em.merge(catalogoIdcatalogo1);
             }
             if (ciudadIdciudad != null) {
                 ciudadIdciudad.getClienteList().add(cliente);
@@ -144,6 +153,8 @@ public class ClienteJpaController implements Serializable {
             Cliente persistentCliente = em.find(Cliente.class, cliente.getIdcliente());
             Catalogo catalogoIdcatalogoOld = persistentCliente.getCatalogoIdcatalogo();
             Catalogo catalogoIdcatalogoNew = cliente.getCatalogoIdcatalogo();
+            Catalogo catalogoIdcatalogo1Old = persistentCliente.getCatalogoIdcatalogo1();
+            Catalogo catalogoIdcatalogo1New = cliente.getCatalogoIdcatalogo1();
             Ciudad ciudadIdciudadOld = persistentCliente.getCiudadIdciudad();
             Ciudad ciudadIdciudadNew = cliente.getCiudadIdciudad();
             List<Venta> ventaListOld = persistentCliente.getVentaList();
@@ -194,6 +205,10 @@ public class ClienteJpaController implements Serializable {
                 catalogoIdcatalogoNew = em.getReference(catalogoIdcatalogoNew.getClass(), catalogoIdcatalogoNew.getIdcatalogo());
                 cliente.setCatalogoIdcatalogo(catalogoIdcatalogoNew);
             }
+            if (catalogoIdcatalogo1New != null) {
+                catalogoIdcatalogo1New = em.getReference(catalogoIdcatalogo1New.getClass(), catalogoIdcatalogo1New.getIdcatalogo());
+                cliente.setCatalogoIdcatalogo1(catalogoIdcatalogo1New);
+            }
             if (ciudadIdciudadNew != null) {
                 ciudadIdciudadNew = em.getReference(ciudadIdciudadNew.getClass(), ciudadIdciudadNew.getIdciudad());
                 cliente.setCiudadIdciudad(ciudadIdciudadNew);
@@ -234,6 +249,14 @@ public class ClienteJpaController implements Serializable {
             if (catalogoIdcatalogoNew != null && !catalogoIdcatalogoNew.equals(catalogoIdcatalogoOld)) {
                 catalogoIdcatalogoNew.getClienteList().add(cliente);
                 catalogoIdcatalogoNew = em.merge(catalogoIdcatalogoNew);
+            }
+            if (catalogoIdcatalogo1Old != null && !catalogoIdcatalogo1Old.equals(catalogoIdcatalogo1New)) {
+                catalogoIdcatalogo1Old.getClienteList().remove(cliente);
+                catalogoIdcatalogo1Old = em.merge(catalogoIdcatalogo1Old);
+            }
+            if (catalogoIdcatalogo1New != null && !catalogoIdcatalogo1New.equals(catalogoIdcatalogo1Old)) {
+                catalogoIdcatalogo1New.getClienteList().add(cliente);
+                catalogoIdcatalogo1New = em.merge(catalogoIdcatalogo1New);
             }
             if (ciudadIdciudadOld != null && !ciudadIdciudadOld.equals(ciudadIdciudadNew)) {
                 ciudadIdciudadOld.getClienteList().remove(cliente);
@@ -352,6 +375,11 @@ public class ClienteJpaController implements Serializable {
             if (catalogoIdcatalogo != null) {
                 catalogoIdcatalogo.getClienteList().remove(cliente);
                 catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
+            }
+            Catalogo catalogoIdcatalogo1 = cliente.getCatalogoIdcatalogo1();
+            if (catalogoIdcatalogo1 != null) {
+                catalogoIdcatalogo1.getClienteList().remove(cliente);
+                catalogoIdcatalogo1 = em.merge(catalogoIdcatalogo1);
             }
             Ciudad ciudadIdciudad = cliente.getCiudadIdciudad();
             if (ciudadIdciudad != null) {

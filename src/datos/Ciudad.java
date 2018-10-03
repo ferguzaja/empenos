@@ -118,7 +118,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Ciudad[ idciudad=" + idciudad + " ]";
+        return "datos.Ciudad[ idciudad=" + idciudad + " ]";
     }
     
 }

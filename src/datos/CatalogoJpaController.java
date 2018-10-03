@@ -36,6 +36,9 @@ public class CatalogoJpaController implements Serializable {
         if (catalogo.getClienteList() == null) {
             catalogo.setClienteList(new ArrayList<Cliente>());
         }
+        if (catalogo.getClienteList1() == null) {
+            catalogo.setClienteList1(new ArrayList<Cliente>());
+        }
         if (catalogo.getEmpleadoList() == null) {
             catalogo.setEmpleadoList(new ArrayList<Empleado>());
         }
@@ -60,6 +63,12 @@ public class CatalogoJpaController implements Serializable {
                 attachedClienteList.add(clienteListClienteToAttach);
             }
             catalogo.setClienteList(attachedClienteList);
+            List<Cliente> attachedClienteList1 = new ArrayList<Cliente>();
+            for (Cliente clienteList1ClienteToAttach : catalogo.getClienteList1()) {
+                clienteList1ClienteToAttach = em.getReference(clienteList1ClienteToAttach.getClass(), clienteList1ClienteToAttach.getIdcliente());
+                attachedClienteList1.add(clienteList1ClienteToAttach);
+            }
+            catalogo.setClienteList1(attachedClienteList1);
             List<Empleado> attachedEmpleadoList = new ArrayList<Empleado>();
             for (Empleado empleadoListEmpleadoToAttach : catalogo.getEmpleadoList()) {
                 empleadoListEmpleadoToAttach = em.getReference(empleadoListEmpleadoToAttach.getClass(), empleadoListEmpleadoToAttach.getIdempleado());
@@ -90,6 +99,15 @@ public class CatalogoJpaController implements Serializable {
                 if (oldCatalogoIdcatalogoOfClienteListCliente != null) {
                     oldCatalogoIdcatalogoOfClienteListCliente.getClienteList().remove(clienteListCliente);
                     oldCatalogoIdcatalogoOfClienteListCliente = em.merge(oldCatalogoIdcatalogoOfClienteListCliente);
+                }
+            }
+            for (Cliente clienteList1Cliente : catalogo.getClienteList1()) {
+                Catalogo oldCatalogoIdcatalogo1OfClienteList1Cliente = clienteList1Cliente.getCatalogoIdcatalogo1();
+                clienteList1Cliente.setCatalogoIdcatalogo1(catalogo);
+                clienteList1Cliente = em.merge(clienteList1Cliente);
+                if (oldCatalogoIdcatalogo1OfClienteList1Cliente != null) {
+                    oldCatalogoIdcatalogo1OfClienteList1Cliente.getClienteList1().remove(clienteList1Cliente);
+                    oldCatalogoIdcatalogo1OfClienteList1Cliente = em.merge(oldCatalogoIdcatalogo1OfClienteList1Cliente);
                 }
             }
             for (Empleado empleadoListEmpleado : catalogo.getEmpleadoList()) {
@@ -137,6 +155,8 @@ public class CatalogoJpaController implements Serializable {
             Catalogo catalogoIdcatalogoNew = catalogo.getCatalogoIdcatalogo();
             List<Cliente> clienteListOld = persistentCatalogo.getClienteList();
             List<Cliente> clienteListNew = catalogo.getClienteList();
+            List<Cliente> clienteList1Old = persistentCatalogo.getClienteList1();
+            List<Cliente> clienteList1New = catalogo.getClienteList1();
             List<Empleado> empleadoListOld = persistentCatalogo.getEmpleadoList();
             List<Empleado> empleadoListNew = catalogo.getEmpleadoList();
             List<Catalogo> catalogoListOld = persistentCatalogo.getCatalogoList();
@@ -150,6 +170,14 @@ public class CatalogoJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Cliente " + clienteListOldCliente + " since its catalogoIdcatalogo field is not nullable.");
+                }
+            }
+            for (Cliente clienteList1OldCliente : clienteList1Old) {
+                if (!clienteList1New.contains(clienteList1OldCliente)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Cliente " + clienteList1OldCliente + " since its catalogoIdcatalogo1 field is not nullable.");
                 }
             }
             for (Empleado empleadoListOldEmpleado : empleadoListOld) {
@@ -190,6 +218,13 @@ public class CatalogoJpaController implements Serializable {
             }
             clienteListNew = attachedClienteListNew;
             catalogo.setClienteList(clienteListNew);
+            List<Cliente> attachedClienteList1New = new ArrayList<Cliente>();
+            for (Cliente clienteList1NewClienteToAttach : clienteList1New) {
+                clienteList1NewClienteToAttach = em.getReference(clienteList1NewClienteToAttach.getClass(), clienteList1NewClienteToAttach.getIdcliente());
+                attachedClienteList1New.add(clienteList1NewClienteToAttach);
+            }
+            clienteList1New = attachedClienteList1New;
+            catalogo.setClienteList1(clienteList1New);
             List<Empleado> attachedEmpleadoListNew = new ArrayList<Empleado>();
             for (Empleado empleadoListNewEmpleadoToAttach : empleadoListNew) {
                 empleadoListNewEmpleadoToAttach = em.getReference(empleadoListNewEmpleadoToAttach.getClass(), empleadoListNewEmpleadoToAttach.getIdempleado());
@@ -228,6 +263,17 @@ public class CatalogoJpaController implements Serializable {
                     if (oldCatalogoIdcatalogoOfClienteListNewCliente != null && !oldCatalogoIdcatalogoOfClienteListNewCliente.equals(catalogo)) {
                         oldCatalogoIdcatalogoOfClienteListNewCliente.getClienteList().remove(clienteListNewCliente);
                         oldCatalogoIdcatalogoOfClienteListNewCliente = em.merge(oldCatalogoIdcatalogoOfClienteListNewCliente);
+                    }
+                }
+            }
+            for (Cliente clienteList1NewCliente : clienteList1New) {
+                if (!clienteList1Old.contains(clienteList1NewCliente)) {
+                    Catalogo oldCatalogoIdcatalogo1OfClienteList1NewCliente = clienteList1NewCliente.getCatalogoIdcatalogo1();
+                    clienteList1NewCliente.setCatalogoIdcatalogo1(catalogo);
+                    clienteList1NewCliente = em.merge(clienteList1NewCliente);
+                    if (oldCatalogoIdcatalogo1OfClienteList1NewCliente != null && !oldCatalogoIdcatalogo1OfClienteList1NewCliente.equals(catalogo)) {
+                        oldCatalogoIdcatalogo1OfClienteList1NewCliente.getClienteList1().remove(clienteList1NewCliente);
+                        oldCatalogoIdcatalogo1OfClienteList1NewCliente = em.merge(oldCatalogoIdcatalogo1OfClienteList1NewCliente);
                     }
                 }
             }
@@ -300,6 +346,13 @@ public class CatalogoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Catalogo (" + catalogo + ") cannot be destroyed since the Cliente " + clienteListOrphanCheckCliente + " in its clienteList field has a non-nullable catalogoIdcatalogo field.");
+            }
+            List<Cliente> clienteList1OrphanCheck = catalogo.getClienteList1();
+            for (Cliente clienteList1OrphanCheckCliente : clienteList1OrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Catalogo (" + catalogo + ") cannot be destroyed since the Cliente " + clienteList1OrphanCheckCliente + " in its clienteList1 field has a non-nullable catalogoIdcatalogo1 field.");
             }
             List<Empleado> empleadoListOrphanCheck = catalogo.getEmpleadoList();
             for (Empleado empleadoListOrphanCheckEmpleado : empleadoListOrphanCheck) {

@@ -46,6 +46,8 @@ public class Catalogo implements Serializable {
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalogoIdcatalogo")
     private List<Cliente> clienteList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalogoIdcatalogo1")
+    private List<Cliente> clienteList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalogoIdcatalogo")
     private List<Empleado> empleadoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalogoIdcatalogo")
@@ -86,6 +88,15 @@ public class Catalogo implements Serializable {
 
     public void setClienteList(List<Cliente> clienteList) {
         this.clienteList = clienteList;
+    }
+
+    @XmlTransient
+    public List<Cliente> getClienteList1() {
+        return clienteList1;
+    }
+
+    public void setClienteList1(List<Cliente> clienteList1) {
+        this.clienteList1 = clienteList1;
     }
 
     @XmlTransient
@@ -145,7 +156,7 @@ public class Catalogo implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Catalogo[ idcatalogo=" + idcatalogo + " ]";
+        return "datos.Catalogo[ idcatalogo=" + idcatalogo + " ]";
     }
     
 }

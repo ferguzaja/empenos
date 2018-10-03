@@ -105,7 +105,7 @@ public class Pais implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Pais[ idpais=" + idpais + " ]";
+        return "datos.Pais[ idpais=" + idpais + " ]";
     }
     
 }

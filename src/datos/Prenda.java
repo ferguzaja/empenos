@@ -186,7 +186,7 @@ public class Prenda implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Prenda[ idprenda=" + idprenda + " ]";
+        return "datos.Prenda[ idprenda=" + idprenda + " ]";
     }
     
 }

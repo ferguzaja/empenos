@@ -76,6 +76,9 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "catalogo_idcatalogo", referencedColumnName = "idcatalogo")
     @ManyToOne(optional = false)
     private Catalogo catalogoIdcatalogo;
+    @JoinColumn(name = "catalogo_idcatalogo1", referencedColumnName = "idcatalogo")
+    @ManyToOne(optional = false)
+    private Catalogo catalogoIdcatalogo1;
     @JoinColumn(name = "ciudad_idciudad", referencedColumnName = "idciudad")
     @ManyToOne(optional = false)
     private Ciudad ciudadIdciudad;
@@ -187,6 +190,14 @@ public class Cliente implements Serializable {
         this.catalogoIdcatalogo = catalogoIdcatalogo;
     }
 
+    public Catalogo getCatalogoIdcatalogo1() {
+        return catalogoIdcatalogo1;
+    }
+
+    public void setCatalogoIdcatalogo1(Catalogo catalogoIdcatalogo1) {
+        this.catalogoIdcatalogo1 = catalogoIdcatalogo1;
+    }
+
     public Ciudad getCiudadIdciudad() {
         return ciudadIdciudad;
     }
@@ -244,7 +255,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Cliente[ idcliente=" + idcliente + " ]";
+        return "datos.Cliente[ idcliente=" + idcliente + " ]";
     }
     
 }

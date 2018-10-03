@@ -118,7 +118,7 @@ public class Estado implements Serializable {
 
     @Override
     public String toString() {
-        return "datos.entidades.Estado[ idestado=" + idestado + " ]";
+        return "datos.Estado[ idestado=" + idestado + " ]";
     }
     
 }
