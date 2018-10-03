@@ -19,7 +19,7 @@
     <class>datos.Remate</class>
     <class>datos.Prenda</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/empenos"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/empenos?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="CarlosMarxx"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="PQRvb811#"/>

@@ -67,7 +67,7 @@ public class InicioSesionController implements Initializable {
 
         for (int i = 0; i < empleados.size(); i++) {
             if (verificarUsuarioRegistrado(nombre)) {
-                if (empleados.get(i).getNombre().equals(nombre)
+                if (empleados.get(i).getUsuario().equals(nombre)
                         && empleados.get(i).getContrasena().equals(contrasena)) {
                     //Regresa 1 si el usuario y contraseña coinciden
                     estadoCuenta = 1;
@@ -89,7 +89,8 @@ public class InicioSesionController implements Initializable {
         EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
         List<Empleado> empleados = empleadoJPA.findEmpleadoEntities();
         for (int i = 0; i < empleados.size(); i++) {
-            if (empleados.get(i).getNombre().equals(nombre)) {
+            System.out.println(empleados.get(i).getNombre());
+            if (empleados.get(i).getUsuario().equals(nombre)) {
                 existe = true;
             }
         }
