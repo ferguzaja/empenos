@@ -9,13 +9,30 @@ package logica;
  */
 public class Empleado extends Persona {
 
+        private String usuario;
 	private String password;
-	private String tipoUsuario;
-	private String usuario;
+	private int tipoUsuario;
+
 
 	public Empleado(){
 
 	}
+
+    public Empleado(String usuario,String password, int tipoUsuario) {
+        this.password = password;
+        this.tipoUsuario = tipoUsuario;
+        this.usuario = usuario;
+    }
+
+    public Empleado(String usuario, String password, int tipoUsuario, int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono) {
+        super(nombre, apellidoPaterno, apellidoMaterno, direccion, telefono);
+        this.usuario = usuario;
+        this.password = password;
+        this.tipoUsuario = tipoUsuario;
+    }
+    
+    
+        
 
 	public void finalize() throws Throwable {
 		super.finalize();
@@ -25,7 +42,7 @@ public class Empleado extends Persona {
 		return password;
 	}
 
-	public String gettipoUsuario(){
+	public int gettipoUsuario(){
 		return tipoUsuario;
 	}
 
@@ -45,7 +62,7 @@ public class Empleado extends Persona {
 	 * 
 	 * @param newVal
 	 */
-	public void settipoUsuario(String newVal){
+	public void settipoUsuario(int newVal){
 		tipoUsuario = newVal;
 	}
 
