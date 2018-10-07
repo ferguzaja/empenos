@@ -16,8 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import logica.Empleado;
-import logica.Persona;
+//import logica.Persona;
 
 /**
  * FXML Controller class
@@ -114,8 +113,8 @@ public class GUIAltaEmpleadoController implements Initializable {
     @FXML
     private boolean guardarEmpleado(){
         boolean guardar=false;
-        Persona persona = new Persona();
-        Empleado empleado= new Empleado(super(nombre.getText(),apellidoP.getText(),apellidoM.getText(),direccion.getText(),telefono.getText()),usuario.getText(),contraseña.getText(),tipo.getSelectedIndex()+30);
+        //Persona persona = new Persona();
+        //Empleado empleado= new Empleado(super(nombre.getText(),apellidoP.getText(),apellidoM.getText(),direccion.getText(),telefono.getText()),usuario.getText(),contraseña.getText(),tipo.getSelectedIndex()+30);
         
         
         

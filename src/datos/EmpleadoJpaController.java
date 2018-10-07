@@ -47,10 +47,10 @@ public class EmpleadoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Catalogo catalogoIdcatalogo = empleado.getCatalogoIdcatalogo();
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo = em.getReference(catalogoIdcatalogo.getClass(), catalogoIdcatalogo.getIdcatalogo());
-                empleado.setCatalogoIdcatalogo(catalogoIdcatalogo);
+            Tipoempleado tipoempleadoIdtipoempleado = empleado.getTipoempleadoIdtipoempleado();
+            if (tipoempleadoIdtipoempleado != null) {
+                tipoempleadoIdtipoempleado = em.getReference(tipoempleadoIdtipoempleado.getClass(), tipoempleadoIdtipoempleado.getIdtipoempleado());
+                empleado.setTipoempleadoIdtipoempleado(tipoempleadoIdtipoempleado);
             }
             List<Venta> attachedVentaList = new ArrayList<Venta>();
             for (Venta ventaListVentaToAttach : empleado.getVentaList()) {
@@ -71,9 +71,9 @@ public class EmpleadoJpaController implements Serializable {
             }
             empleado.setEmpenoList(attachedEmpenoList);
             em.persist(empleado);
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo.getEmpleadoList().add(empleado);
-                catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
+            if (tipoempleadoIdtipoempleado != null) {
+                tipoempleadoIdtipoempleado.getEmpleadoList().add(empleado);
+                tipoempleadoIdtipoempleado = em.merge(tipoempleadoIdtipoempleado);
             }
             for (Venta ventaListVenta : empleado.getVentaList()) {
                 Empleado oldEmpleadoidEmpleadoOfVentaListVenta = ventaListVenta.getEmpleadoidEmpleado();
@@ -116,8 +116,8 @@ public class EmpleadoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empleado persistentEmpleado = em.find(Empleado.class, empleado.getIdempleado());
-            Catalogo catalogoIdcatalogoOld = persistentEmpleado.getCatalogoIdcatalogo();
-            Catalogo catalogoIdcatalogoNew = empleado.getCatalogoIdcatalogo();
+            Tipoempleado tipoempleadoIdtipoempleadoOld = persistentEmpleado.getTipoempleadoIdtipoempleado();
+            Tipoempleado tipoempleadoIdtipoempleadoNew = empleado.getTipoempleadoIdtipoempleado();
             List<Venta> ventaListOld = persistentEmpleado.getVentaList();
             List<Venta> ventaListNew = empleado.getVentaList();
             List<Remate> remateListOld = persistentEmpleado.getRemateList();
@@ -152,9 +152,9 @@ public class EmpleadoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (catalogoIdcatalogoNew != null) {
-                catalogoIdcatalogoNew = em.getReference(catalogoIdcatalogoNew.getClass(), catalogoIdcatalogoNew.getIdcatalogo());
-                empleado.setCatalogoIdcatalogo(catalogoIdcatalogoNew);
+            if (tipoempleadoIdtipoempleadoNew != null) {
+                tipoempleadoIdtipoempleadoNew = em.getReference(tipoempleadoIdtipoempleadoNew.getClass(), tipoempleadoIdtipoempleadoNew.getIdtipoempleado());
+                empleado.setTipoempleadoIdtipoempleado(tipoempleadoIdtipoempleadoNew);
             }
             List<Venta> attachedVentaListNew = new ArrayList<Venta>();
             for (Venta ventaListNewVentaToAttach : ventaListNew) {
@@ -178,13 +178,13 @@ public class EmpleadoJpaController implements Serializable {
             empenoListNew = attachedEmpenoListNew;
             empleado.setEmpenoList(empenoListNew);
             empleado = em.merge(empleado);
-            if (catalogoIdcatalogoOld != null && !catalogoIdcatalogoOld.equals(catalogoIdcatalogoNew)) {
-                catalogoIdcatalogoOld.getEmpleadoList().remove(empleado);
-                catalogoIdcatalogoOld = em.merge(catalogoIdcatalogoOld);
+            if (tipoempleadoIdtipoempleadoOld != null && !tipoempleadoIdtipoempleadoOld.equals(tipoempleadoIdtipoempleadoNew)) {
+                tipoempleadoIdtipoempleadoOld.getEmpleadoList().remove(empleado);
+                tipoempleadoIdtipoempleadoOld = em.merge(tipoempleadoIdtipoempleadoOld);
             }
-            if (catalogoIdcatalogoNew != null && !catalogoIdcatalogoNew.equals(catalogoIdcatalogoOld)) {
-                catalogoIdcatalogoNew.getEmpleadoList().add(empleado);
-                catalogoIdcatalogoNew = em.merge(catalogoIdcatalogoNew);
+            if (tipoempleadoIdtipoempleadoNew != null && !tipoempleadoIdtipoempleadoNew.equals(tipoempleadoIdtipoempleadoOld)) {
+                tipoempleadoIdtipoempleadoNew.getEmpleadoList().add(empleado);
+                tipoempleadoIdtipoempleadoNew = em.merge(tipoempleadoIdtipoempleadoNew);
             }
             for (Venta ventaListNewVenta : ventaListNew) {
                 if (!ventaListOld.contains(ventaListNewVenta)) {
@@ -273,10 +273,10 @@ public class EmpleadoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Catalogo catalogoIdcatalogo = empleado.getCatalogoIdcatalogo();
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo.getEmpleadoList().remove(empleado);
-                catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
+            Tipoempleado tipoempleadoIdtipoempleado = empleado.getTipoempleadoIdtipoempleado();
+            if (tipoempleadoIdtipoempleado != null) {
+                tipoempleadoIdtipoempleado.getEmpleadoList().remove(empleado);
+                tipoempleadoIdtipoempleado = em.merge(tipoempleadoIdtipoempleado);
             }
             em.remove(empleado);
             em.getTransaction().commit();

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="paneCliente" prefHeight="469.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIClienteController">
+   <children>
+      <DatePicker fx:id="fechaNacimiento" layoutX="155.0" layoutY="237.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="comboCiudad" layoutX="155.0" layoutY="368.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="36.0" layoutY="372.0" prefHeight="17.0" prefWidth="128.0" text="Ciudad" />
+      <ComboBox fx:id="comboEstado" layoutX="155.0" layoutY="335.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="36.0" layoutY="339.0" prefHeight="17.0" prefWidth="128.0" text="Estado" />
+      <Label layoutX="36.0" layoutY="307.0" prefHeight="17.0" prefWidth="128.0" text="País" />
+      <Label layoutX="36.0" layoutY="173.0" prefHeight="17.0" prefWidth="128.0" text="Tipo identificación" />
+      <Label layoutX="36.0" layoutY="274.0" prefHeight="17.0" prefWidth="128.0" text="Ocupación" />
+      <ComboBox fx:id="comboPais" layoutX="155.0" layoutY="303.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="comboTipoIdentificacion" layoutX="155.0" layoutY="169.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="comboOcupacion" layoutX="155.0" layoutY="270.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="noIdentificacion" layoutX="155.0" layoutY="202.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="direccion" layoutX="155.0" layoutY="136.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="apellidoP" layoutX="155.0" layoutY="104.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="apellidoM" layoutX="155.0" layoutY="69.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="nombre" layoutX="155.0" layoutY="38.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="36.0" layoutY="241.0" prefHeight="17.0" prefWidth="128.0" text="Fecha de nacimiento" />
+      <Label layoutX="36.0" layoutY="205.0" prefHeight="17.0" prefWidth="143.0" text="No. identificación" />
+      <Label layoutX="36.0" layoutY="139.0" prefHeight="17.0" prefWidth="95.0" text="Direccion" />
+      <Label layoutX="36.0" layoutY="108.0" prefHeight="17.0" prefWidth="95.0" text="Apellido Paterno" />
+      <Label layoutX="36.0" layoutY="73.0" prefHeight="17.0" prefWidth="95.0" text="Apellido materno" />
+      <Label layoutX="36.0" layoutY="43.0" prefHeight="17.0" prefWidth="95.0" text="Nombre" />
+      <Button layoutX="338.0" layoutY="414.0" mnemonicParsing="false" onAction="#botonGuardar" text="Guardar" />
+   </children>
+</AnchorPane>

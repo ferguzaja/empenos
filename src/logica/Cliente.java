@@ -1,86 +1,144 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package logica;
 
-
+import java.util.Date;
 
 /**
- * @author ferguzaja
- * @version 1.0
- * @created 03-oct.-2018 03:56:24 p. m.
+ *
+ * @author Jahir
  */
-public class Cliente extends Persona {
+public class Cliente {
+    
+    private int idCliente;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String direccion;
+    private String noIdentificacion;
+    private boolean listaNegra;
+    private String fechaNacimiento;
+    private int idCiudad;
+    private int idTipoIdentificacion;
+    private int idOcupacion;
 
-	private byte[] foto;
-	private byte[] huellaDactilar;
-	private boolean listaNegra;
-	private String noIdentificacion;
-	private String ocupacion;
+    public Cliente() {
+    }
 
-	public Cliente(){
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, 
+            String direccion, String noIdentificacion, boolean listaNegra, 
+            String fechaNacimiento, int idCiudad, int idTipoIdentificacion, int idOcupacion) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.noIdentificacion = noIdentificacion;
+        this.listaNegra = listaNegra;
+        this.fechaNacimiento = fechaNacimiento;
+        this.idCiudad = idCiudad;
+        this.idTipoIdentificacion = idTipoIdentificacion;
+        this.idOcupacion = idOcupacion;
+    }
 
-	}
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String noIdentificacion) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.noIdentificacion = noIdentificacion;
+    }        
 
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
+    public int getIdCliente() {
+        return idCliente;
+    }
 
-	public byte[] getfoto(){
-		return foto;
-	}
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
 
-	public byte[] gethuellaDactilar(){
-		return huellaDactilar;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public String getnoIdentificacion(){
-		return noIdentificacion;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public String getocupacion(){
-		return ocupacion;
-	}
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
 
-	public boolean islistaNegra(){
-		return listaNegra;
-	}
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setfoto(byte[] newVal){
-		foto = newVal;
-	}
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void sethuellaDactilar(byte[] newVal){
-		huellaDactilar = newVal;
-	}
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setlistaNegra(boolean newVal){
-		listaNegra = newVal;
-	}
+    public String getDireccion() {
+        return direccion;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setnoIdentificacion(String newVal){
-		noIdentificacion = newVal;
-	}
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setocupacion(String newVal){
-		ocupacion = newVal;
-	}
+    public String getNoIdentificacion() {
+        return noIdentificacion;
+    }
 
+    public void setNoIdentificacion(String noIdentificacion) {
+        this.noIdentificacion = noIdentificacion;
+    }
+
+    public boolean isListaNegra() {
+        return listaNegra;
+    }
+
+    public void setListaNegra(boolean listaNegra) {
+        this.listaNegra = listaNegra;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public int getIdCiudad() {
+        return idCiudad;
+    }
+
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
+    }
+
+    public int getIdTipoIdentificacion() {
+        return idTipoIdentificacion;
+    }
+
+    public void setIdTipoIdentificacion(int idTipoIdentificacion) {
+        this.idTipoIdentificacion = idTipoIdentificacion;
+    }
+
+    public int getIdOcupacion() {
+        return idOcupacion;
+    }
+
+    public void setIdOcupacion(int idOcupacion) {
+        this.idOcupacion = idOcupacion;
+    }
+    
+    
+    
 }

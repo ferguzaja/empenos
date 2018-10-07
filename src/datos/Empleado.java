@@ -72,9 +72,9 @@ public class Empleado implements Serializable {
     private List<Remate> remateList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadoidEmpleado")
     private List<Empeno> empenoList;
-    @JoinColumn(name = "catalogo_idcatalogo", referencedColumnName = "idcatalogo")
+    @JoinColumn(name = "tipoempleado_idtipoempleado", referencedColumnName = "idtipoempleado")
     @ManyToOne(optional = false)
-    private Catalogo catalogoIdcatalogo;
+    private Tipoempleado tipoempleadoIdtipoempleado;
 
     public Empleado() {
     }
@@ -182,12 +182,12 @@ public class Empleado implements Serializable {
         this.empenoList = empenoList;
     }
 
-    public Catalogo getCatalogoIdcatalogo() {
-        return catalogoIdcatalogo;
+    public Tipoempleado getTipoempleadoIdtipoempleado() {
+        return tipoempleadoIdtipoempleado;
     }
 
-    public void setCatalogoIdcatalogo(Catalogo catalogoIdcatalogo) {
-        this.catalogoIdcatalogo = catalogoIdcatalogo;
+    public void setTipoempleadoIdtipoempleado(Tipoempleado tipoempleadoIdtipoempleado) {
+        this.tipoempleadoIdtipoempleado = tipoempleadoIdtipoempleado;
     }
 
     @Override

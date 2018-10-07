@@ -1,48 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package logica;
 
-
-
 /**
- * @author ferguzaja
- * @version 1.0
- * @created 03-oct.-2018 03:56:25 p. m.
+ *
+ * @author Jahir
  */
 public class Pais {
+    private int idPais;
+    private String nombre;
 
-	private int idPais;
-	private String nombre;
-	public Estado m_Estado;
+    public Pais() {
+    }
 
-	public Pais(){
+    public Pais(int idPais, String nombre) {
+        this.idPais = idPais;
+        this.nombre = nombre;
+    }
 
-	}
+    public int getIdPais() {
+        return idPais;
+    }
 
-	public void finalize() throws Throwable {
+    public void setIdPais(int idPais) {
+        this.idPais = idPais;
+    }
 
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public int getidPais(){
-		return idPais;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public String getnombre(){
-		return nombre;
-	}
-
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setidPais(int newVal){
-		idPais = newVal;
-	}
-
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setnombre(String newVal){
-		nombre = newVal;
-	}
-
+    @Override
+    public String toString() {
+        return getNombre();
+    }
+    
+    
 }

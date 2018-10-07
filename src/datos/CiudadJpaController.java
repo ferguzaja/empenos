@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -23,8 +24,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class CiudadJpaController implements Serializable {
 
-    public CiudadJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public CiudadJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 

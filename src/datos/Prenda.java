@@ -62,12 +62,12 @@ public class Prenda implements Serializable {
     private List<Articuloventa> articuloventaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prendaIdprenda")
     private List<Fotoprenda> fotoprendaList;
-    @JoinColumn(name = "catalogo_idCatalogo", referencedColumnName = "idcatalogo")
-    @ManyToOne(optional = false)
-    private Catalogo catalogoidCatalogo;
     @JoinColumn(name = "empeno_idempeno", referencedColumnName = "idempeno")
     @ManyToOne(optional = false)
     private Empeno empenoIdempeno;
+    @JoinColumn(name = "tipoprenda_idtipoprenda", referencedColumnName = "idtipoprenda")
+    @ManyToOne(optional = false)
+    private Tipoprenda tipoprendaIdtipoprenda;
 
     public Prenda() {
     }
@@ -148,20 +148,20 @@ public class Prenda implements Serializable {
         this.fotoprendaList = fotoprendaList;
     }
 
-    public Catalogo getCatalogoidCatalogo() {
-        return catalogoidCatalogo;
-    }
-
-    public void setCatalogoidCatalogo(Catalogo catalogoidCatalogo) {
-        this.catalogoidCatalogo = catalogoidCatalogo;
-    }
-
     public Empeno getEmpenoIdempeno() {
         return empenoIdempeno;
     }
 
     public void setEmpenoIdempeno(Empeno empenoIdempeno) {
         this.empenoIdempeno = empenoIdempeno;
+    }
+
+    public Tipoprenda getTipoprendaIdtipoprenda() {
+        return tipoprendaIdtipoprenda;
+    }
+
+    public void setTipoprendaIdtipoprenda(Tipoprenda tipoprendaIdtipoprenda) {
+        this.tipoprendaIdtipoprenda = tipoprendaIdtipoprenda;
     }
 
     @Override

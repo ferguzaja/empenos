@@ -73,15 +73,15 @@ public class Cliente implements Serializable {
     private byte[] huellaDigital;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteIdcliente")
     private List<Venta> ventaList;
-    @JoinColumn(name = "catalogo_idcatalogo", referencedColumnName = "idcatalogo")
-    @ManyToOne(optional = false)
-    private Catalogo catalogoIdcatalogo;
-    @JoinColumn(name = "catalogo_idcatalogo1", referencedColumnName = "idcatalogo")
-    @ManyToOne(optional = false)
-    private Catalogo catalogoIdcatalogo1;
     @JoinColumn(name = "ciudad_idciudad", referencedColumnName = "idciudad")
     @ManyToOne(optional = false)
     private Ciudad ciudadIdciudad;
+    @JoinColumn(name = "ocupacion_idocupacion", referencedColumnName = "idocupacion")
+    @ManyToOne(optional = false)
+    private Ocupacion ocupacionIdocupacion;
+    @JoinColumn(name = "tipoidentificacion_idtipoidentificacion", referencedColumnName = "idtipoidentificacion")
+    @ManyToOne(optional = false)
+    private Tipoidentificacion tipoidentificacionIdtipoidentificacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteIdcliente")
     private List<Fotocliente> fotoclienteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteIdcliente")
@@ -182,28 +182,28 @@ public class Cliente implements Serializable {
         this.ventaList = ventaList;
     }
 
-    public Catalogo getCatalogoIdcatalogo() {
-        return catalogoIdcatalogo;
-    }
-
-    public void setCatalogoIdcatalogo(Catalogo catalogoIdcatalogo) {
-        this.catalogoIdcatalogo = catalogoIdcatalogo;
-    }
-
-    public Catalogo getCatalogoIdcatalogo1() {
-        return catalogoIdcatalogo1;
-    }
-
-    public void setCatalogoIdcatalogo1(Catalogo catalogoIdcatalogo1) {
-        this.catalogoIdcatalogo1 = catalogoIdcatalogo1;
-    }
-
     public Ciudad getCiudadIdciudad() {
         return ciudadIdciudad;
     }
 
     public void setCiudadIdciudad(Ciudad ciudadIdciudad) {
         this.ciudadIdciudad = ciudadIdciudad;
+    }
+
+    public Ocupacion getOcupacionIdocupacion() {
+        return ocupacionIdocupacion;
+    }
+
+    public void setOcupacionIdocupacion(Ocupacion ocupacionIdocupacion) {
+        this.ocupacionIdocupacion = ocupacionIdocupacion;
+    }
+
+    public Tipoidentificacion getTipoidentificacionIdtipoidentificacion() {
+        return tipoidentificacionIdtipoidentificacion;
+    }
+
+    public void setTipoidentificacionIdtipoidentificacion(Tipoidentificacion tipoidentificacionIdtipoidentificacion) {
+        this.tipoidentificacionIdtipoidentificacion = tipoidentificacionIdtipoidentificacion;
     }
 
     @XmlTransient

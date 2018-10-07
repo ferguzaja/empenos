@@ -43,15 +43,15 @@ public class PrendaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Catalogo catalogoidCatalogo = prenda.getCatalogoidCatalogo();
-            if (catalogoidCatalogo != null) {
-                catalogoidCatalogo = em.getReference(catalogoidCatalogo.getClass(), catalogoidCatalogo.getIdcatalogo());
-                prenda.setCatalogoidCatalogo(catalogoidCatalogo);
-            }
             Empeno empenoIdempeno = prenda.getEmpenoIdempeno();
             if (empenoIdempeno != null) {
                 empenoIdempeno = em.getReference(empenoIdempeno.getClass(), empenoIdempeno.getIdempeno());
                 prenda.setEmpenoIdempeno(empenoIdempeno);
+            }
+            Tipoprenda tipoprendaIdtipoprenda = prenda.getTipoprendaIdtipoprenda();
+            if (tipoprendaIdtipoprenda != null) {
+                tipoprendaIdtipoprenda = em.getReference(tipoprendaIdtipoprenda.getClass(), tipoprendaIdtipoprenda.getIdtipoprenda());
+                prenda.setTipoprendaIdtipoprenda(tipoprendaIdtipoprenda);
             }
             List<Articuloventa> attachedArticuloventaList = new ArrayList<Articuloventa>();
             for (Articuloventa articuloventaListArticuloventaToAttach : prenda.getArticuloventaList()) {
@@ -66,13 +66,13 @@ public class PrendaJpaController implements Serializable {
             }
             prenda.setFotoprendaList(attachedFotoprendaList);
             em.persist(prenda);
-            if (catalogoidCatalogo != null) {
-                catalogoidCatalogo.getPrendaList().add(prenda);
-                catalogoidCatalogo = em.merge(catalogoidCatalogo);
-            }
             if (empenoIdempeno != null) {
                 empenoIdempeno.getPrendaList().add(prenda);
                 empenoIdempeno = em.merge(empenoIdempeno);
+            }
+            if (tipoprendaIdtipoprenda != null) {
+                tipoprendaIdtipoprenda.getPrendaList().add(prenda);
+                tipoprendaIdtipoprenda = em.merge(tipoprendaIdtipoprenda);
             }
             for (Articuloventa articuloventaListArticuloventa : prenda.getArticuloventaList()) {
                 Prenda oldPrendaIdprendaOfArticuloventaListArticuloventa = articuloventaListArticuloventa.getPrendaIdprenda();
@@ -106,10 +106,10 @@ public class PrendaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Prenda persistentPrenda = em.find(Prenda.class, prenda.getIdprenda());
-            Catalogo catalogoidCatalogoOld = persistentPrenda.getCatalogoidCatalogo();
-            Catalogo catalogoidCatalogoNew = prenda.getCatalogoidCatalogo();
             Empeno empenoIdempenoOld = persistentPrenda.getEmpenoIdempeno();
             Empeno empenoIdempenoNew = prenda.getEmpenoIdempeno();
+            Tipoprenda tipoprendaIdtipoprendaOld = persistentPrenda.getTipoprendaIdtipoprenda();
+            Tipoprenda tipoprendaIdtipoprendaNew = prenda.getTipoprendaIdtipoprenda();
             List<Articuloventa> articuloventaListOld = persistentPrenda.getArticuloventaList();
             List<Articuloventa> articuloventaListNew = prenda.getArticuloventaList();
             List<Fotoprenda> fotoprendaListOld = persistentPrenda.getFotoprendaList();
@@ -134,13 +134,13 @@ public class PrendaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (catalogoidCatalogoNew != null) {
-                catalogoidCatalogoNew = em.getReference(catalogoidCatalogoNew.getClass(), catalogoidCatalogoNew.getIdcatalogo());
-                prenda.setCatalogoidCatalogo(catalogoidCatalogoNew);
-            }
             if (empenoIdempenoNew != null) {
                 empenoIdempenoNew = em.getReference(empenoIdempenoNew.getClass(), empenoIdempenoNew.getIdempeno());
                 prenda.setEmpenoIdempeno(empenoIdempenoNew);
+            }
+            if (tipoprendaIdtipoprendaNew != null) {
+                tipoprendaIdtipoprendaNew = em.getReference(tipoprendaIdtipoprendaNew.getClass(), tipoprendaIdtipoprendaNew.getIdtipoprenda());
+                prenda.setTipoprendaIdtipoprenda(tipoprendaIdtipoprendaNew);
             }
             List<Articuloventa> attachedArticuloventaListNew = new ArrayList<Articuloventa>();
             for (Articuloventa articuloventaListNewArticuloventaToAttach : articuloventaListNew) {
@@ -157,14 +157,6 @@ public class PrendaJpaController implements Serializable {
             fotoprendaListNew = attachedFotoprendaListNew;
             prenda.setFotoprendaList(fotoprendaListNew);
             prenda = em.merge(prenda);
-            if (catalogoidCatalogoOld != null && !catalogoidCatalogoOld.equals(catalogoidCatalogoNew)) {
-                catalogoidCatalogoOld.getPrendaList().remove(prenda);
-                catalogoidCatalogoOld = em.merge(catalogoidCatalogoOld);
-            }
-            if (catalogoidCatalogoNew != null && !catalogoidCatalogoNew.equals(catalogoidCatalogoOld)) {
-                catalogoidCatalogoNew.getPrendaList().add(prenda);
-                catalogoidCatalogoNew = em.merge(catalogoidCatalogoNew);
-            }
             if (empenoIdempenoOld != null && !empenoIdempenoOld.equals(empenoIdempenoNew)) {
                 empenoIdempenoOld.getPrendaList().remove(prenda);
                 empenoIdempenoOld = em.merge(empenoIdempenoOld);
@@ -172,6 +164,14 @@ public class PrendaJpaController implements Serializable {
             if (empenoIdempenoNew != null && !empenoIdempenoNew.equals(empenoIdempenoOld)) {
                 empenoIdempenoNew.getPrendaList().add(prenda);
                 empenoIdempenoNew = em.merge(empenoIdempenoNew);
+            }
+            if (tipoprendaIdtipoprendaOld != null && !tipoprendaIdtipoprendaOld.equals(tipoprendaIdtipoprendaNew)) {
+                tipoprendaIdtipoprendaOld.getPrendaList().remove(prenda);
+                tipoprendaIdtipoprendaOld = em.merge(tipoprendaIdtipoprendaOld);
+            }
+            if (tipoprendaIdtipoprendaNew != null && !tipoprendaIdtipoprendaNew.equals(tipoprendaIdtipoprendaOld)) {
+                tipoprendaIdtipoprendaNew.getPrendaList().add(prenda);
+                tipoprendaIdtipoprendaNew = em.merge(tipoprendaIdtipoprendaNew);
             }
             for (Articuloventa articuloventaListNewArticuloventa : articuloventaListNew) {
                 if (!articuloventaListOld.contains(articuloventaListNewArticuloventa)) {
@@ -242,15 +242,15 @@ public class PrendaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Catalogo catalogoidCatalogo = prenda.getCatalogoidCatalogo();
-            if (catalogoidCatalogo != null) {
-                catalogoidCatalogo.getPrendaList().remove(prenda);
-                catalogoidCatalogo = em.merge(catalogoidCatalogo);
-            }
             Empeno empenoIdempeno = prenda.getEmpenoIdempeno();
             if (empenoIdempeno != null) {
                 empenoIdempeno.getPrendaList().remove(prenda);
                 empenoIdempeno = em.merge(empenoIdempeno);
+            }
+            Tipoprenda tipoprendaIdtipoprenda = prenda.getTipoprendaIdtipoprenda();
+            if (tipoprendaIdtipoprenda != null) {
+                tipoprendaIdtipoprenda.getPrendaList().remove(prenda);
+                tipoprendaIdtipoprenda = em.merge(tipoprendaIdtipoprenda);
             }
             em.remove(prenda);
             em.getTransaction().commit();

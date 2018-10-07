@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -23,8 +24,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ClienteJpaController implements Serializable {
 
-    public ClienteJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ClienteJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -49,20 +50,20 @@ public class ClienteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Catalogo catalogoIdcatalogo = cliente.getCatalogoIdcatalogo();
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo = em.getReference(catalogoIdcatalogo.getClass(), catalogoIdcatalogo.getIdcatalogo());
-                cliente.setCatalogoIdcatalogo(catalogoIdcatalogo);
-            }
-            Catalogo catalogoIdcatalogo1 = cliente.getCatalogoIdcatalogo1();
-            if (catalogoIdcatalogo1 != null) {
-                catalogoIdcatalogo1 = em.getReference(catalogoIdcatalogo1.getClass(), catalogoIdcatalogo1.getIdcatalogo());
-                cliente.setCatalogoIdcatalogo1(catalogoIdcatalogo1);
-            }
             Ciudad ciudadIdciudad = cliente.getCiudadIdciudad();
             if (ciudadIdciudad != null) {
                 ciudadIdciudad = em.getReference(ciudadIdciudad.getClass(), ciudadIdciudad.getIdciudad());
                 cliente.setCiudadIdciudad(ciudadIdciudad);
+            }
+            Ocupacion ocupacionIdocupacion = cliente.getOcupacionIdocupacion();
+            if (ocupacionIdocupacion != null) {
+                ocupacionIdocupacion = em.getReference(ocupacionIdocupacion.getClass(), ocupacionIdocupacion.getIdocupacion());
+                cliente.setOcupacionIdocupacion(ocupacionIdocupacion);
+            }
+            Tipoidentificacion tipoidentificacionIdtipoidentificacion = cliente.getTipoidentificacionIdtipoidentificacion();
+            if (tipoidentificacionIdtipoidentificacion != null) {
+                tipoidentificacionIdtipoidentificacion = em.getReference(tipoidentificacionIdtipoidentificacion.getClass(), tipoidentificacionIdtipoidentificacion.getIdtipoidentificacion());
+                cliente.setTipoidentificacionIdtipoidentificacion(tipoidentificacionIdtipoidentificacion);
             }
             List<Venta> attachedVentaList = new ArrayList<Venta>();
             for (Venta ventaListVentaToAttach : cliente.getVentaList()) {
@@ -89,17 +90,17 @@ public class ClienteJpaController implements Serializable {
             }
             cliente.setEmpenoList(attachedEmpenoList);
             em.persist(cliente);
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo.getClienteList().add(cliente);
-                catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
-            }
-            if (catalogoIdcatalogo1 != null) {
-                catalogoIdcatalogo1.getClienteList().add(cliente);
-                catalogoIdcatalogo1 = em.merge(catalogoIdcatalogo1);
-            }
             if (ciudadIdciudad != null) {
                 ciudadIdciudad.getClienteList().add(cliente);
                 ciudadIdciudad = em.merge(ciudadIdciudad);
+            }
+            if (ocupacionIdocupacion != null) {
+                ocupacionIdocupacion.getClienteList().add(cliente);
+                ocupacionIdocupacion = em.merge(ocupacionIdocupacion);
+            }
+            if (tipoidentificacionIdtipoidentificacion != null) {
+                tipoidentificacionIdtipoidentificacion.getClienteList().add(cliente);
+                tipoidentificacionIdtipoidentificacion = em.merge(tipoidentificacionIdtipoidentificacion);
             }
             for (Venta ventaListVenta : cliente.getVentaList()) {
                 Cliente oldClienteIdclienteOfVentaListVenta = ventaListVenta.getClienteIdcliente();
@@ -151,12 +152,12 @@ public class ClienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cliente persistentCliente = em.find(Cliente.class, cliente.getIdcliente());
-            Catalogo catalogoIdcatalogoOld = persistentCliente.getCatalogoIdcatalogo();
-            Catalogo catalogoIdcatalogoNew = cliente.getCatalogoIdcatalogo();
-            Catalogo catalogoIdcatalogo1Old = persistentCliente.getCatalogoIdcatalogo1();
-            Catalogo catalogoIdcatalogo1New = cliente.getCatalogoIdcatalogo1();
             Ciudad ciudadIdciudadOld = persistentCliente.getCiudadIdciudad();
             Ciudad ciudadIdciudadNew = cliente.getCiudadIdciudad();
+            Ocupacion ocupacionIdocupacionOld = persistentCliente.getOcupacionIdocupacion();
+            Ocupacion ocupacionIdocupacionNew = cliente.getOcupacionIdocupacion();
+            Tipoidentificacion tipoidentificacionIdtipoidentificacionOld = persistentCliente.getTipoidentificacionIdtipoidentificacion();
+            Tipoidentificacion tipoidentificacionIdtipoidentificacionNew = cliente.getTipoidentificacionIdtipoidentificacion();
             List<Venta> ventaListOld = persistentCliente.getVentaList();
             List<Venta> ventaListNew = cliente.getVentaList();
             List<Fotocliente> fotoclienteListOld = persistentCliente.getFotoclienteList();
@@ -201,17 +202,17 @@ public class ClienteJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (catalogoIdcatalogoNew != null) {
-                catalogoIdcatalogoNew = em.getReference(catalogoIdcatalogoNew.getClass(), catalogoIdcatalogoNew.getIdcatalogo());
-                cliente.setCatalogoIdcatalogo(catalogoIdcatalogoNew);
-            }
-            if (catalogoIdcatalogo1New != null) {
-                catalogoIdcatalogo1New = em.getReference(catalogoIdcatalogo1New.getClass(), catalogoIdcatalogo1New.getIdcatalogo());
-                cliente.setCatalogoIdcatalogo1(catalogoIdcatalogo1New);
-            }
             if (ciudadIdciudadNew != null) {
                 ciudadIdciudadNew = em.getReference(ciudadIdciudadNew.getClass(), ciudadIdciudadNew.getIdciudad());
                 cliente.setCiudadIdciudad(ciudadIdciudadNew);
+            }
+            if (ocupacionIdocupacionNew != null) {
+                ocupacionIdocupacionNew = em.getReference(ocupacionIdocupacionNew.getClass(), ocupacionIdocupacionNew.getIdocupacion());
+                cliente.setOcupacionIdocupacion(ocupacionIdocupacionNew);
+            }
+            if (tipoidentificacionIdtipoidentificacionNew != null) {
+                tipoidentificacionIdtipoidentificacionNew = em.getReference(tipoidentificacionIdtipoidentificacionNew.getClass(), tipoidentificacionIdtipoidentificacionNew.getIdtipoidentificacion());
+                cliente.setTipoidentificacionIdtipoidentificacion(tipoidentificacionIdtipoidentificacionNew);
             }
             List<Venta> attachedVentaListNew = new ArrayList<Venta>();
             for (Venta ventaListNewVentaToAttach : ventaListNew) {
@@ -242,22 +243,6 @@ public class ClienteJpaController implements Serializable {
             empenoListNew = attachedEmpenoListNew;
             cliente.setEmpenoList(empenoListNew);
             cliente = em.merge(cliente);
-            if (catalogoIdcatalogoOld != null && !catalogoIdcatalogoOld.equals(catalogoIdcatalogoNew)) {
-                catalogoIdcatalogoOld.getClienteList().remove(cliente);
-                catalogoIdcatalogoOld = em.merge(catalogoIdcatalogoOld);
-            }
-            if (catalogoIdcatalogoNew != null && !catalogoIdcatalogoNew.equals(catalogoIdcatalogoOld)) {
-                catalogoIdcatalogoNew.getClienteList().add(cliente);
-                catalogoIdcatalogoNew = em.merge(catalogoIdcatalogoNew);
-            }
-            if (catalogoIdcatalogo1Old != null && !catalogoIdcatalogo1Old.equals(catalogoIdcatalogo1New)) {
-                catalogoIdcatalogo1Old.getClienteList().remove(cliente);
-                catalogoIdcatalogo1Old = em.merge(catalogoIdcatalogo1Old);
-            }
-            if (catalogoIdcatalogo1New != null && !catalogoIdcatalogo1New.equals(catalogoIdcatalogo1Old)) {
-                catalogoIdcatalogo1New.getClienteList().add(cliente);
-                catalogoIdcatalogo1New = em.merge(catalogoIdcatalogo1New);
-            }
             if (ciudadIdciudadOld != null && !ciudadIdciudadOld.equals(ciudadIdciudadNew)) {
                 ciudadIdciudadOld.getClienteList().remove(cliente);
                 ciudadIdciudadOld = em.merge(ciudadIdciudadOld);
@@ -265,6 +250,22 @@ public class ClienteJpaController implements Serializable {
             if (ciudadIdciudadNew != null && !ciudadIdciudadNew.equals(ciudadIdciudadOld)) {
                 ciudadIdciudadNew.getClienteList().add(cliente);
                 ciudadIdciudadNew = em.merge(ciudadIdciudadNew);
+            }
+            if (ocupacionIdocupacionOld != null && !ocupacionIdocupacionOld.equals(ocupacionIdocupacionNew)) {
+                ocupacionIdocupacionOld.getClienteList().remove(cliente);
+                ocupacionIdocupacionOld = em.merge(ocupacionIdocupacionOld);
+            }
+            if (ocupacionIdocupacionNew != null && !ocupacionIdocupacionNew.equals(ocupacionIdocupacionOld)) {
+                ocupacionIdocupacionNew.getClienteList().add(cliente);
+                ocupacionIdocupacionNew = em.merge(ocupacionIdocupacionNew);
+            }
+            if (tipoidentificacionIdtipoidentificacionOld != null && !tipoidentificacionIdtipoidentificacionOld.equals(tipoidentificacionIdtipoidentificacionNew)) {
+                tipoidentificacionIdtipoidentificacionOld.getClienteList().remove(cliente);
+                tipoidentificacionIdtipoidentificacionOld = em.merge(tipoidentificacionIdtipoidentificacionOld);
+            }
+            if (tipoidentificacionIdtipoidentificacionNew != null && !tipoidentificacionIdtipoidentificacionNew.equals(tipoidentificacionIdtipoidentificacionOld)) {
+                tipoidentificacionIdtipoidentificacionNew.getClienteList().add(cliente);
+                tipoidentificacionIdtipoidentificacionNew = em.merge(tipoidentificacionIdtipoidentificacionNew);
             }
             for (Venta ventaListNewVenta : ventaListNew) {
                 if (!ventaListOld.contains(ventaListNewVenta)) {
@@ -371,20 +372,20 @@ public class ClienteJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Catalogo catalogoIdcatalogo = cliente.getCatalogoIdcatalogo();
-            if (catalogoIdcatalogo != null) {
-                catalogoIdcatalogo.getClienteList().remove(cliente);
-                catalogoIdcatalogo = em.merge(catalogoIdcatalogo);
-            }
-            Catalogo catalogoIdcatalogo1 = cliente.getCatalogoIdcatalogo1();
-            if (catalogoIdcatalogo1 != null) {
-                catalogoIdcatalogo1.getClienteList().remove(cliente);
-                catalogoIdcatalogo1 = em.merge(catalogoIdcatalogo1);
-            }
             Ciudad ciudadIdciudad = cliente.getCiudadIdciudad();
             if (ciudadIdciudad != null) {
                 ciudadIdciudad.getClienteList().remove(cliente);
                 ciudadIdciudad = em.merge(ciudadIdciudad);
+            }
+            Ocupacion ocupacionIdocupacion = cliente.getOcupacionIdocupacion();
+            if (ocupacionIdocupacion != null) {
+                ocupacionIdocupacion.getClienteList().remove(cliente);
+                ocupacionIdocupacion = em.merge(ocupacionIdocupacion);
+            }
+            Tipoidentificacion tipoidentificacionIdtipoidentificacion = cliente.getTipoidentificacionIdtipoidentificacion();
+            if (tipoidentificacionIdtipoidentificacion != null) {
+                tipoidentificacionIdtipoidentificacion.getClienteList().remove(cliente);
+                tipoidentificacionIdtipoidentificacion = em.merge(tipoidentificacionIdtipoidentificacion);
             }
             em.remove(cliente);
             em.getTransaction().commit();
