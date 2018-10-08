@@ -15,11 +15,19 @@ public class Prenda {
 	private int idPrenda;
 	private float montoPrestamo;
 	private float montoValuo;
-	private String tipoPrenda;
+	private int tipoPrenda;
 
 	public Prenda(){
 
 	}
+
+    public Prenda(int tipoPrenda,String descripcion, float montoPrestamo, float montoValuo) {
+        this.descripcion = descripcion;
+        this.montoPrestamo = montoPrestamo;
+        this.montoValuo = montoValuo;
+        this.tipoPrenda = tipoPrenda;
+    }
+        
 
 	public void finalize() throws Throwable {
 
@@ -41,7 +49,7 @@ public class Prenda {
 		return montoValuo;
 	}
 
-	public String gettipoPrenda(){
+	public int gettipoPrenda(){
 		return tipoPrenda;
 	}
 
@@ -105,7 +113,7 @@ public class Prenda {
 	 * 
 	 * @param newVal
 	 */
-	public void settipoPrenda(String newVal){
+	public void settipoPrenda(int newVal){
 		tipoPrenda = newVal;
 	}
 

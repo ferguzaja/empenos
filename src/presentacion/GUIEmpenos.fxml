@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIEmpenosController">
+<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIEmpenosController">
    <children>
       <TextField fx:id="txtBuscar" layoutX="149.0" layoutY="46.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="30.0" layoutY="50.0" prefHeight="17.0" prefWidth="128.0" text="Busqueda clientes" />
@@ -33,5 +35,16 @@
         </columns>
       </TableView>
       <Button fx:id="botonBuscar" layoutX="405.0" layoutY="46.0" mnemonicParsing="false" onAction="#botonBuscarCliente" text="Buscar" />
+      <TableView layoutX="30.0" layoutY="312.0" prefHeight="200.0" prefWidth="442.0">
+        <columns>
+          <TableColumn fx:id="tipoArticuloColum" prefWidth="89.0" text="Tipo Articulo" />
+          <TableColumn fx:id="descripcionColumn" minWidth="9.0" prefWidth="61.0" text="Descripcion" />
+            <TableColumn fx:id="montoAvaluoColumn" prefWidth="75.0" text="Monto Valuo" />
+            <TableColumn fx:id="montoPrestamoColumn" prefWidth="75.0" text="Monto Prestamo" />
+            <TableColumn fx:id="fotografiaColumn" prefWidth="75.0" text="Fotografia" />
+            <TableColumn fx:id="eliminarColumn" prefWidth="75.0" text="Eliminar" />
+        </columns>
+      </TableView>
+      <Button fx:id="agregarPrenda" layoutX="30.0" layoutY="285.0" mnemonicParsing="false" text="Agregar Prenda" />
    </children>
 </AnchorPane>
