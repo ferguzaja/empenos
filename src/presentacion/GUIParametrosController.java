@@ -5,16 +5,17 @@
  */
 package presentacion;
 
-import datos.Tipoidentificacion;
 import datos.Variables;
 import datos.VariablesJpaController;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import logica.Variable;
 
 /**
  * FXML Controller class
@@ -44,15 +45,7 @@ public class GUIParametrosController implements Initializable {
     
     
     @FXML
-    public void mostrarVariables(){
-        
-        /*logica.Variable variable = new Variable();
-        variable.setIva(variables.get(0).getIva());
-        variable.setCat(variables.get(0).getCat());
-        variable.setIntereMensual(variables.get(0).getInteresMensual());
-        variable.setPorcentajeComercializacion(variables.get(0).getPorcentajeComercializacion());
-        variable.setPorcentajeMutuo(variables.get(0).getPorcentajeMutuo());*/
-        
+    public void mostrarVariables(){        
         txtIva.setText(variables.get(0).getIva().toString());
         txtCat.setText(variables.get(0).getCat().toString());
         txtInteMensual.setText(variables.get(0).getInteresMensual().toString());
@@ -60,6 +53,21 @@ public class GUIParametrosController implements Initializable {
         txtPorMutuo.setText(variables.get(0).getPorcentajeMutuo().toString());
     }
     
+    @FXML
+    public void actualizarVariables(ActionEvent event){
+        try {
+            datos.Variables variable = new Variables();
+            variable.setIdvariables(1);
+            variable.setIva(Float.parseFloat(txtIva.getText()));
+            variable.setCat(Float.parseFloat(txtCat.getText()));
+            variable.setInteresMensual(Float.parseFloat(txtInteMensual.getText()));
+            variable.setPorcentajeComercializacion(Float.parseFloat(txtPorcentajeComer.getText()));
+            variable.setPorcentajeMutuo(Float.parseFloat(txtPorMutuo.getText()));            
+            variableJPA.edit(variable);
+        } catch (Exception ex) {
+            Logger.getLogger(GUIParametrosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {        

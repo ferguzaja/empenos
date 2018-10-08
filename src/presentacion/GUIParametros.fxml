@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="532.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIParametrosController">
+<AnchorPane id="AnchorPane" onDragDetected="#actualizarVariables" prefHeight="532.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIParametrosController">
    <children>
       <Label layoutX="261.0" layoutY="65.0" text="Configuración de parametros">
          <font>
@@ -44,7 +44,7 @@
       <TextField fx:id="txtPorMutuo" layoutX="463.0" layoutY="253.0" />
       <TextField fx:id="txtInteMensual" layoutX="463.0" layoutY="307.0" />
       <TextField fx:id="txtPorcentajeComer" layoutX="463.0" layoutY="360.0" />
-      <Button layoutX="463.0" layoutY="430.0" mnemonicParsing="false" text="Editar" />
-      <Button layoutX="540.0" layoutY="430.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Guardar" />
+      <Button fx:id="botonEditar" layoutX="463.0" layoutY="430.0" mnemonicParsing="false" onAction="#actualizarVariables" text="Editar" />
+      <Button layoutX="551.0" layoutY="430.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Guardar" />
    </children>
 </AnchorPane>
