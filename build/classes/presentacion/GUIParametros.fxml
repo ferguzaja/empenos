@@ -39,12 +39,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="463.0" layoutY="158.0" />
-      <TextField layoutX="463.0" layoutY="206.0" />
-      <TextField layoutX="463.0" layoutY="253.0" />
-      <TextField layoutX="463.0" layoutY="307.0" />
-      <TextField layoutX="463.0" layoutY="360.0" />
-      <Button layoutX="506.0" layoutY="419.0" mnemonicParsing="false" text="Habilitar campos" />
-      <Button layoutX="506.0" layoutY="461.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Guardar" />
+      <TextField fx:id="txtIva" layoutX="463.0" layoutY="158.0" />
+      <TextField fx:id="txtCat" layoutX="463.0" layoutY="206.0" />
+      <TextField fx:id="txtPorMutuo" layoutX="463.0" layoutY="253.0" />
+      <TextField fx:id="txtInteMensual" layoutX="463.0" layoutY="307.0" />
+      <TextField fx:id="txtPorcentajeComer" layoutX="463.0" layoutY="360.0" />
+      <Button layoutX="463.0" layoutY="430.0" mnemonicParsing="false" text="Editar" />
+      <Button layoutX="540.0" layoutY="430.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Guardar" />
    </children>
 </AnchorPane>

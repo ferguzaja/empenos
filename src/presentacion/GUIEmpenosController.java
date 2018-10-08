@@ -5,7 +5,6 @@
  */
 package presentacion;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import datos.Cliente;
 import logica.Prenda;
 import datos.ClienteJpaController;
@@ -30,7 +29,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javax.swing.JButton;
 
 /**
  * FXML Controller class
@@ -44,45 +42,45 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private TextField txtBuscar;
-    
+
     @FXML
     private TableView<logica.Cliente> tablaClientes;
-    
+
     @FXML
     private TableColumn<Cliente, String> nombreColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> apMaternoColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> apPaternoColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> direccionColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> noIdentColumn;
     @FXML
     private TableView<logica.Prenda> tablaPrenda;
-    
+
     @FXML
     private TableColumn<Prenda, String> tipoArticulo;
-    
+
     @FXML
     private TableColumn<Prenda, String> descripcion;
-    
+
     @FXML
     private TableColumn<Prenda, String> montoValuo;
-    
+
     @FXML
     private TableColumn<Prenda, String> montoPrestamo;
-    
+
     @FXML
     private TableColumn<Prenda, String> fotografia;
+    //@FXML
+    //private TableColumn<Prenda, JButton> eliminar;
     @FXML
-    private TableColumn<Prenda, JButton> eliminar;
-    @FXML
-    private JButton agregarPrenda;
+    private Button agregarPrenda;
 
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -98,17 +96,18 @@ public class GUIEmpenosController implements Initializable {
         }
 
     }
+
     @FXML
-    private void botonAgregarPrenda(ActionEvent event){
+    private void botonAgregarPrenda(ActionEvent event) {
         try {
-                    Parent root = FXMLLoader.load(getClass().getResource("GUIAgregarProducto.fxml"));                    
-                    Scene scene = new Scene(root);                    
-                    Stage stage = new Stage();
-                    stage.setScene(scene);                    
-                    stage.show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+            Parent root = FXMLLoader.load(getClass().getResource("GUIAgregarProducto.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -134,23 +133,24 @@ public class GUIEmpenosController implements Initializable {
         }
 
         ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
-        nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("nombre"));
-        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("apellidoPaterno"));
-        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("apellidoMaterno"));
-        direccionColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("direccion"));
-        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("noIdentificacion"));
-        
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
+        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
+        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoMaterno"));
+        direccionColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("direccion"));
+        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("noIdentificacion"));
+
         tablaClientes.setItems(obsClientes);
     }
-    
-    public void agregarPrenda(Prenda prenda){
-        tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
-        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda,String>("descripcion"));
-        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoValuo"));
-        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoPrestamo"));
-        fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
-        
+
+    public void agregarPrenda(Prenda prenda) {
+        tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("tipArticulo"));
+        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
+        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
+        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
+        fotografia.setCellValueFactory(new PropertyValueFactory<Prenda, String>("fotografia"));
+
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

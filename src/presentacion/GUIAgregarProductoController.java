@@ -102,7 +102,7 @@ public class GUIAgregarProductoController implements Initializable {
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
         Prenda prenda = new Prenda(tipoPrenda.getSelectedIndex()+1,descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
-        agregarPrenda(prenda);
+        //agregarPrenda(prenda);
         dispose();
             
         }
