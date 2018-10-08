@@ -20,7 +20,7 @@
       <TextField fx:id="montoValuo" layoutX="151.0" layoutY="182.0" />
       <TextField fx:id="montoPrestamo" layoutX="151.0" layoutY="224.0" />
       <Button fx:id="tomarFotografia" layoutX="411.0" layoutY="287.0" mnemonicParsing="false" text="Tomar Fotografia" />
-      <Button fx:id="guardar" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" text="Agregar" />
+      <Button fx:id="guardar" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" onAction="#botonGuardar" text="Agregar" />
       <Button fx:id="cancelar" layoutX="488.0" layoutY="325.0" mnemonicParsing="false" text="Cancelar" />
       <Pane layoutX="365.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;">
          <children>

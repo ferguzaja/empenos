@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -24,8 +25,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class TipoprendaJpaController implements Serializable {
 
-    public TipoprendaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public TipoprendaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 

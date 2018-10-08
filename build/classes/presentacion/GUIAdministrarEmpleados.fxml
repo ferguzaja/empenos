@@ -7,8 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="presentacion.GUIAdministrarEmpleadosController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIAdministrarEmpleadosController">
    <children>
       <TextField fx:id="txtBuscar" layoutX="159.0" layoutY="56.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="40.0" layoutY="60.0" prefHeight="17.0" prefWidth="128.0" text="Busqueda empleado" />
@@ -23,6 +22,6 @@
          </columns>
       </TableView>
       <Button fx:id="botonBuscar" layoutX="415.0" layoutY="56.0" mnemonicParsing="false" onAction="#botonBuscarEmpleado" text="Buscar" />
-      <Button fx:id="EditarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" text="Editar Empleado" />
+      <Button fx:id="EditarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonEditarEmpleado" text="Editar Empleado" />
    </children>
 </AnchorPane>

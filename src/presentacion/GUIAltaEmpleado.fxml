@@ -7,8 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="467.0" prefWidth="496.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="presentacion.GUIAltaEmpleadoController">
+<AnchorPane id="AnchorPane" prefHeight="467.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIAltaEmpleadoController">
    <children>
       <Label layoutX="47.0" layoutY="72.0" prefHeight="17.0" prefWidth="95.0" text="Nombre" />
       <Label layoutX="47.0" layoutY="102.0" prefHeight="17.0" prefWidth="95.0" text="Apellido materno" />
@@ -19,7 +18,7 @@
       <TextField fx:id="TFApellidoP" layoutX="166.0" layoutY="98.0" prefHeight="25.0" prefWidth="242.0" />
       <TextField fx:id="TFApellidoMaterno" layoutX="166.0" layoutY="133.0" prefHeight="25.0" prefWidth="242.0" />
       <TextField fx:id="TFDireccion" layoutX="166.0" layoutY="165.0" prefHeight="25.0" prefWidth="242.0" />
-      <Button fx:id="JBGuardar" layoutX="166.0" layoutY="376.0" mnemonicParsing="false" text="Guardar" />
+      <Button fx:id="JBGuardar" layoutX="166.0" layoutY="376.0" mnemonicParsing="false" onAction="#botonGuardar" text="Guardar" />
       <Button fx:id="JBCancelar" layoutX="347.0" layoutY="376.0" mnemonicParsing="false" text="Cancelar" />
       <Label layoutX="47.0" layoutY="203.0" text="Telefono" />
       <TextField fx:id="TFTelefono" layoutX="166.0" layoutY="197.0" prefHeight="25.0" prefWidth="242.0" />

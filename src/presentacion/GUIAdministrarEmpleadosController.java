@@ -9,6 +9,7 @@ import datos.EmpleadoJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -62,6 +64,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     
     @FXML
     private TableColumn<Empleado, String> tipoEmpleadoColumn;
+    private HashMap <String, Object> empleadoModificar =new HashMap<String, Object>();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -90,16 +93,13 @@ public class GUIAdministrarEmpleadosController implements Initializable {
         for (int i = 0; i < empleado.size(); i++) {
             if (empleado.get(i).getNombre().equals(txtBuscar.getText())) {
                 logica.Empleado emple = new logica.Empleado();
-                emple.setnombre(empleado.get(i).getNombre());
-                emple.setapellidoPaterno(empleado.get(i).getApellidoPaterno());
-                emple.setapellidoMaterno(empleado.get(i).getApellidoMaterno());
-                emple.setdireccion(empleado.get(i).getDireccion());
-                emple.settipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
+                emple.setNombre(empleado.get(i).getNombre());
+                emple.setApellidoPaterno(empleado.get(i).getApellidoPaterno());
+                emple.setApellidoMaterno(empleado.get(i).getApellidoMaterno());
+                emple.setDireccion(empleado.get(i).getDireccion());
+                emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
                 listaEmpleado.add(emple);
             }
-        }
-        for (int i = 0; i < listaEmpleado.size(); i++) {
-            System.out.println(listaEmpleado.get(i).getnombre());
         }
 
         ObservableList<logica.Empleado> obsEmpleado = FXCollections.observableArrayList(listaEmpleado);
@@ -113,7 +113,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     }
     @FXML
     private void botonEditarEmpleado(ActionEvent event){
-        try {
+       /*try {
             Parent root = FXMLLoader.load(getClass().getResource("GUIEditarEmpleado.fxml"));
             Empleado empleado = tablaEmpleados.getSelectionModel().getSelectedItem();
             //aqui se manda los datos del empleado seleccionado
@@ -121,8 +121,20 @@ public class GUIAdministrarEmpleadosController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            } catch (IOException ex) {
+            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
+            }*/ 
+        try {
+            
+            Stage planillaStage=new Stage();
+            FXMLLoader loader= new FXMLLoader();
+            //agregamos el openStream (no se para que)
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIEditarEmpleado.fxml").openStream());
+            //ahora creo una instancia del controlador del form que voy a abrir casteando
+            GUIAgregarProductoController productosController=(GUIAgregarProductoController)loader.getController();
+            productosController.recibeVariable(empleadoModificar);
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
     }
-}

@@ -5,20 +5,26 @@
  */
 package presentacion;
 
-import com.sun.deploy.uitoolkit.ToolkitStore;
 import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
+import datos.TipoprendaJpaController;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import logica.Ciudad;
 import logica.Prenda;
-import presentacion.GUIEmpenosController;
+import logica.TipoPrenda;
 
 /**
  * FXML Controller class
@@ -31,7 +37,7 @@ public class GUIAgregarProductoController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private JComboBox tipoPrenda;
+    private ComboBox<TipoPrenda> tipoPrenda;
     @FXML
     private TextField descripcion;
     @FXML
@@ -39,13 +45,19 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private TextField montoPrestamo;
     @FXML
-    private JButton tomarFotografia;
+    private Button tomarFotografia;
     @FXML
-    private JButton guardar;
+    private Button guardar;
     @FXML
-    private JButton cancelar;
+    private Button cancelar;
+    @FXML
+    private ObservableList<TipoPrenda> obsPrendas;
+    
+    private HashMap<String, Object> productoEnviar=new HashMap<String, Object>();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        llenarComboTipoPrenda();
         // TODO
     }   
     
@@ -101,10 +113,25 @@ public class GUIAgregarProductoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        Prenda prenda = new Prenda(tipoPrenda.getSelectedIndex()+1,descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
-        //agregarPrenda(prenda);
+        Prenda prenda = new Prenda(tipoPrenda.getValue().getIdTipoPrenda(),descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
+        
         dispose();
             
         }
+    }
+    public void recibeVariable(HashMap<String, Object> productoEnviar){
+        this.productoEnviar=productoEnviar;
+        
+    }
+    public void llenarComboTipoPrenda() {
+         TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();
+        List<datos.Tipoprenda> prendas = tipoPrendaJPA.findTipoprendaEntities();
+        List<TipoPrenda> listaPrendas = new ArrayList<>();
+        for (int i = 0; i < prendas.size(); i++) {
+            TipoPrenda prenda = new TipoPrenda(prendas.get(i).getIdtipoprenda(), prendas.get(i).getNombre());
+            listaPrendas.add(prenda);
+        }
+        obsPrendas= FXCollections.observableArrayList(listaPrendas);
+        tipoPrenda.setItems(obsPrendas);
     }
 }

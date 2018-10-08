@@ -7,66 +7,118 @@ package logica;
  * @version 1.0
  * @created 07-oct.-2018 10:35:57 p. m.
  */
-public class Empleado extends Persona{
-        private String usuario;
-        private String tipoUsuario;
-	private String password;
+public class Empleado{
+    private int idEmpleado;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String direccion;
+    private String telefono;
+    private String usuario;
+    private String password;
+    private int tipoUsuario;
 
-    public Empleado(String usuario, String tipoUsuario, String password) {
-        this.usuario = usuario;
-        this.tipoUsuario = tipoUsuario;
-        this.password = password;
-    }
+   
 
-    public Empleado(String usuario, String tipoUsuario, String password, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono) {
-        super(nombre, apellidoPaterno, apellidoMaterno, direccion, telefono);
-        this.usuario = usuario;
-        this.tipoUsuario = tipoUsuario;
-        this.password = password;
-    }
     
 	public Empleado(){
-
-	}
-        
-	public void finalize() throws Throwable {
-		super.finalize();
+            
 	}
 
-	public String getpassword(){
-		return password;
-	}
+    public Empleado(int idEmpleado, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario) {
+        this.idEmpleado = idEmpleado;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.usuario = usuario;
+        this.password = password;
+        this.tipoUsuario = tipoUsuario;
+    }
 
-	public String gettipoUsuario(){
-		return tipoUsuario;
-	}
+    public Empleado(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.usuario = usuario;
+        this.password = password;
+        this.tipoUsuario = tipoUsuario;
+    }
+    
 
-	public String getusuario(){
-		return usuario;
-	}
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setpassword(String newVal){
-		password = newVal;
-	}
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void settipoUsuario(String newVal){
-		tipoUsuario = newVal;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setusuario(String newVal){
-		usuario = newVal;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(int tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+    
 }
