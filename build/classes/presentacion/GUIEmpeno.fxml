@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="565.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="presentacion.GUIEmpenoController">
+   <children>
+      <Label layoutX="67.0" layoutY="212.0" prefHeight="17.0" prefWidth="128.0" text="Interes mensual" />
+      <Label layoutX="68.0" layoutY="146.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="67.0" layoutY="180.0" prefHeight="17.0" prefWidth="128.0" text="CAT" />
+      <ComboBox layoutX="254.0" layoutY="111.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="67.0" layoutY="115.0" prefHeight="17.0" prefWidth="157.0" text=" No. de extencion de tiempo" />
+      <DatePicker layoutX="254.0" layoutY="76.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="67.0" layoutY="80.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final del empeño" />
+      <Label layoutX="67.0" layoutY="49.0" prefHeight="17.0" prefWidth="128.0" text="Fecha de inicio" />
+      <DatePicker layoutX="254.0" layoutY="45.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="67.0" layoutY="249.0" prefHeight="17.0" prefWidth="128.0" text="Fecha extencion" />
+      <DatePicker layoutX="254.0" layoutY="245.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="67.0" layoutY="325.0" prefHeight="17.0" prefWidth="128.0" text="Porcentaje de comercializacion" />
+      <DatePicker layoutX="255.0" layoutY="285.0" prefHeight="25.0" prefWidth="242.0" />
+      <Label layoutX="67.0" layoutY="289.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final de extencion" />
+      <Label layoutX="67.0" layoutY="362.0" prefHeight="17.0" prefWidth="128.0" text="número de bolsa" />
+      <Label layoutX="67.0" layoutY="397.0" prefHeight="17.0" prefWidth="128.0" text="Monto prestado" />
+      <Label layoutX="254.0" layoutY="146.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="254.0" layoutY="180.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="254.0" layoutY="212.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="254.0" layoutY="325.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="254.0" layoutY="362.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+      <Label layoutX="254.0" layoutY="397.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+   </children>
+</AnchorPane>

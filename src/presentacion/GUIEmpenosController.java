@@ -5,7 +5,6 @@
  */
 package presentacion;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import datos.Cliente;
 import logica.Prenda;
 import datos.ClienteJpaController;
@@ -103,8 +102,7 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonAgregarPrenda(ActionEvent event){
        try {
-            FXMLLoader loader= new FXMLLoader();
-            
+            FXMLLoader loader= new FXMLLoader();            
             //agregamos el openStream (no se para que)
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIAgregarProducto.fxml").openStream());
             //ahora creo una instancia del controlador del form que voy a abrir casteando
@@ -127,7 +125,7 @@ public class GUIEmpenosController implements Initializable {
 
         List<logica.Cliente> listaClientes = new ArrayList<>();
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getNombre().equals(txtBuscar.getText())) {
+            if (clientes.get(i).getNombre().contains(txtBuscar.getText())) {
                 logica.Cliente client = new logica.Cliente();
                 client.setNombre(clientes.get(i).getNombre());
                 client.setApellidoMaterno(clientes.get(i).getApellidoMaterno());

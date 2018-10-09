@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIPrincipalController">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="774.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Administración">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#menuEmpleados" text="Empleados" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemParametros" text="Parámetros" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Empeños">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#menuItemEmpenos" text="Contrato" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemHistorial" text="Historial" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Comercialización">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Ventas">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <Pane fx:id="panelPrincipal" layoutY="25.0" prefHeight="563.0" prefWidth="774.0" />
+   </children>
+</AnchorPane>
