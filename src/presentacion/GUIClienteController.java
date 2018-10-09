@@ -13,11 +13,8 @@ import datos.OcupacionJpaController;
 import datos.PaisJpaController;
 import datos.Tipoidentificacion;
 import datos.TipoidentificacionJpaController;
-import static java.lang.String.format;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +39,9 @@ import logica.TipoIdentificacion;
  * @author Jahir
  */
 public class GUIClienteController implements Initializable {
+    
+    @FXML
+    private logica.Cliente cliente;    
 
     @FXML
     private ComboBox<TipoIdentificacion> comboTipoIdentificacion;
@@ -92,8 +92,9 @@ public class GUIClienteController implements Initializable {
         llenarComboOcupacion();
         llenarComboPais();
         llenarComboEstado();
-        llenarComboCiudad();
+        llenarComboCiudad();        
     }
+       
 
     public void llenarComboIdentificacion() {
         TipoidentificacionJpaController tiposIdenJPA = new TipoidentificacionJpaController();
@@ -110,6 +111,7 @@ public class GUIClienteController implements Initializable {
         }
         obsTipos = FXCollections.observableArrayList(listaTiposIden);
         comboTipoIdentificacion.setItems(obsTipos);
+        
     }
 
     public void llenarComboOcupacion() {
@@ -200,5 +202,13 @@ public class GUIClienteController implements Initializable {
         cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
                 
         clienteJPA.create(cliente);
+    }
+    
+    public logica.Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(logica.Cliente cliente) {
+        this.cliente = cliente;
     }
 }
