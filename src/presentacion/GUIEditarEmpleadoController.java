@@ -5,12 +5,18 @@
  */
 package presentacion;
 
+import datos.EmpleadoJpaController;
+import datos.Tipoempleado;
 import datos.TipoempleadoJpaController;
+import datos.exceptions.NonexistentEntityException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,12 +26,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
 import logica.Empleado;
 import logica.TipoEmpleado;
-import logica.TipoPrenda;
 //import logica.Persona;
 
 /**
@@ -59,21 +63,6 @@ public class GUIEditarEmpleadoController implements Initializable {
     private Button guardar;
     @FXML
     private Button cancelar;
-    private HashMap<String, Object> productoEnviar=new HashMap<String, Object>();
-    
-    @FXML
-    private void botonGuardar(ActionEvent event) {
-    elliminarEspacios();
-    if(!validarCamposVacios()){
-        mensajePantalla("Favor de no dejar Campos Vacios");
-    }else{
-        if(contraseña.equals(confirmacion)){
-            
-        }else{
-            mensajePantalla("contraseñas no coinciden");
-        }
-    }
-    }
     
     @FXML
     private void elliminarEspacios( ) {
@@ -125,15 +114,18 @@ public class GUIEditarEmpleadoController implements Initializable {
         return correcto;
     }
     @FXML
-    private boolean guardarEmpleado(){
+    private boolean guardarEmpleado() throws NonexistentEntityException{
         boolean guardar=false;
-       
-        Empleado empleado= new Empleado(nombre.getText(),apellidoP.getText(),apellidoM.getText(),direccion.getText(),telefono.getText(),usuario.getText(),contraseña.getText(),tipo.getValue().getIdTipoEmpleado());
-        
-        
-        
-        
-        
+        try {
+            
+            EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
+            empleadoJPA.edit(obtenEmpleado());
+            
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return guardar;
     }
     @FXML
@@ -160,6 +152,39 @@ public class GUIEditarEmpleadoController implements Initializable {
         //tipo.setSelectionModel(tipoSeleccionado);
         tipo.setItems(obsTipoEmpleado);
 
+    }
+    private datos.Empleado obtenEmpleado(){
+        datos.Empleado empleado= new datos.Empleado();
+        empleado.setIdempleado(idEmpleado);
+        empleado.setNombre(nombre.getText());
+        empleado.setApellidoPaterno(apellidoP.getText());
+        empleado.setApellidoMaterno(apellidoM.getText());
+        empleado.setDireccion(direccion.getText());
+        empleado.setUsuario(usuario.getText());
+        empleado.setContrasena(contraseña.getText());
+        Tipoempleado tipoempleado= new Tipoempleado();
+        tipoempleado.setIdtipoempleado(tipo.getValue().getIdTipoEmpleado());
+        tipoempleado.setNombre(tipo.getValue().getNombre());
+        empleado.setTipoempleadoIdtipoempleado(tipoempleado);
+        empleado.setTelefono(telefono.getText());
+        return empleado;
+    }
+    @FXML
+    private void botonGuardar(ActionEvent event)throws ParseException, NonexistentEntityException {
+        elliminarEspacios();
+        if(!validarCamposVacios()){
+            mensajePantalla("Favor de no dejar Campos Vacios");
+        }else{
+            if(contraseña.equals(confirmacion)){
+                if(guardarEmpleado()){
+                    mensajePantalla("Empleado Guardado Exitosamente");
+                }else{
+                    mensajePantalla("Error");
+                }
+            }else{
+                mensajePantalla("contraseñas no coinciden");
+            }
+        }
     }
     /**
      * 

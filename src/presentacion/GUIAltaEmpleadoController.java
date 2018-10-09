@@ -5,17 +5,27 @@
  */
 package presentacion;
 
+import datos.EmpleadoJpaController;
+import datos.TipoempleadoJpaController;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import datos.Empleado;
+import logica.TipoEmpleado;
+import datos.Tipoempleado;
 //import logica.Persona;
 
 /**
@@ -41,20 +51,26 @@ public class GUIAltaEmpleadoController implements Initializable {
     @FXML
     private PasswordField confirmacion;
     @FXML
-    private JComboBox tipo;
+    private ComboBox<TipoEmpleado> tipo;
     @FXML
-    private JButton guardar;
+    private Button guardar;
     @FXML
-    private JButton cancelar;
+    private Button cancelar;
+    @FXML
+    private ObservableList<TipoEmpleado> obsTipoEmpleado;
     
     @FXML
-    private void botonGuardar(ActionEvent event) {
+    private void botonGuardar(ActionEvent event)throws ParseException {
     elliminarEspacios();
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
         if(contraseña.equals(confirmacion)){
-            
+            if(guardarEmpleado()){
+                mensajePantalla("Empleado Guardado Exitosamente");
+            }else{
+                mensajePantalla("Error");
+            }
         }else{
             mensajePantalla("contraseñas no coinciden");
         }
@@ -113,20 +129,47 @@ public class GUIAltaEmpleadoController implements Initializable {
     @FXML
     private boolean guardarEmpleado(){
         boolean guardar=false;
-        //Persona persona = new Persona();
-        //Empleado empleado= new Empleado(super(nombre.getText(),apellidoP.getText(),apellidoM.getText(),direccion.getText(),telefono.getText()),usuario.getText(),contraseña.getText(),tipo.getSelectedIndex()+30);
-        
-        
-        
+        EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
+        empleadoJPA.create(obtenEmpleado());
         
         
         return guardar;
+    }
+    private datos.Empleado obtenEmpleado(){
+        Empleado empleado= new Empleado();
+        empleado.setNombre(nombre.getText());
+        empleado.setApellidoPaterno(apellidoP.getText());
+        empleado.setApellidoMaterno(apellidoM.getText());
+        empleado.setDireccion(direccion.getText());
+        empleado.setUsuario(usuario.getText());
+        empleado.setContrasena(contraseña.getText());
+        Tipoempleado tipoempleado= new Tipoempleado();
+        tipoempleado.setIdtipoempleado(tipo.getValue().getIdTipoEmpleado());
+        tipoempleado.setNombre(tipo.getValue().getNombre());
+        empleado.setTipoempleadoIdtipoempleado(tipoempleado);
+        empleado.setTelefono(telefono.getText());
+        return empleado;
+    }
+    public void llenarComboTipoEmpleado() {
+         TipoempleadoJpaController tipoEmpleadoJPA = new TipoempleadoJpaController();
+        List<datos.Tipoempleado> tiposEmpleado = tipoEmpleadoJPA.findTipoempleadoEntities();
+        List<TipoEmpleado> listaEmpleados = new ArrayList<>();
+        for (int i = 0; i < tiposEmpleado.size(); i++) {
+            TipoEmpleado tipos = new TipoEmpleado(tiposEmpleado.get(i).getIdtipoempleado(), tiposEmpleado.get(i).getNombre());
+            listaEmpleados.add(tipos);
+        }
+        obsTipoEmpleado= FXCollections.observableArrayList(listaEmpleados);
+        //SelectionModel tipoSeleccionado(prueba);
+        //tipo.setSelectionModel(tipoSeleccionado);
+        tipo.setItems(obsTipoEmpleado);
+
     }
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        llenarComboTipoEmpleado();
         // TODO
     }    
     

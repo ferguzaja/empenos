@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -41,6 +41,15 @@ public class GUIPrincipalController implements Initializable {
     private void menuItemEmpenos(ActionEvent event) {
         try {                                               
             Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
+            panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    @FXML
+    private void menuEmpleados(ActionEvent event) {
+        try {                                               
+            Parent root = FXMLLoader.load(getClass().getResource("GUIAdministrarEmpleados.fxml"));            
             panelPrincipal.getChildren().setAll(root);
         } catch (IOException ex) {
             ex.printStackTrace();

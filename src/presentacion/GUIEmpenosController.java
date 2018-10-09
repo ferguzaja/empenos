@@ -12,7 +12,6 @@ import datos.ClienteJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,7 +31,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.JButton;
 
 /**
  * FXML Controller class
@@ -82,10 +80,11 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private TableColumn<Prenda, String> fotografia;
     @FXML
-    private TableColumn<Prenda, Button> eliminar;
+    private TableColumn<Button, Button> eliminar;
     @FXML
     private Button agregarPrenda;
-    private HashMap<String, Object> productoEnviar=new HashMap<String, Object>();
+    @FXML
+    private List<logica.Prenda> listaPrenda = new ArrayList<>();
 
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -104,16 +103,19 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonAgregarPrenda(ActionEvent event){
        try {
-            
-            Stage planillaStage=new Stage();
             FXMLLoader loader= new FXMLLoader();
+            
             //agregamos el openStream (no se para que)
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIEditarEmpleado.fxml").openStream());
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIAgregarProducto.fxml").openStream());
             //ahora creo una instancia del controlador del form que voy a abrir casteando
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);           
             GUIAgregarProductoController productosController=(GUIAgregarProductoController)loader.getController();
-            productosController.recibeVariable(productoEnviar);
+            productosController.recibeVariable(this);
+            planillaStage.show();
         } catch (IOException ex) {
-            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUIAgregarProductoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -150,11 +152,16 @@ public class GUIEmpenosController implements Initializable {
     }
     
     public void agregarPrenda(Prenda prenda){
-        tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
+                
+        listaPrenda.add(prenda);
+        ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
+        //tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
         descripcion.setCellValueFactory(new PropertyValueFactory<Prenda,String>("descripcion"));
         montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoValuo"));
         montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoPrestamo"));
-        fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
+        tablaPrenda.setEditable(true);
+        tablaPrenda.setItems(obsPrenda);
+        //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
         
     }
     @Override

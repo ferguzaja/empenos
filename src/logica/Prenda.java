@@ -9,24 +9,56 @@ package logica;
  */
 public class Prenda {
 
-	private boolean comercializada;
-	private String descripcion;
-	private boolean estadoEmpeno;
 	private int idPrenda;
-	private float montoPrestamo;
-	private float montoValuo;
+        private String descripcion;
+        private float montoValuo;
+        private float montoPrestamo;
 	private int tipoPrenda;
+	private boolean estadoEmpeno;
+	private boolean comercializada;
+	
+	
+	
 
 	public Prenda(){
 
 	}
 
-    public Prenda(int tipoPrenda,String descripcion, float montoPrestamo, float montoValuo) {
+    public Prenda(String descripcion, float montoValuo, float montoPrestamo, int tipoPrenda) {
+        this.descripcion = descripcion;
+        this.montoValuo = montoValuo;
+        this.montoPrestamo = montoPrestamo;
+        this.tipoPrenda = tipoPrenda;
+    }
+
+    public Prenda(int idPrenda, String descripcion, float montoValuo, float montoPrestamo, int tipoPrenda) {
+        this.idPrenda = idPrenda;
+        this.descripcion = descripcion;
+        this.montoValuo = montoValuo;
+        this.montoPrestamo = montoPrestamo;
+        this.tipoPrenda = tipoPrenda;
+    }
+    
+    
+    public Prenda(int idPrenda, String descripcion, float montoValuo, float montoPrestamo, int tipoPrenda, boolean estadoEmpeno, boolean comercializada) {
+        this.idPrenda = idPrenda;
+        this.descripcion = descripcion;
+        this.montoValuo = montoValuo;
+        this.montoPrestamo = montoPrestamo;
+        this.tipoPrenda = tipoPrenda;
+        this.estadoEmpeno = estadoEmpeno;
+        this.comercializada = comercializada;
+    }
+
+    
+
+    public Prenda(String descripcion, float montoValuo, float montoPrestamo) {
         this.descripcion = descripcion;
         this.montoPrestamo = montoPrestamo;
         this.montoValuo = montoValuo;
-        this.tipoPrenda = tipoPrenda;
     }
+
+    
         
 
 	public void finalize() throws Throwable {

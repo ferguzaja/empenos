@@ -12,7 +12,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Administración">
             <items>
-              <MenuItem fx:id="m" mnemonicParsing="false" onAction="#menuEmpleado" text="Empleados" />
+              <MenuItem mnemonicParsing="false" onAction="#menuEmpleados" text="Empleados" />
                   <MenuItem mnemonicParsing="false" onAction="#menuItemParametros" text="Parámetros" />
             </items>
           </Menu>
@@ -33,6 +33,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Pane fx:id="panelPrincipal" layoutY="25.0" prefHeight="634.0" prefWidth="990.0" />
+      <Pane fx:id="panelPrincipal" layoutY="37.0" prefHeight="634.0" prefWidth="990.0" />
    </children>
 </AnchorPane>

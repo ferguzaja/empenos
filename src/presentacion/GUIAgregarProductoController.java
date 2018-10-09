@@ -20,9 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
-import logica.Ciudad;
 import logica.Prenda;
 import logica.TipoPrenda;
 
@@ -39,7 +39,7 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private ComboBox<TipoPrenda> tipoPrenda;
     @FXML
-    private TextField descripcion;
+    private TextArea descripcion;
     @FXML
     private TextField montoValuo;
     @FXML
@@ -53,7 +53,7 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private ObservableList<TipoPrenda> obsPrendas;
     
-    private HashMap<String, Object> productoEnviar=new HashMap<String, Object>();
+    private GUIEmpenosController controlador;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,20 +113,20 @@ public class GUIAgregarProductoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        Prenda prenda = new Prenda(tipoPrenda.getValue().getIdTipoPrenda(),descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
-        
-        dispose();
+        Prenda prenda = new Prenda(descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
+        controlador.agregarPrenda(prenda);
+        //dispose();
             
         }
     }
-    public void recibeVariable(HashMap<String, Object> productoEnviar){
-        this.productoEnviar=productoEnviar;
+    public void recibeVariable(GUIEmpenosController controlador){
+        this.controlador=controlador;
         
     }
     public void llenarComboTipoPrenda() {
          TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();
         List<datos.Tipoprenda> prendas = tipoPrendaJPA.findTipoprendaEntities();
-        List<TipoPrenda> listaPrendas = new ArrayList<>();
+        List<logica.TipoPrenda> listaPrendas = new ArrayList<>();
         for (int i = 0; i < prendas.size(); i++) {
             TipoPrenda prenda = new TipoPrenda(prendas.get(i).getIdtipoprenda(), prendas.get(i).getNombre());
             listaPrendas.add(prenda);
