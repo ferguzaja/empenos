@@ -22,6 +22,6 @@
          </columns>
       </TableView>
       <Button fx:id="botonBuscar" layoutX="415.0" layoutY="56.0" mnemonicParsing="false" onAction="#botonBuscarEmpleado" text="Buscar" />
-      <Button fx:id="EditarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonEditarEmpleado" text="Editar Empleado" />
+      <Button fx:id="editarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonEditarEmpleado" text="Editar Empleado" />
    </children>
 </AnchorPane>
