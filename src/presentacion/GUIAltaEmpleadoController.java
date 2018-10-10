@@ -65,9 +65,12 @@ public class GUIAltaEmpleadoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        if(contraseña.getText().equals(confirmacion.getText())){
-            guardarEmpleado();
+        if(contraseña.equals(confirmacion)){
+            if(guardarEmpleado()){
                 mensajePantalla("Empleado Guardado Exitosamente");
+            }else{
+                mensajePantalla("Error");
+            }
         }else{
             mensajePantalla("contraseñas no coinciden");
         }
@@ -76,7 +79,7 @@ public class GUIAltaEmpleadoController implements Initializable {
     
     @FXML
     private void elliminarEspacios( ) {
-        nombre.setText(nombre.getText().trim());
+    nombre.setText(nombre.getText().trim());
         apellidoP.setText(apellidoP.getText().trim());
         apellidoM.setText(apellidoM.getText().trim());
         direccion.setText(direccion.getText().trim());
@@ -124,9 +127,13 @@ public class GUIAltaEmpleadoController implements Initializable {
         return correcto;
     }
     @FXML
-    private void guardarEmpleado(){
+    private boolean guardarEmpleado(){
+        boolean guardar=false;
         EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
         empleadoJPA.create(obtenEmpleado());
+        
+        
+        return guardar;
     }
     private datos.Empleado obtenEmpleado(){
         Empleado empleado= new Empleado();

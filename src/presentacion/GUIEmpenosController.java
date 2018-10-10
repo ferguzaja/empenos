@@ -5,6 +5,7 @@
  */
 package presentacion;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import datos.Cliente;
 import logica.Prenda;
 import datos.ClienteJpaController;
@@ -76,13 +77,14 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private TableColumn<Prenda, String> montoPrestamo;
     
-//    @FXML
-//    private TableColumn<Prenda, String> fotografia;
-//    @FXML
-//    private TableColumn<Button, Button> eliminar;
+    @FXML
+    private TableColumn<Prenda, String> fotografia;
+    @FXML
+    private TableColumn<Button, Button> eliminar;
     @FXML
     private Button agregarPrenda;
-    
+    @FXML
+    private List<logica.Prenda> listaPrenda = new ArrayList<>();
 
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -150,14 +152,14 @@ public class GUIEmpenosController implements Initializable {
     }
     
     public void agregarPrenda(Prenda prenda){
-
-        List<logica.Prenda> listaPrenda = new ArrayList<>();
+                
         listaPrenda.add(prenda);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
-        tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
-        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda,String> ("descripcion"));
-        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda,String>( "montoValuo"));
-        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda,String> ("montoPrestamo"));
+        //tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
+        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda,String>("descripcion"));
+        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoValuo"));
+        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoPrestamo"));
+        tablaPrenda.setEditable(true);
         tablaPrenda.setItems(obsPrenda);
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
         

@@ -12,6 +12,7 @@ import datos.exceptions.NonexistentEntityException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -113,8 +114,8 @@ public class GUIEditarEmpleadoController implements Initializable {
         return correcto;
     }
     @FXML
-    private void guardarEmpleado() throws NonexistentEntityException{
-
+    private boolean guardarEmpleado() throws NonexistentEntityException{
+        boolean guardar=false;
         try {
             
             EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
@@ -125,7 +126,9 @@ public class GUIEditarEmpleadoController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return guardar;
     }
+    @FXML
     public void setEmpleado(Empleado empleado){
         nombre.setText(empleado.getNombre());
         apellidoP.setText(empleado.getApellidoPaterno());
@@ -173,8 +176,11 @@ public class GUIEditarEmpleadoController implements Initializable {
             mensajePantalla("Favor de no dejar Campos Vacios");
         }else{
             if(contraseña.equals(confirmacion)){
-                guardarEmpleado();
-                  mensajePantalla("Empleado Guardado Exitosamente");
+                if(guardarEmpleado()){
+                    mensajePantalla("Empleado Guardado Exitosamente");
+                }else{
+                    mensajePantalla("Error");
+                }
             }else{
                 mensajePantalla("contraseñas no coinciden");
             }
