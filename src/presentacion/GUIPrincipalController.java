@@ -46,6 +46,17 @@ public class GUIPrincipalController implements Initializable {
             ex.printStackTrace();
         }
     }
+    
+    @FXML
+    private void menuItemHistorial(ActionEvent event) {
+        try {                                               
+            Parent root = FXMLLoader.load(getClass().getResource("GUIEmpeno.fxml"));            
+            panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+            
     @FXML
     private void menuEmpleados(ActionEvent event) {
         try {                                               

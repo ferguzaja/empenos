@@ -22,8 +22,14 @@ public class Cliente {
     private boolean listaNegra;
     private String fechaNacimiento;
     private int idCiudad;
+    private int idPais;
+    private int idEstado;
+    
     private int idTipoIdentificacion;
     private int idOcupacion;
+    
+    
+    
 
     public Cliente() {
     }
@@ -42,6 +48,23 @@ public class Cliente {
         this.idTipoIdentificacion = idTipoIdentificacion;
         this.idOcupacion = idOcupacion;
     }
+
+    public Cliente(int idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String noIdentificacion, boolean listaNegra, String fechaNacimiento, int idCiudad, int idPais, int idEstado, int idTipoIdentificacion, int idOcupacion) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.noIdentificacion = noIdentificacion;
+        this.listaNegra = listaNegra;
+        this.fechaNacimiento = fechaNacimiento;
+        this.idCiudad = idCiudad;
+        this.idPais = idPais;
+        this.idEstado = idEstado;
+        this.idTipoIdentificacion = idTipoIdentificacion;
+        this.idOcupacion = idOcupacion;
+    }
+        
 
     public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String noIdentificacion) {
         this.nombre = nombre;
@@ -139,6 +162,21 @@ public class Cliente {
         this.idOcupacion = idOcupacion;
     }
     
+    public int getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(int idPais) {
+        this.idPais = idPais;
+    }
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
     
     
 }

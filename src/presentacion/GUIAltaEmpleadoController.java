@@ -65,9 +65,12 @@ public class GUIAltaEmpleadoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        if(contraseña.getText().equals(confirmacion.getText())){
-            guardarEmpleado();
+        if(contraseña.equals(confirmacion)){
+            if(guardarEmpleado()){
                 mensajePantalla("Empleado Guardado Exitosamente");
+            }else{
+                mensajePantalla("Error");
+            }
         }else{
             mensajePantalla("contraseñas no coinciden");
         }

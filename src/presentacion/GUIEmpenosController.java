@@ -5,7 +5,6 @@
  */
 package presentacion;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import datos.Cliente;
 import logica.Prenda;
 import datos.ClienteJpaController;
@@ -30,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -38,10 +38,13 @@ import javafx.stage.Stage;
  * @author Jahir
  */
 public class GUIEmpenosController implements Initializable {
-
+    
     @FXML
     private Button botonNuevoCliente;
-
+    
+    @FXML
+    private Button botonEditarCliente;
+    
     @FXML
     private TextField txtBuscar;
     
@@ -62,6 +65,7 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private TableColumn<Cliente, String> noIdentColumn;
+    
     @FXML
     private TableView<logica.Prenda> tablaPrenda;
     
@@ -79,94 +83,133 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private TableColumn<Prenda, String> fotografia;
+    
     @FXML
     private TableColumn<Button, Button> eliminar;
+    
     @FXML
     private Button agregarPrenda;
+    
     @FXML
     private List<logica.Prenda> listaPrenda = new ArrayList<>();
-
+    
+    GUIEmpenosController guiEmpenosControler;
+    
+    //variable para guardar 1 si presiona nuevo cliente y 2 para editar cliente
+    @FXML
+    private int botonSeleccionado;
+    
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
-
+        botonSeleccionado = 1;
         try {
             Parent root = FXMLLoader.load(getClass().getResource("GUICliente.fxml"));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
+            stage.setTitle("Nuevo cliente");
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+    
     @FXML
-    private void botonAgregarPrenda(ActionEvent event){
-       try {
-            FXMLLoader loader= new FXMLLoader();
+    private void botonEditarCliente(ActionEvent event) {
+        botonSeleccionado = 2;
+        try {            
+            //objeto que quiero enviar a la GUICLiente
+            logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();                        
+            //System.out.println(cliente.getNombre()+cliente.getIdTipoIdentificacion());
+            //se agrega el .openStream
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUICliente.fxml").openStream());
             
+            //Instancia del controlador 2
+            GUIClienteController clienteController = (GUIClienteController) loader.getController();                                                            
+            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
+            //como parámetro una instancia de la GUIEmpenos y el objeto
+            clienteController.recibeParametros(guiEmpenosControler, cliente);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Editar cliente");
+            stage.show();                            
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+    
+    @FXML
+    private void botonAgregarPrenda(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
             //agregamos el openStream (no se para que)
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIAgregarProducto.fxml").openStream());
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIAgregarProducto.fxml").openStream());
             //ahora creo una instancia del controlador del form que voy a abrir casteando
             Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);           
-            GUIAgregarProductoController productosController=(GUIAgregarProductoController)loader.getController();
+            Stage planillaStage = new Stage();
+            planillaStage.setScene(scene);
+            GUIAgregarProductoController productosController = (GUIAgregarProductoController) loader.getController();
             productosController.recibeVariable(this);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAgregarProductoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
-
+        
         ClienteJpaController clienteJPA = new ClienteJpaController();
         List<datos.Cliente> clientes = clienteJPA.findClienteEntities();
-
+        
         List<logica.Cliente> listaClientes = new ArrayList<>();
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getNombre().equals(txtBuscar.getText())) {
+            if (clientes.get(i).getNombre().contains(txtBuscar.getText())) {
                 logica.Cliente client = new logica.Cliente();
+                client.setIdCliente(clientes.get(i).getIdcliente());
                 client.setNombre(clientes.get(i).getNombre());
                 client.setApellidoMaterno(clientes.get(i).getApellidoMaterno());
                 client.setApellidoPaterno(clientes.get(i).getApeliidoPaterno());
                 client.setDireccion(clientes.get(i).getDireccion());
+                client.setIdTipoIdentificacion(clientes.get(i).getTipoidentificacionIdtipoidentificacion().getIdtipoidentificacion());
                 client.setNoIdentificacion(clientes.get(i).getNoIdentificacion());
+                //client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
+                client.setIdCiudad(clientes.get(i).getCiudadIdciudad().getIdciudad());
+                client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
+                client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
+                client.setIdOcupacion(clientes.get(i).getOcupacionIdocupacion().getIdocupacion());
                 listaClientes.add(client);
             }
         }
-        for (int i = 0; i < listaClientes.size(); i++) {
-            System.out.println(listaClientes.get(i).getNombre());
-        }
-
-        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
-        nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("nombre"));
-        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("apellidoPaterno"));
-        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("apellidoMaterno"));
-        direccionColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("direccion"));
-        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente,String> ("noIdentificacion"));
         
+        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
+        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
+        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoMaterno"));
+        direccionColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("direccion"));
+        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("noIdentificacion"));        
         tablaClientes.setItems(obsClientes);
     }
     
-    public void agregarPrenda(Prenda prenda){
-                
+    public void agregarPrenda(Prenda prenda) {
+        
         listaPrenda.add(prenda);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
         //tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
-        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda,String>("descripcion"));
-        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoValuo"));
-        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("montoPrestamo"));
+        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
+        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
+        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
         tablaPrenda.setEditable(true);
         tablaPrenda.setItems(obsPrenda);
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
-        
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        guiEmpenosControler = this;
     }
-
+    
 }

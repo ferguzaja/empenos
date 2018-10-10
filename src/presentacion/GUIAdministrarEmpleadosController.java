@@ -43,7 +43,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     @FXML
     private Button nuevoEmpleadoButton;
     @FXML
-    private Button editarEmpleadoButton;
+    private Button EditarEmpleadoButton;
     @FXML
     private TextField txtBuscar;
     

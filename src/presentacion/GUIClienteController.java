@@ -13,11 +13,8 @@ import datos.OcupacionJpaController;
 import datos.PaisJpaController;
 import datos.Tipoidentificacion;
 import datos.TipoidentificacionJpaController;
-import static java.lang.String.format;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +39,7 @@ import logica.TipoIdentificacion;
  * @author Jahir
  */
 public class GUIClienteController implements Initializable {
+        
 
     @FXML
     private ComboBox<TipoIdentificacion> comboTipoIdentificacion;
@@ -85,6 +83,8 @@ public class GUIClienteController implements Initializable {
     
     @FXML
     private DatePicker fechaNacimiento;
+    
+    GUIEmpenosController guiEmpenosControlerEnGUICliente;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -92,8 +92,9 @@ public class GUIClienteController implements Initializable {
         llenarComboOcupacion();
         llenarComboPais();
         llenarComboEstado();
-        llenarComboCiudad();
+        llenarComboCiudad();        
     }
+       
 
     public void llenarComboIdentificacion() {
         TipoidentificacionJpaController tiposIdenJPA = new TipoidentificacionJpaController();
@@ -110,6 +111,7 @@ public class GUIClienteController implements Initializable {
         }
         obsTipos = FXCollections.observableArrayList(listaTiposIden);
         comboTipoIdentificacion.setItems(obsTipos);
+        
     }
 
     public void llenarComboOcupacion() {
@@ -200,5 +202,18 @@ public class GUIClienteController implements Initializable {
         cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
                 
         clienteJPA.create(cliente);
+    }
+    
+    public void recibeParametros(GUIEmpenosController controlador, logica.Cliente cliente){
+        guiEmpenosControlerEnGUICliente = controlador;
+        nombre.setText(cliente.getNombre());
+        apellidoM.setText(cliente.getApellidoMaterno());
+        apellidoP.setText(cliente.getApellidoPaterno());
+        direccion.setText(cliente.getDireccion());
+        noIdentificacion.setText(cliente.getNoIdentificacion());
+        //fechaNacimiento.setAccessibleText(cliente.getFechaNacimiento());
+        comboTipoIdentificacion.setAccessibleText("hola");
+        comboPais.setAccessibleText("adios");
+        
     }
 }

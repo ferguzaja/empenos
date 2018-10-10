@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="paneCliente" prefHeight="469.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIClienteController">
+<AnchorPane id="AnchorPane" fx:id="paneCliente" prefHeight="469.0" prefWidth="478.0" style="-fx-background-color: #808080;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIClienteController">
    <children>
       <DatePicker fx:id="fechaNacimiento" layoutX="155.0" layoutY="237.0" prefHeight="25.0" prefWidth="242.0" />
       <ComboBox fx:id="comboCiudad" layoutX="155.0" layoutY="368.0" prefHeight="25.0" prefWidth="242.0" />

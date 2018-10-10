@@ -25,7 +25,7 @@ import javax.persistence.Persistence;
 public class EmpleadoJpaController implements Serializable {
 
     public EmpleadoJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
+         this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 

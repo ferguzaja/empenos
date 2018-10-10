@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -23,8 +24,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class PrendaJpaController implements Serializable {
 
-    public PrendaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public PrendaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 

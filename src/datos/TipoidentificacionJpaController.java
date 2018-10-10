@@ -26,7 +26,7 @@ import javax.persistence.Persistence;
 public class TipoidentificacionJpaController implements Serializable {
 
     public TipoidentificacionJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
+         this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 

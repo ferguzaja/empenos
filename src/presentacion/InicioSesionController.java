@@ -45,7 +45,7 @@ public class InicioSesionController implements Initializable {
             }
             if (estatus == 1) {
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("GUIPrincipal.fxml"));                    
+                    Parent root = FXMLLoader.load(getClass().getResource("GUIPrincipall.fxml"));                    
                     Scene scene = new Scene(root);                    
                     Stage stage = new Stage();
                     stage.setScene(scene);                    

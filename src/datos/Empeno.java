@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Empeno.findAll", query = "SELECT e FROM Empeno e")
     , @NamedQuery(name = "Empeno.findByIdempeno", query = "SELECT e FROM Empeno e WHERE e.idempeno = :idempeno")
-    , @NamedQuery(name = "Empeno.findByFechaInicioEmpe\u00f1o", query = "SELECT e FROM Empeno e WHERE e.fechaInicioEmpe\u00f1o = :fechaInicioEmpe\u00f1o")
+    , @NamedQuery(name = "Empeno.findByFechaInicioEmpeno", query = "SELECT e FROM Empeno e WHERE e.fechaInicioEmpeno = :fechaInicioEmpeno")
     , @NamedQuery(name = "Empeno.findByFechaFinEmpeno", query = "SELECT e FROM Empeno e WHERE e.fechaFinEmpeno = :fechaFinEmpeno")
     , @NamedQuery(name = "Empeno.findByExtencionTiempo", query = "SELECT e FROM Empeno e WHERE e.extencionTiempo = :extencionTiempo")
     , @NamedQuery(name = "Empeno.findByFechaExtencion", query = "SELECT e FROM Empeno e WHERE e.fechaExtencion = :fechaExtencion")
@@ -57,9 +57,9 @@ public class Empeno implements Serializable {
     @Column(name = "idempeno")
     private Integer idempeno;
     @Basic(optional = false)
-    @Column(name = "fechaInicioEmpe\u00f1o")
+    @Column(name = "fechaInicioEmpeno")
     @Temporal(TemporalType.DATE)
-    private Date fechaInicioEmpeño;
+    private Date fechaInicioEmpeno;
     @Basic(optional = false)
     @Column(name = "fechaFinEmpeno")
     @Temporal(TemporalType.DATE)
@@ -106,9 +106,9 @@ public class Empeno implements Serializable {
         this.idempeno = idempeno;
     }
 
-    public Empeno(Integer idempeno, Date fechaInicioEmpeño, Date fechaFinEmpeno) {
+    public Empeno(Integer idempeno, Date fechaInicioEmpeno, Date fechaFinEmpeno) {
         this.idempeno = idempeno;
-        this.fechaInicioEmpeño = fechaInicioEmpeño;
+        this.fechaInicioEmpeno = fechaInicioEmpeno;
         this.fechaFinEmpeno = fechaFinEmpeno;
     }
 
@@ -120,12 +120,12 @@ public class Empeno implements Serializable {
         this.idempeno = idempeno;
     }
 
-    public Date getFechaInicioEmpeño() {
-        return fechaInicioEmpeño;
+    public Date getFechaInicioEmpeno() {
+        return fechaInicioEmpeno;
     }
 
-    public void setFechaInicioEmpeño(Date fechaInicioEmpeño) {
-        this.fechaInicioEmpeño = fechaInicioEmpeño;
+    public void setFechaInicioEmpeno(Date fechaInicioEmpeno) {
+        this.fechaInicioEmpeno = fechaInicioEmpeno;
     }
 
     public Date getFechaFinEmpeno() {
