@@ -9,7 +9,6 @@ import datos.EmpleadoJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -43,7 +42,9 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     @FXML
     private Button nuevoEmpleadoButton;
     @FXML
-    private Button EditarEmpleadoButton;
+    private Button botonBuscar;
+    @FXML
+    private Button editarEmpleadoButton;
     @FXML
     private TextField txtBuscar;
     
@@ -64,7 +65,6 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     
     @FXML
     private TableColumn<Empleado, String> tipoEmpleadoColumn;
-    private HashMap <String, Object> empleadoModificar =new HashMap<String, Object>();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        llenaTabla();
@@ -115,8 +115,6 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     @FXML
     private void botonEditarEmpleado(ActionEvent event){
        try {
-            
-            
             FXMLLoader loader= new FXMLLoader();
             
             //agregamos el openStream (no se para que)
@@ -125,11 +123,12 @@ public class GUIAdministrarEmpleadosController implements Initializable {
             Scene scene = new Scene(root);
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);           
-            GUIEditarEmpleadoController empleadoController=(GUIEditarEmpleadoController)loader.getController();
-            empleadoController.setEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem());
+            GUIEditarEmpleadoController editarConroller=(GUIEditarEmpleadoController)loader.getController();
+            Empleado empleado=tablaEmpleados.getSelectionModel().getSelectedItem();
+            editarConroller.setEmpleado(empleado);
             planillaStage.show();
         } catch (IOException ex) {
-            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
     private void llenaTabla(){

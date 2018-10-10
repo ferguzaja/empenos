@@ -5,11 +5,9 @@
  */
 package presentacion;
 
-import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 import datos.TipoprendaJpaController;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
