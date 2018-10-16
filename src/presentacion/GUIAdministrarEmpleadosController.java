@@ -43,7 +43,9 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     @FXML
     private Button nuevoEmpleadoButton;
     @FXML
-    private Button EditarEmpleadoButton;
+    private Button buscar;
+    @FXML
+    private Button editarEmpleadoButton;
     @FXML
     private TextField txtBuscar;
     
@@ -126,10 +128,10 @@ public class GUIAdministrarEmpleadosController implements Initializable {
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);           
             GUIEditarEmpleadoController empleadoController=(GUIEditarEmpleadoController)loader.getController();
-            empleadoController.setEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem());
+            empleadoController.setEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem(),planillaStage);
             planillaStage.show();
         } catch (IOException ex) {
-            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
     private void llenaTabla(){
@@ -142,17 +144,21 @@ public class GUIAdministrarEmpleadosController implements Initializable {
                 emple.setApellidoPaterno(empleado.get(i).getApellidoPaterno());
                 emple.setApellidoMaterno(empleado.get(i).getApellidoMaterno());
                 emple.setDireccion(empleado.get(i).getDireccion());
+                emple.setTelefono(empleado.get(i).getTelefono());
+                emple.setUsuario(empleado.get(i).getUsuario());
+                emple.setPassword(empleado.get(i).getContrasena());
                 emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
+                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
                 listaEmpleado.add(emple);
             
         }
 
         ObservableList<logica.Empleado> obsEmpleado = FXCollections.observableArrayList(listaEmpleado);
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombre"));
-        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
-        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
+        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
+        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
         direccionColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("direccion"));
-        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("Tipo Empleado"));
+        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombreTipoEmpleado"));
         
         tablaEmpleados.setItems(obsEmpleado);
         

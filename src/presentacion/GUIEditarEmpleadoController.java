@@ -12,7 +12,6 @@ import datos.exceptions.NonexistentEntityException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,10 +26,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.Empleado;
 import logica.TipoEmpleado;
-//import logica.Persona;
 
 /**
  * FXML Controller class
@@ -38,6 +37,7 @@ import logica.TipoEmpleado;
  * @author ferguzaja
  */
 public class GUIEditarEmpleadoController implements Initializable {
+
     private int idEmpleado;
     @FXML
     private TextField nombre;
@@ -63,6 +63,8 @@ public class GUIEditarEmpleadoController implements Initializable {
     private Button guardar;
     @FXML
     private Button cancelar;
+    private Empleado empleado;
+    private Stage stagemaster;
     
     @FXML
     private void elliminarEspacios( ) {
@@ -124,28 +126,36 @@ public class GUIEditarEmpleadoController implements Initializable {
             
             
         } catch (Exception ex) {
-            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         return guardar;
     }
     @FXML
-    public void setEmpleado(Empleado empleado){
+    public void setEmpleado(Empleado empleado,Stage stage){
         nombre.setText(empleado.getNombre());
         apellidoP.setText(empleado.getApellidoPaterno());
         apellidoM.setText(empleado.getApellidoMaterno());
         direccion.setText(empleado.getDireccion());
         telefono.setText(empleado.getTelefono());
         usuario.setText(empleado.getUsuario());
+        contraseña.setText(empleado.getPassword());
+        confirmacion.setText(empleado.getPassword());
+        stagemaster=stage;
         
         //falta el comboBox
     }
+    @FXML
+    private void botonCancelar(){
+        stagemaster.close();
+    }
+    @FXML
     public void llenarComboTipoEmpleado() {
          TipoempleadoJpaController tipoEmpleadoJPA = new TipoempleadoJpaController();
-        List<datos.Tipoempleado> prendas = tipoEmpleadoJPA.findTipoempleadoEntities();
+        List<datos.Tipoempleado> tiposEmpleado = tipoEmpleadoJPA.findTipoempleadoEntities();
         List<TipoEmpleado> listaEmpleados = new ArrayList<>();
-        for (int i = 0; i < prendas.size(); i++) {
-            TipoEmpleado prenda = new TipoEmpleado(prendas.get(i).getIdtipoempleado(), prendas.get(i).getNombre());
-            listaEmpleados.add(prenda);
+        for (int i = 0; i < tiposEmpleado.size(); i++) {
+            TipoEmpleado tipos = new TipoEmpleado(tiposEmpleado.get(i).getIdtipoempleado(), tiposEmpleado.get(i).getNombre());
+            listaEmpleados.add(tipos);
         }
         obsTipoEmpleado= FXCollections.observableArrayList(listaEmpleados);
         //SelectionModel tipoSeleccionado(prueba);
@@ -186,13 +196,8 @@ public class GUIEditarEmpleadoController implements Initializable {
             }
         }
     }
-    /**
-     * 
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        llenarComboTipoEmpleado();
         // TODO
     }    
     

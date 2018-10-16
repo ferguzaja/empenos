@@ -12,16 +12,16 @@
       <TextField fx:id="txtBuscar" layoutX="159.0" layoutY="56.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="40.0" layoutY="60.0" prefHeight="17.0" prefWidth="128.0" text="Busqueda empleado" />
       <Button fx:id="nuevoEmpleadoButton" layoutX="40.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonNuevoEmpleado" text="Nuevo Empleado" />
-      <TableView fx:id="tablaClientes" layoutX="40.0" layoutY="98.0" prefHeight="165.0" prefWidth="424.0">
+      <TableView fx:id="tablaEmpleados" layoutX="40.0" layoutY="98.0" prefHeight="165.0" prefWidth="424.0">
          <columns>
             <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
-            <TableColumn fx:id="apMaternoColumn" prefWidth="75.0" text="Materno" />
             <TableColumn fx:id="apPaternoColumn" prefWidth="75.0" text="Paterno" />
+            <TableColumn fx:id="apMaternoColumn" prefWidth="75.0" text="Materno" />
             <TableColumn fx:id="direccionColumn" prefWidth="75.0" text="Dirección" />
             <TableColumn fx:id="tipoEmpleadoColumn" prefWidth="123.0" text="Tipo Empleado" />
          </columns>
       </TableView>
-      <Button fx:id="botonBuscar" layoutX="415.0" layoutY="56.0" mnemonicParsing="false" onAction="#botonBuscarEmpleado" text="Buscar" />
-      <Button fx:id="EditarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonEditarEmpleado" text="Editar Empleado" />
+      <Button fx:id="buscar" layoutX="415.0" layoutY="56.0" mnemonicParsing="false" onAction="#botonBuscarEmpleado" text="Buscar" />
+      <Button fx:id="editarEmpleadoButton" layoutX="364.0" layoutY="276.0" mnemonicParsing="false" onAction="#botonEditarEmpleado" text="Editar Empleado" />
    </children>
 </AnchorPane>

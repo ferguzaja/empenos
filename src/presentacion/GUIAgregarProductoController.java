@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.Prenda;
 import logica.TipoPrenda;
@@ -54,6 +55,7 @@ public class GUIAgregarProductoController implements Initializable {
     private ObservableList<TipoPrenda> obsPrendas;
     
     private GUIEmpenosController controlador;
+    private Stage planillaStage;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,15 +115,20 @@ public class GUIAgregarProductoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        Prenda prenda = new Prenda(descripcion.getText(),Float.parseFloat(montoValuo.getText()),Float.parseFloat(montoPrestamo.getText()));
-        controlador.agregarPrenda(prenda);
+        Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue().getIdTipoPrenda(),tipoPrenda.getValue().getNombre());
+        controlador.agregarPrenda(prenda,planillaStage);
+        
         //dispose();
             
         }
     }
-    public void recibeVariable(GUIEmpenosController controlador){
+    @FXML
+    private void botontCancelar(ActionEvent event){
+        planillaStage.close();
+    }
+    public void recibeVariable(GUIEmpenosController controlador,Stage planillaStage){
         this.controlador=controlador;
-        
+        this.planillaStage=planillaStage;
     }
     public void llenarComboTipoPrenda() {
          TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();

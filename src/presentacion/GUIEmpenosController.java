@@ -70,16 +70,16 @@ public class GUIEmpenosController implements Initializable {
     private TableView<logica.Prenda> tablaPrenda;
     
     @FXML
-    private TableColumn<Prenda, String> tipoArticulo;
+    private TableColumn<Prenda, String> tipoArticuloColum;
     
     @FXML
-    private TableColumn<Prenda, String> descripcion;
+    private TableColumn<Prenda, String> descripcionColumn;
     
     @FXML
-    private TableColumn<Prenda, String> montoValuo;
+    private TableColumn<Prenda, String> montoAvaluoColumn;
     
     @FXML
-    private TableColumn<Prenda, String> montoPrestamo;
+    private TableColumn<Prenda, String> montoPrestamoColumn;
     
     @FXML
     private TableColumn<Prenda, String> fotografia;
@@ -152,7 +152,7 @@ public class GUIEmpenosController implements Initializable {
             Stage planillaStage = new Stage();
             planillaStage.setScene(scene);
             GUIAgregarProductoController productosController = (GUIAgregarProductoController) loader.getController();
-            productosController.recibeVariable(this);
+            productosController.recibeVariable(this,planillaStage);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAgregarProductoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,16 +194,17 @@ public class GUIEmpenosController implements Initializable {
         tablaClientes.setItems(obsClientes);
     }
     
-    public void agregarPrenda(Prenda prenda) {
-        
+    public void agregarPrenda(Prenda prenda,Stage stage) {
+        //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
-        //tipoArticulo.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipArticulo"));
-        descripcion.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
-        montoValuo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
-        montoPrestamo.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
-        tablaPrenda.setEditable(true);
+        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("nombreTipoPrenda"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
+        montoAvaluoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
+        montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
+        //tablaPrenda.setEditable(true);
         tablaPrenda.setItems(obsPrenda);
+        stage.close();
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
     }
     

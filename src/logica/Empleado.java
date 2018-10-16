@@ -17,6 +17,7 @@ public class Empleado{
     private String usuario;
     private String password;
     private int tipoUsuario;
+    private String nombreTipoEmpleado;
 
    
 
@@ -25,7 +26,7 @@ public class Empleado{
             
 	}
 
-    public Empleado(int idEmpleado, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario) {
+    public Empleado(int idEmpleado, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario,String nombreTipoEmpleado) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -35,6 +36,7 @@ public class Empleado{
         this.usuario = usuario;
         this.password = password;
         this.tipoUsuario = tipoUsuario;
+        this.nombreTipoEmpleado=nombreTipoEmpleado;
     }
 
     public Empleado(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario) {
@@ -47,6 +49,12 @@ public class Empleado{
         this.password = password;
         this.tipoUsuario = tipoUsuario;
     }
+
+    @Override
+    public String toString() {
+        return "Empleado{" + "idEmpleado=" + idEmpleado + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", direccion=" + direccion + ", telefono=" + telefono + ", usuario=" + usuario + ", password=" + password + ", tipoUsuario=" + tipoUsuario + ", nombreTipoEmpleado=" + nombreTipoEmpleado + '}';
+    }
+    
     
 
     public int getIdEmpleado() {
@@ -120,5 +128,14 @@ public class Empleado{
     public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
+    public String getNombreTipoEmpleado() {
+        return nombreTipoEmpleado;
+    }
+
+    public void setNombreTipoEmpleado(String nombreTipoEmpleado) {
+        this.nombreTipoEmpleado = nombreTipoEmpleado;
+    }
+    
     
 }

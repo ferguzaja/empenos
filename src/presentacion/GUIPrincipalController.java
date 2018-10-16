@@ -66,7 +66,15 @@ public class GUIPrincipalController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+    @FXML
+    private void menuFiniquitar(ActionEvent event) {
+        try {                                               
+            Parent root = FXMLLoader.load(getClass().getResource("GUIFiniquito.fxml"));            
+            panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
