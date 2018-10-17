@@ -56,31 +56,36 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     private TableColumn<Empleado, String> nombreColumn;
     
     @FXML
-    private TableColumn<Empleado, String> apMaternoColumn;
+    private TableColumn<Empleado, String> apPaternoColumn;
     
     @FXML
-    private TableColumn<Empleado, String> apPaternoColumn;
+    private TableColumn<Empleado, String> apMaternoColumn;
     
     @FXML
     private TableColumn<Empleado, String> direccionColumn;
     
     @FXML
     private TableColumn<Empleado, String> tipoEmpleadoColumn;
-    private HashMap <String, Object> empleadoModificar =new HashMap<String, Object>();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        llenaTabla();
+        llenaTabla();
         // TODO
     }
     @FXML
     private void botonNuevoEmpleado(ActionEvent event) {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("GUIAltaEmpleado.fxml"));
+            FXMLLoader loader= new FXMLLoader();
+            
+            //agregamos el openStream (no se para que)
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIAltaEmpleado.fxml").openStream());
+            //ahora creo una instancia del controlador del form que voy a abrir casteando
             Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);           
+            GUIAltaEmpleadoController empleadoController=(GUIAltaEmpleadoController)loader.getController();
+            empleadoController.recibeStage(planillaStage,this);
+            planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -94,32 +99,35 @@ public class GUIAdministrarEmpleadosController implements Initializable {
 
         List<logica.Empleado> listaEmpleado = new ArrayList<>();
         for (int i = 0; i < empleado.size(); i++) {
-            if (empleado.get(i).getNombre().equals(txtBuscar.getText())) {
+            if (empleado.get(i).getNombre().contains(txtBuscar.getText())) {
                 logica.Empleado emple = new logica.Empleado();
+                emple.setIdEmpleado(empleado.get(i).getIdempleado());
                 emple.setNombre(empleado.get(i).getNombre());
                 emple.setApellidoPaterno(empleado.get(i).getApellidoPaterno());
                 emple.setApellidoMaterno(empleado.get(i).getApellidoMaterno());
                 emple.setDireccion(empleado.get(i).getDireccion());
+                emple.setTelefono(empleado.get(i).getTelefono());
+                emple.setUsuario(empleado.get(i).getUsuario());
+                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
+                emple.setPassword(empleado.get(i).getContrasena());
                 emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
                 listaEmpleado.add(emple);
-            }
+                }
         }
 
         ObservableList<logica.Empleado> obsEmpleado = FXCollections.observableArrayList(listaEmpleado);
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombre"));
-        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
-        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
+        apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
+        apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
         direccionColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("direccion"));
-        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("Tipo Empleado"));
+        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombreTipoEmpleado"));
         
         tablaEmpleados.setItems(obsEmpleado);
     }
     @FXML
     private void botonEditarEmpleado(ActionEvent event){
        try {
-            
-            
-            FXMLLoader loader= new FXMLLoader();
+           FXMLLoader loader= new FXMLLoader();
             
             //agregamos el openStream (no se para que)
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIEditarEmpleado.fxml").openStream());
@@ -128,27 +136,28 @@ public class GUIAdministrarEmpleadosController implements Initializable {
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);           
             GUIEditarEmpleadoController empleadoController=(GUIEditarEmpleadoController)loader.getController();
-            empleadoController.setEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem(),planillaStage);
+            empleadoController.setEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem(),planillaStage,this);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
-    private void llenaTabla(){
+    public void llenaTabla(){
+        tablaEmpleados.getSelectionModel().clearSelection();
         EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
         List<datos.Empleado> empleado = empleadoJPA.findEmpleadoEntities();
         List<logica.Empleado> listaEmpleado = new ArrayList<>();
         for (int i = 0; i < empleado.size(); i++) {
-                logica.Empleado emple = new logica.Empleado();
+                logica.Empleado emple = new logica.Empleado();emple.setIdEmpleado(empleado.get(i).getIdempleado());
                 emple.setNombre(empleado.get(i).getNombre());
                 emple.setApellidoPaterno(empleado.get(i).getApellidoPaterno());
                 emple.setApellidoMaterno(empleado.get(i).getApellidoMaterno());
                 emple.setDireccion(empleado.get(i).getDireccion());
                 emple.setTelefono(empleado.get(i).getTelefono());
                 emple.setUsuario(empleado.get(i).getUsuario());
+                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
                 emple.setPassword(empleado.get(i).getContrasena());
                 emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
-                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
                 listaEmpleado.add(emple);
             
         }

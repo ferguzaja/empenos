@@ -116,6 +116,10 @@ public class EmpleadoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empleado persistentEmpleado = em.find(Empleado.class, empleado.getIdempleado());
+            empleado = em.merge(empleado);
+            em.getTransaction().commit();
+            /*
+            
             Tipoempleado tipoempleadoIdtipoempleadoOld = persistentEmpleado.getTipoempleadoIdtipoempleado();
             Tipoempleado tipoempleadoIdtipoempleadoNew = empleado.getTipoempleadoIdtipoempleado();
             List<Venta> ventaListOld = persistentEmpleado.getVentaList();
@@ -177,7 +181,7 @@ public class EmpleadoJpaController implements Serializable {
             }
             empenoListNew = attachedEmpenoListNew;
             empleado.setEmpenoList(empenoListNew);
-            empleado = em.merge(empleado);
+            
             if (tipoempleadoIdtipoempleadoOld != null && !tipoempleadoIdtipoempleadoOld.equals(tipoempleadoIdtipoempleadoNew)) {
                 tipoempleadoIdtipoempleadoOld.getEmpleadoList().remove(empleado);
                 tipoempleadoIdtipoempleadoOld = em.merge(tipoempleadoIdtipoempleadoOld);
@@ -219,7 +223,8 @@ public class EmpleadoJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            
+            */
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {

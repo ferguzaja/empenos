@@ -26,6 +26,8 @@ import javafx.stage.StageStyle;
 import datos.Empleado;
 import logica.TipoEmpleado;
 import datos.Tipoempleado;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.stage.Stage;
 //import logica.Persona;
 
@@ -61,6 +63,9 @@ public class GUIAltaEmpleadoController implements Initializable {
     private ObservableList<TipoEmpleado> obsTipoEmpleado;
     @FXML
     private Stage stage;
+    @FXML
+    private ArrayList<TextField> listaText= new ArrayList<>();
+    private GUIAdministrarEmpleadosController admin;
     
     @FXML
     private void botonGuardar(ActionEvent event)throws ParseException {
@@ -70,23 +75,10 @@ public class GUIAltaEmpleadoController implements Initializable {
     }else{
         if(contraseña.getText().equals(confirmacion.getText())){
             guardarEmpleado();
-                mensajePantalla("Empleado Guardado Exitosamente");
         }else{
             mensajePantalla("contraseñas no coinciden");
         }
     }
-    }
-    
-    @FXML
-    private void elliminarEspacios( ) {
-    nombre.setText(nombre.getText().trim());
-        apellidoP.setText(apellidoP.getText().trim());
-        apellidoM.setText(apellidoM.getText().trim());
-        direccion.setText(direccion.getText().trim());
-        telefono.setText(telefono.getText().trim());
-        contraseña.setText(contraseña.getText().trim());
-        usuario.setText(usuario.getText().trim());
-        confirmacion.setText(confirmacion.getText().trim());
     }
     @FXML
     private void mensajePantalla(String mensaje) {
@@ -98,42 +90,34 @@ public class GUIAltaEmpleadoController implements Initializable {
         dialogo.showAndWait();
     }
     @FXML
+    private void elliminarEspacios( ) {
+        for(int i=0; i<listaText.size(); i++){
+            listaText.get(i).setText(listaText.get(i).getText());
+            }
+    }
+    
+    @FXML
     private boolean validarCamposVacios(){
         boolean correcto=true;
-        if(nombre.getText().isEmpty()||"".equals(nombre.getText())){
-           correcto=false;
-        }
-        if(apellidoP.getText().isEmpty()||"".equals(apellidoP.getText())){
-            correcto=false;
-        }
-        if(apellidoM.getText().isEmpty()||"".equals(apellidoM.getText())){
-           correcto=false;
-        }
-        if(direccion.getText().isEmpty()||"".equals(direccion.getText())){
-           correcto=false;
-        }
-        if(telefono.getText().isEmpty()||"".equals(telefono.getText())){
-           correcto=false;
-        }
-        if(usuario.getText().isEmpty()||"".equals(usuario.getText())){
-           correcto=false;
-        }
-        if(contraseña.getText().isEmpty()||"".equals(contraseña.getText())){
-            correcto=false;
-        }
-        if(confirmacion.getText().isEmpty()||"".equals(confirmacion.getText())){
-            correcto=false;
+        for(int i=0; i<listaText.size(); i++){
+            if(listaText.get(i).getText().isEmpty()||"".equals(listaText.get(i).getText())){
+                correcto=false;
+            }
         }        
         return correcto;
     }
     @FXML
-    private boolean guardarEmpleado(){
-        boolean guardar=false;
+    private void guardarEmpleado(){
+        try{
         EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
         empleadoJPA.create(obtenEmpleado());
-        
-        
-        return guardar;
+         mensajePantalla("Empleado Guardado Exitosamente");
+         admin.llenaTabla();
+         stage.close();
+        } catch (Exception ex) {
+            mensajePantalla("Error");
+            Logger.getLogger(GUIAltaEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     private datos.Empleado obtenEmpleado(){
         Empleado empleado= new Empleado();
@@ -160,8 +144,6 @@ public class GUIAltaEmpleadoController implements Initializable {
             listaEmpleados.add(tipos);
         }
         obsTipoEmpleado= FXCollections.observableArrayList(listaEmpleados);
-        //SelectionModel tipoSeleccionado(prueba);
-        //tipo.setSelectionModel(tipoSeleccionado);
         tipo.setItems(obsTipoEmpleado);
 
     }
@@ -169,8 +151,9 @@ public class GUIAltaEmpleadoController implements Initializable {
     public void cerrar(){
         stage.close();
     }
-    public void recibeStage(Stage stage){
+    public void recibeStage(Stage stage, GUIAdministrarEmpleadosController admin){
         this.stage=stage;
+        this.admin=admin;
     }
     /**
      * Initializes the controller class.
@@ -178,6 +161,15 @@ public class GUIAltaEmpleadoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboTipoEmpleado();
+        listaText.add(nombre);
+        listaText.add(apellidoP);
+        listaText.add(apellidoM);
+        listaText.add(telefono);
+        listaText.add(direccion);
+        listaText.add(usuario);
+        listaText.add(confirmacion);
+        listaText.add(contraseña);
+        
         //set seleccionModel
         // TODO
     }    

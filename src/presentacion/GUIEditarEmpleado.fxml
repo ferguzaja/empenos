@@ -28,6 +28,6 @@
       <PasswordField fx:id="contraseña" layoutX="177.0" layoutY="273.0" prefHeight="25.0" prefWidth="242.0" />
       <PasswordField fx:id="confirmacion" layoutX="177.0" layoutY="308.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="60.0" layoutY="347.0" text="Tipo Usuario" />
-      <ComboBox fx:id="CBTipoUsuario" layoutX="176.0" layoutY="343.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="tipo" layoutX="176.0" layoutY="343.0" prefHeight="25.0" prefWidth="242.0" />
    </children>
 </AnchorPane>

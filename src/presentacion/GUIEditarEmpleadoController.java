@@ -65,18 +65,10 @@ public class GUIEditarEmpleadoController implements Initializable {
     private Button cancelar;
     private Empleado empleado;
     private Stage stagemaster;
-    
+    private GUIAdministrarEmpleadosController admin;    
     @FXML
-    private void elliminarEspacios( ) {
-    nombre.setText(nombre.getText().trim());
-        apellidoP.setText(apellidoP.getText().trim());
-        apellidoM.setText(apellidoM.getText().trim());
-        direccion.setText(direccion.getText().trim());
-        telefono.setText(telefono.getText().trim());
-        contraseña.setText(contraseña.getText().trim());
-        usuario.setText(usuario.getText().trim());
-        confirmacion.setText(confirmacion.getText().trim());
-    }
+    private ArrayList<TextField> listaText= new ArrayList<>();
+    
     @FXML
     private void mensajePantalla(String mensaje) {
         Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
@@ -87,51 +79,40 @@ public class GUIEditarEmpleadoController implements Initializable {
         dialogo.showAndWait();
     }
     @FXML
+    private void elliminarEspacios( ) {
+        for(int i=0; i<listaText.size(); i++){
+            listaText.get(i).setText(listaText.get(i).getText());
+            }
+    }
+    
+    @FXML
     private boolean validarCamposVacios(){
         boolean correcto=true;
-        if(nombre.getText().isEmpty()||"".equals(nombre.getText())){
-           correcto=false;
-        }
-        if(apellidoP.getText().isEmpty()||"".equals(apellidoP.getText())){
-            correcto=false;
-        }
-        if(apellidoM.getText().isEmpty()||"".equals(apellidoM.getText())){
-           correcto=false;
-        }
-        if(direccion.getText().isEmpty()||"".equals(direccion.getText())){
-           correcto=false;
-        }
-        if(telefono.getText().isEmpty()||"".equals(telefono.getText())){
-           correcto=false;
-        }
-        if(usuario.getText().isEmpty()||"".equals(usuario.getText())){
-           correcto=false;
-        }
-        if(contraseña.getText().isEmpty()||"".equals(contraseña.getText())){
-            correcto=false;
-        }
-        if(confirmacion.getText().isEmpty()||"".equals(confirmacion.getText())){
-            correcto=false;
+        for(int i=0; i<listaText.size(); i++){
+            if(listaText.get(i).getText().isEmpty()||"".equals(listaText.get(i).getText())){
+                correcto=false;
+            }
         }        
         return correcto;
     }
     @FXML
-    private boolean guardarEmpleado() throws NonexistentEntityException{
-        boolean guardar=false;
+    private void guardarEmpleado() throws NonexistentEntityException{
+       
         try {
-            
             EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
             empleadoJPA.edit(obtenEmpleado());
-            
-            
-            
+            mensajePantalla("Empleado Guardado Exitosamente");
+            admin.llenaTabla();
+                    stagemaster.close();
         } catch (Exception ex) {
-            Logger.getLogger(controller.class.getName()).log(Level.SEVERE, null, ex);
+            mensajePantalla("Error");
+            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return guardar;
+            
+          
     }
     @FXML
-    public void setEmpleado(Empleado empleado,Stage stage){
+    public void setEmpleado(Empleado empleado,Stage stage,GUIAdministrarEmpleadosController admin){
         nombre.setText(empleado.getNombre());
         apellidoP.setText(empleado.getApellidoPaterno());
         apellidoM.setText(empleado.getApellidoMaterno());
@@ -140,8 +121,12 @@ public class GUIEditarEmpleadoController implements Initializable {
         usuario.setText(empleado.getUsuario());
         contraseña.setText(empleado.getPassword());
         confirmacion.setText(empleado.getPassword());
+        idEmpleado=empleado.getIdEmpleado();
+        //creas una instancia del tipo del objeto del combo box y luego se l mandandas con el metodo select en la linea de abajo
+        TipoEmpleado tipoEmpleado= new TipoEmpleado(empleado.getTipoUsuario(),empleado.getNombreTipoEmpleado());
+        tipo.getSelectionModel().select(tipoEmpleado);
         stagemaster=stage;
-        
+        this.admin=admin;
         //falta el comboBox
     }
     @FXML
@@ -158,8 +143,6 @@ public class GUIEditarEmpleadoController implements Initializable {
             listaEmpleados.add(tipos);
         }
         obsTipoEmpleado= FXCollections.observableArrayList(listaEmpleados);
-        //SelectionModel tipoSeleccionado(prueba);
-        //tipo.setSelectionModel(tipoSeleccionado);
         tipo.setItems(obsTipoEmpleado);
 
     }
@@ -177,6 +160,8 @@ public class GUIEditarEmpleadoController implements Initializable {
         tipoempleado.setNombre(tipo.getValue().getNombre());
         empleado.setTipoempleadoIdtipoempleado(tipoempleado);
         empleado.setTelefono(telefono.getText());
+        System.out.println(empleado.getTelefono());
+        System.out.println(idEmpleado);
         return empleado;
     }
     @FXML
@@ -185,12 +170,8 @@ public class GUIEditarEmpleadoController implements Initializable {
         if(!validarCamposVacios()){
             mensajePantalla("Favor de no dejar Campos Vacios");
         }else{
-            if(contraseña.equals(confirmacion)){
-                if(guardarEmpleado()){
-                    mensajePantalla("Empleado Guardado Exitosamente");
-                }else{
-                    mensajePantalla("Error");
-                }
+            if(contraseña.getText().equals(confirmacion.getText())){
+                    guardarEmpleado();
             }else{
                 mensajePantalla("contraseñas no coinciden");
             }
@@ -199,6 +180,15 @@ public class GUIEditarEmpleadoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        llenarComboTipoEmpleado();
+        listaText.add(nombre);
+        listaText.add(apellidoP);
+        listaText.add(apellidoM);
+        listaText.add(telefono);
+        listaText.add(direccion);
+        listaText.add(usuario);
+        listaText.add(confirmacion);
+        listaText.add(contraseña);
     }    
     
 }
