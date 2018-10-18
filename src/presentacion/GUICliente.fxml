@@ -11,12 +11,12 @@
       <DatePicker fx:id="fechaNacimiento" layoutX="155.0" layoutY="237.0" prefHeight="25.0" prefWidth="242.0" />
       <ComboBox fx:id="comboCiudad" layoutX="155.0" layoutY="368.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="36.0" layoutY="372.0" prefHeight="17.0" prefWidth="128.0" text="Ciudad" />
-      <ComboBox fx:id="comboEstado" layoutX="155.0" layoutY="335.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="comboEstado" layoutX="155.0" layoutY="335.0" onAction="#selectItemEstado" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="36.0" layoutY="339.0" prefHeight="17.0" prefWidth="128.0" text="Estado" />
       <Label layoutX="36.0" layoutY="307.0" prefHeight="17.0" prefWidth="128.0" text="País" />
       <Label layoutX="36.0" layoutY="173.0" prefHeight="17.0" prefWidth="128.0" text="Tipo identificación" />
       <Label layoutX="36.0" layoutY="274.0" prefHeight="17.0" prefWidth="128.0" text="Ocupación" />
-      <ComboBox fx:id="comboPais" layoutX="155.0" layoutY="303.0" prefHeight="25.0" prefWidth="242.0" />
+      <ComboBox fx:id="comboPais" layoutX="155.0" layoutY="303.0" onAction="#selectItemPais" prefHeight="25.0" prefWidth="242.0" />
       <ComboBox fx:id="comboTipoIdentificacion" layoutX="155.0" layoutY="169.0" prefHeight="25.0" prefWidth="242.0" />
       <ComboBox fx:id="comboOcupacion" layoutX="155.0" layoutY="270.0" prefHeight="25.0" prefWidth="242.0" />
       <TextField fx:id="noIdentificacion" layoutX="155.0" layoutY="202.0" prefHeight="25.0" prefWidth="242.0" />
