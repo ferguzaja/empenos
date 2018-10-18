@@ -85,6 +85,7 @@ public class GUIEditarEmpleadoController implements Initializable {
             }
     }
     
+    //Te falta validar
     @FXML
     private boolean validarCamposVacios(){
         boolean correcto=true;

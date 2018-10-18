@@ -234,7 +234,8 @@ public class GUIClienteController implements Initializable {
                 || comboEstado.getSelectionModel().isEmpty()
                 || comboCiudad.getSelectionModel().isEmpty()
                 || comboOcupacion.getSelectionModel().isEmpty()
-                || comboTipoIdentificacion.getSelectionModel().isEmpty()) {
+                || comboTipoIdentificacion.getSelectionModel().isEmpty()
+                || fechaNacimiento.getValue() == null) {
             bandera = false;
         }
         return bandera;
