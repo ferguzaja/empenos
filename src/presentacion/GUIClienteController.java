@@ -223,7 +223,7 @@ public class GUIClienteController implements Initializable {
             mensajePantalla("Por favor completa los campos vacíos");
         }                
     }
-
+    //validacion de la fecha
     public boolean validarCamposVacios() {
         boolean bandera = true;
         if (nombre.getText().isEmpty() || apellidoM.getText().isEmpty()
