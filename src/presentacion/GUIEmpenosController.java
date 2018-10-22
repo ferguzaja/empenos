@@ -95,13 +95,10 @@ public class GUIEmpenosController implements Initializable {
     
     GUIEmpenosController guiEmpenosControler;
     
-    //variable para guardar 1 si presiona nuevo cliente y 2 para editar cliente
-    @FXML
-    private int botonSeleccionado;
+
     
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
-        botonSeleccionado = 1;
         try {
             Parent root = FXMLLoader.load(getClass().getResource("GUICliente.fxml"));
             Scene scene = new Scene(root);
@@ -116,7 +113,6 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private void botonEditarCliente(ActionEvent event) {
-        botonSeleccionado = 2;
         try {            
             //objeto que quiero enviar a la GUICLiente
             logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();                        

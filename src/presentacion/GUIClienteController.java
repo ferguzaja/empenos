@@ -13,31 +13,22 @@ import datos.OcupacionJpaController;
 import datos.PaisJpaController;
 import datos.Tipoidentificacion;
 import datos.TipoidentificacionJpaController;
-import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 import logica.Ciudad;
 import logica.Estado;
 import logica.Ocupacion;
@@ -218,11 +209,12 @@ public class GUIClienteController implements Initializable {
             datos.Tipoidentificacion tipoIden = tipoIdenJPA.findTipoidentificacion(idTipoIdentificacion);
             cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
             clienteJPA.create(cliente);
-            mensajePantalla("Cliente agregado");           
+            mensajePantalla("Cliente agregado");
         } else {
             mensajePantalla("Por favor completa los campos vacíos");
-        }                
+        }
     }
+
     //validacion de la fecha
     public boolean validarCamposVacios() {
         boolean bandera = true;
@@ -249,9 +241,8 @@ public class GUIClienteController implements Initializable {
         direccion.setText(cliente.getDireccion());
         noIdentificacion.setText(cliente.getNoIdentificacion());
         //fechaNacimiento.setAccessibleText(cliente.getFechaNacimiento());
-        comboTipoIdentificacion.setAccessibleText("hola");
-        comboPais.setAccessibleText("adios");
-
+        //comboTipoIdentificacion.setAccessibleText("hola");
+        //comboPais.setAccessibleText("adios");
     }
 
     @FXML
