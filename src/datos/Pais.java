@@ -108,4 +108,8 @@ public class Pais implements Serializable {
         return "datos.Pais[ idpais=" + idpais + " ]";
     }
     
+    public logica.Pais clonar(){
+        logica.Pais pais = new logica.Pais(getIdpais(), getNombre());
+        return pais;
+    }
 }

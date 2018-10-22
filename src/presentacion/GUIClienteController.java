@@ -243,9 +243,25 @@ public class GUIClienteController implements Initializable {
         //fechaNacimiento.setAccessibleText(cliente.getFechaNacimiento());
         //comboTipoIdentificacion.setAccessibleText("hola");
         //comboPais.setAccessibleText("adios");
+        llenarComboOcupacion();
+        Ocupacion ocupacion = new Ocupacion(cliente.getOcupacion().getIdOcupacion(),cliente.getOcupacion().getNombre());
+        comboOcupacion.getSelectionModel().select(ocupacion);
         
-        //Cliente cliente = new (empleado.getTipoUsuario(),empleado.getNombreTipoEmpleado());
-        //tipo.getSelectionModel().select(tipoEmpleado);
+        llenarComboIdentificacion();
+        TipoIdentificacion tipoIden = new TipoIdentificacion(cliente.getTipoIden().getIdTipoIdentificacion(),cliente.getTipoIden().getNombre());
+        comboTipoIdentificacion.getSelectionModel().select(tipoIden);
+        
+        llenarComboPais();
+        Pais pais = new Pais(cliente.getPais().getIdPais(),cliente.getPais().getNombre());
+        comboPais.getSelectionModel().select(pais);
+        
+        llenarComboEstado(pais.getIdPais());
+        Estado estado = new Estado(cliente.getEstado().getIdEstado(),cliente.getEstado().getNombre());
+        comboEstado.getSelectionModel().select(estado);
+        
+        llenarComboCiudad(estado.getIdEstado());
+        Ciudad ciudad = new Ciudad(cliente.getCiudad().getIdCiudad(),cliente.getCiudad().getNombre());
+        comboCiudad.getSelectionModel().select(ciudad);
     }
 
     @FXML

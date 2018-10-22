@@ -121,4 +121,9 @@ public class Ciudad implements Serializable {
         return "datos.Ciudad[ idciudad=" + idciudad + " ]";
     }
     
+    public logica.Ciudad clonar(){
+        logica.Ciudad ciudad = new logica.Ciudad(getIdciudad(), getNombre());
+        return ciudad;
+    }
+    
 }

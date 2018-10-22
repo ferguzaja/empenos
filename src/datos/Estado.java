@@ -121,4 +121,8 @@ public class Estado implements Serializable {
         return "datos.Estado[ idestado=" + idestado + " ]";
     }
     
+    public logica.Estado clonar(){
+        logica.Estado estado = new logica.Estado(getIdestado(), getNombre());
+        return estado;
+    }
 }

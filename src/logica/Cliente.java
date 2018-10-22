@@ -23,16 +23,36 @@ public class Cliente {
     private String fechaNacimiento;
     private int idCiudad;
     private int idPais;
-    private int idEstado;
-    
+    private int idEstado;    
     private int idTipoIdentificacion;
     private int idOcupacion;
-    
+    private Pais pais;
+    private Estado estado;
+    private Ciudad ciudad;
+    private Ocupacion ocupacion;
+    private TipoIdentificacion tipoIden;
     
     
 
     public Cliente() {
     }
+
+    public Cliente(int idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String noIdentificacion, boolean listaNegra, String fechaNacimiento, Pais pais, Estado estado, Ciudad ciudad, Ocupacion ocupacion, TipoIdentificacion tipoIden) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
+        this.noIdentificacion = noIdentificacion;
+        this.listaNegra = listaNegra;
+        this.fechaNacimiento = fechaNacimiento;
+        this.pais = pais;
+        this.estado = estado;
+        this.ciudad = ciudad;
+        this.ocupacion = ocupacion;
+        this.tipoIden = tipoIden;
+    }       
+    
 
     public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, 
             String direccion, String noIdentificacion, boolean listaNegra, 
@@ -177,6 +197,46 @@ public class Cliente {
     public void setIdEstado(int idEstado) {
         this.idEstado = idEstado;
     }
-    
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public Ocupacion getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(Ocupacion ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+
+    public TipoIdentificacion getTipoIden() {
+        return tipoIden;
+    }
+
+    public void setTipoIden(TipoIdentificacion tipoIden) {
+        this.tipoIden = tipoIden;
+    }
+        
     
 }

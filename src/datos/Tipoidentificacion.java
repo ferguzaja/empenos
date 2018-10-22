@@ -99,4 +99,8 @@ public class Tipoidentificacion implements Serializable {
         return "datos.Tipoidentificacion[ idtipoidentificacion=" + idtipoidentificacion + " ]";
     }
     
+    public logica.TipoIdentificacion clonar(){
+        logica.TipoIdentificacion tipoIden = new logica.TipoIdentificacion(getIdtipoidentificacion(), getNombre());
+        return tipoIden;
+    }
 }

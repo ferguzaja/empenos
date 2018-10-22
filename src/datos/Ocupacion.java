@@ -99,4 +99,8 @@ public class Ocupacion implements Serializable {
         return "datos.Ocupacion[ idocupacion=" + idocupacion + " ]";
     }
     
+    public logica.Ocupacion clonar(){
+        logica.Ocupacion ocupacion = new logica.Ocupacion(getIdocupacion(), getNombre());
+        return ocupacion;
+    }
 }

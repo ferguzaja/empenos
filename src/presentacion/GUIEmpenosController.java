@@ -179,6 +179,11 @@ public class GUIEmpenosController implements Initializable {
                 client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
                 client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
                 client.setIdOcupacion(clientes.get(i).getOcupacionIdocupacion().getIdocupacion());
+                client.setPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().clonar());
+                client.setEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().clonar());
+                client.setCiudad(clientes.get(i).getCiudadIdciudad().clonar());
+                client.setOcupacion(clientes.get(i).getOcupacionIdocupacion().clonar());
+                client.setTipoIden(clientes.get(i).getTipoidentificacionIdtipoidentificacion().clonar());
                 listaClientes.add(client);
             }
         }
