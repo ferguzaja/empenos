@@ -39,6 +39,8 @@ import javafx.stage.Stage;
  */
 public class GUIEmpenosController implements Initializable {
     
+    //kjabkjsdjasjdbsjdsjd
+    
     @FXML
     private Button botonNuevoCliente;
     
