@@ -243,6 +243,9 @@ public class GUIClienteController implements Initializable {
         //fechaNacimiento.setAccessibleText(cliente.getFechaNacimiento());
         //comboTipoIdentificacion.setAccessibleText("hola");
         //comboPais.setAccessibleText("adios");
+        
+        //Cliente cliente = new (empleado.getTipoUsuario(),empleado.getNombreTipoEmpleado());
+        //tipo.getSelectionModel().select(tipoEmpleado);
     }
 
     @FXML
