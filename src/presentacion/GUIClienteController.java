@@ -13,12 +13,17 @@ import datos.OcupacionJpaController;
 import datos.PaisJpaController;
 import datos.Tipoidentificacion;
 import datos.TipoidentificacionJpaController;
+import datos.exceptions.NonexistentEntityException;
 import java.net.URL;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -87,6 +92,10 @@ public class GUIClienteController implements Initializable {
 
     GUIEmpenosController guiEmpenosControlerEnGUICliente;
 
+    private int clicEdit;
+    private int idCliente;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboIdentificacion();
@@ -180,38 +189,76 @@ public class GUIClienteController implements Initializable {
 
     @FXML
     private void botonGuardar(ActionEvent event) throws ParseException {
+        if (clicEdit == 1) {
+            try {     
+                ClienteJpaController clientJPA = new ClienteJpaController();
+                List<Cliente> clientes = clientJPA.findClienteEntities();
+                Cliente cliente = new Cliente();
+                
+                cliente.setIdcliente(idCliente);
+                int idCiudad = comboCiudad.getValue().getIdCiudad();
+                int idTipoIdentificacion = comboTipoIdentificacion.getValue().getIdTipoIdentificacion();
+                int idOcupacion = comboOcupacion.getValue().getIdOcupacion();
 
-        if (validarCamposVacios()) {
-            ClienteJpaController clienteJPA = new ClienteJpaController();
+                cliente.setNombre(nombre.getText());
+                cliente.setApellidoMaterno(apellidoM.getText());
+                cliente.setApeliidoPaterno(apellidoP.getText());
+                cliente.setDireccion(direccion.getText());
+                cliente.setNoIdentificacion(noIdentificacion.getText());
+                Date fecha = java.sql.Date.valueOf(fechaNacimiento.getValue());
+                cliente.setFechaNac(fecha);
 
-            Cliente cliente = new Cliente();
-            int idCiudad = comboCiudad.getValue().getIdCiudad();
-            int idTipoIdentificacion = comboTipoIdentificacion.getValue().getIdTipoIdentificacion();
-            int idOcupacion = comboOcupacion.getValue().getIdOcupacion();
+                CiudadJpaController ciudadJPA = new CiudadJpaController();
+                datos.Ciudad ciudad = ciudadJPA.findCiudad(idCiudad);
+                cliente.setCiudadIdciudad(ciudad);
 
-            cliente.setNombre(nombre.getText());
-            cliente.setApellidoMaterno(apellidoM.getText());
-            cliente.setApeliidoPaterno(apellidoP.getText());
-            cliente.setDireccion(direccion.getText());
-            cliente.setNoIdentificacion(noIdentificacion.getText());
-            Date fecha = java.sql.Date.valueOf(fechaNacimiento.getValue());
-            cliente.setFechaNac(fecha);
+                OcupacionJpaController ocupacionJPA = new OcupacionJpaController();
+                datos.Ocupacion ocupacion = ocupacionJPA.findOcupacion(idOcupacion);
+                cliente.setOcupacionIdocupacion(ocupacion);
 
-            CiudadJpaController ciudadJPA = new CiudadJpaController();
-            datos.Ciudad ciudad = ciudadJPA.findCiudad(idCiudad);
-            cliente.setCiudadIdciudad(ciudad);
-
-            OcupacionJpaController ocupacionJPA = new OcupacionJpaController();
-            datos.Ocupacion ocupacion = ocupacionJPA.findOcupacion(idOcupacion);
-            cliente.setOcupacionIdocupacion(ocupacion);
-
-            TipoidentificacionJpaController tipoIdenJPA = new TipoidentificacionJpaController();
-            datos.Tipoidentificacion tipoIden = tipoIdenJPA.findTipoidentificacion(idTipoIdentificacion);
-            cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
-            clienteJPA.create(cliente);
-            mensajePantalla("Cliente agregado");
+                TipoidentificacionJpaController tipoIdenJPA = new TipoidentificacionJpaController();
+                datos.Tipoidentificacion tipoIden = tipoIdenJPA.findTipoidentificacion(idTipoIdentificacion);
+                cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
+                //manda error por la multiplicicdad de la BD que es 1 a 1 con la venta
+                //debería ser cero en la venta
+                clientJPA.edit(cliente);
+                mensajePantalla("Cliente Editado");
+            } catch (Exception ex) {
+                Logger.getLogger(GUIClienteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            mensajePantalla("Por favor completa los campos vacíos");
+            if (validarCamposVacios()) {
+                ClienteJpaController clienteJPA = new ClienteJpaController();
+
+                Cliente cliente = new Cliente();
+                int idCiudad = comboCiudad.getValue().getIdCiudad();
+                int idTipoIdentificacion = comboTipoIdentificacion.getValue().getIdTipoIdentificacion();
+                int idOcupacion = comboOcupacion.getValue().getIdOcupacion();
+
+                cliente.setNombre(nombre.getText());
+                cliente.setApellidoMaterno(apellidoM.getText());
+                cliente.setApeliidoPaterno(apellidoP.getText());
+                cliente.setDireccion(direccion.getText());
+                cliente.setNoIdentificacion(noIdentificacion.getText());
+                Date fecha = java.sql.Date.valueOf(fechaNacimiento.getValue());
+                cliente.setFechaNac(fecha);
+
+                CiudadJpaController ciudadJPA = new CiudadJpaController();
+                datos.Ciudad ciudad = ciudadJPA.findCiudad(idCiudad);
+                cliente.setCiudadIdciudad(ciudad);
+
+                OcupacionJpaController ocupacionJPA = new OcupacionJpaController();
+                datos.Ocupacion ocupacion = ocupacionJPA.findOcupacion(idOcupacion);
+                cliente.setOcupacionIdocupacion(ocupacion);
+
+                TipoidentificacionJpaController tipoIdenJPA = new TipoidentificacionJpaController();
+                datos.Tipoidentificacion tipoIden = tipoIdenJPA.findTipoidentificacion(idTipoIdentificacion);
+                cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
+                clienteJPA.create(cliente);
+                mensajePantalla("Cliente agregado");
+            } else {
+                mensajePantalla("Por favor completa los campos vacíos");
+            }
         }
     }
 
@@ -233,34 +280,45 @@ public class GUIClienteController implements Initializable {
         return bandera;
     }
 
-    public void recibeParametros(GUIEmpenosController controlador, logica.Cliente cliente) {
+    public void recibeParametros(GUIEmpenosController controlador,
+            logica.Cliente cliente, int clicEditar) {
+        clicEdit = clicEditar;
+        idCliente = cliente.getIdCliente();
         guiEmpenosControlerEnGUICliente = controlador;
         nombre.setText(cliente.getNombre());
         apellidoM.setText(cliente.getApellidoMaterno());
         apellidoP.setText(cliente.getApellidoPaterno());
         direccion.setText(cliente.getDireccion());
         noIdentificacion.setText(cliente.getNoIdentificacion());
-        //fechaNacimiento.setAccessibleText(cliente.getFechaNacimiento());
-        //comboTipoIdentificacion.setAccessibleText("hola");
-        //comboPais.setAccessibleText("adios");
+        //la fecha viene en la forma yyyy/mm/dd pero la necesito sin los / 
+        //por eso uso substring para quitarlos
+        String fecha = new String();
+        fecha = cliente.getFechaNacimiento().substring(0, 4)
+                + cliente.getFechaNacimiento().substring(5, 7)
+                + cliente.getFechaNacimiento().substring(8, 10);
+
+        DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
+        LocalDate date = LocalDate.parse(fecha, formatter);
+        fechaNacimiento.setValue(date);
+
         llenarComboOcupacion();
-        Ocupacion ocupacion = new Ocupacion(cliente.getOcupacion().getIdOcupacion(),cliente.getOcupacion().getNombre());
+        Ocupacion ocupacion = new Ocupacion(cliente.getOcupacion().getIdOcupacion(), cliente.getOcupacion().getNombre());
         comboOcupacion.getSelectionModel().select(ocupacion);
-        
+
         llenarComboIdentificacion();
-        TipoIdentificacion tipoIden = new TipoIdentificacion(cliente.getTipoIden().getIdTipoIdentificacion(),cliente.getTipoIden().getNombre());
+        TipoIdentificacion tipoIden = new TipoIdentificacion(cliente.getTipoIden().getIdTipoIdentificacion(), cliente.getTipoIden().getNombre());
         comboTipoIdentificacion.getSelectionModel().select(tipoIden);
-        
+
         llenarComboPais();
-        Pais pais = new Pais(cliente.getPais().getIdPais(),cliente.getPais().getNombre());
+        Pais pais = new Pais(cliente.getPais().getIdPais(), cliente.getPais().getNombre());
         comboPais.getSelectionModel().select(pais);
-        
+
         llenarComboEstado(pais.getIdPais());
-        Estado estado = new Estado(cliente.getEstado().getIdEstado(),cliente.getEstado().getNombre());
+        Estado estado = new Estado(cliente.getEstado().getIdEstado(), cliente.getEstado().getNombre());
         comboEstado.getSelectionModel().select(estado);
-        
+
         llenarComboCiudad(estado.getIdEstado());
-        Ciudad ciudad = new Ciudad(cliente.getCiudad().getIdCiudad(),cliente.getCiudad().getNombre());
+        Ciudad ciudad = new Ciudad(cliente.getCiudad().getIdCiudad(), cliente.getCiudad().getNombre());
         comboCiudad.getSelectionModel().select(ciudad);
     }
 

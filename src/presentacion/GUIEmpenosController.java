@@ -10,6 +10,7 @@ import logica.Prenda;
 import datos.ClienteJpaController;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -38,9 +39,7 @@ import javafx.stage.Stage;
  * @author Jahir
  */
 public class GUIEmpenosController implements Initializable {
-    
-    //kjabkjsdjasjdbsjdsjd
-    
+        
     @FXML
     private Button botonNuevoCliente;
     
@@ -97,6 +96,7 @@ public class GUIEmpenosController implements Initializable {
     
     GUIEmpenosController guiEmpenosControler;
     
+    private int clicEditar;
 
     
     @FXML
@@ -115,7 +115,8 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private void botonEditarCliente(ActionEvent event) {
-        try {            
+        try {
+            clicEditar = 1;
             //objeto que quiero enviar a la GUICLiente
             logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();                        
             //System.out.println(cliente.getNombre()+cliente.getIdTipoIdentificacion());
@@ -127,7 +128,7 @@ public class GUIEmpenosController implements Initializable {
             GUIClienteController clienteController = (GUIClienteController) loader.getController();                                                            
             //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
             //como parámetro una instancia de la GUIEmpenos y el objeto
-            clienteController.recibeParametros(guiEmpenosControler, cliente);
+            clienteController.recibeParametros(guiEmpenosControler, cliente, clicEditar);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -136,7 +137,7 @@ public class GUIEmpenosController implements Initializable {
             stage.show();                            
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
     
     @FXML
@@ -174,7 +175,10 @@ public class GUIEmpenosController implements Initializable {
                 client.setDireccion(clientes.get(i).getDireccion());
                 client.setIdTipoIdentificacion(clientes.get(i).getTipoidentificacionIdtipoidentificacion().getIdtipoidentificacion());
                 client.setNoIdentificacion(clientes.get(i).getNoIdentificacion());
-                //client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
+                client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
+                //Para convertir de date que esta en la bd a String
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                client.setFechaNacimiento(sdf.format(clientes.get(i).getFechaNac()));                                
                 client.setIdCiudad(clientes.get(i).getCiudadIdciudad().getIdciudad());
                 client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
                 client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
