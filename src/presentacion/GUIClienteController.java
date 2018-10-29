@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +31,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.Ciudad;
 import logica.Estado;
@@ -91,6 +90,7 @@ public class GUIClienteController implements Initializable {
     private DatePicker fechaNacimiento;
 
     GUIEmpenosController guiEmpenosControlerEnGUICliente;
+    Stage stagemaster;
 
     private int clicEdit;
     private int idCliente;
@@ -193,6 +193,7 @@ public class GUIClienteController implements Initializable {
         if (clicEdit == 1) {
             Cliente cliente = new Cliente();
             try {
+                cliente.toString();
                 cliente = leerCliente();
                 cliente.setIdcliente(idCliente);
 
@@ -204,6 +205,7 @@ public class GUIClienteController implements Initializable {
 
                 clienteJPA.edit(cliente);
                 mensajePantalla("Cliente editado");
+                stagemaster.close();
             } catch (NonexistentEntityException ex) {
                 ex.printStackTrace();
             } catch (Exception ex) {
@@ -215,6 +217,7 @@ public class GUIClienteController implements Initializable {
                 cliente = leerCliente();
                 clienteJPA.create(cliente);
                 mensajePantalla("Cliente agregado");
+                stagemaster.close();
             } else {
                 mensajePantalla("Por favor completa los campos vacíos");
             }
@@ -248,7 +251,9 @@ public class GUIClienteController implements Initializable {
         cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
         return cliente;
     }
-
+    public void recibeStage(Stage stage){
+        stagemaster=stage;
+    }
     public boolean validarCamposVacios() {
         boolean bandera = true;
         if (nombre.getText().isEmpty() || apellidoM.getText().isEmpty()
@@ -267,7 +272,7 @@ public class GUIClienteController implements Initializable {
     }
 
     public void recibeParametros(GUIEmpenosController controlador,
-            logica.Cliente cliente, int clicEditar) {
+            logica.Cliente cliente, int clicEditar,Stage stage) {
         clicEdit = clicEditar;
         idCliente = cliente.getIdCliente();
         guiEmpenosControlerEnGUICliente = controlador;
@@ -306,6 +311,7 @@ public class GUIClienteController implements Initializable {
         llenarComboCiudad(estado.getIdEstado());
         Ciudad ciudad = new Ciudad(cliente.getCiudad().getIdCiudad(), cliente.getCiudad().getNombre());
         comboCiudad.getSelectionModel().select(ciudad);
+        stagemaster=stage;
     }
 
     @FXML

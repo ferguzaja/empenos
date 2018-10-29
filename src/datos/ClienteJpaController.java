@@ -152,13 +152,15 @@ public class ClienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cliente persistentCliente = em.find(Cliente.class, cliente.getIdcliente());
+            cliente = em.merge(cliente);
+            /*
             Ciudad ciudadIdciudadOld = persistentCliente.getCiudadIdciudad();
             Ciudad ciudadIdciudadNew = cliente.getCiudadIdciudad();
             Ocupacion ocupacionIdocupacionOld = persistentCliente.getOcupacionIdocupacion();
             Ocupacion ocupacionIdocupacionNew = cliente.getOcupacionIdocupacion();
             Tipoidentificacion tipoidentificacionIdtipoidentificacionOld = persistentCliente.getTipoidentificacionIdtipoidentificacion();
             Tipoidentificacion tipoidentificacionIdtipoidentificacionNew = cliente.getTipoidentificacionIdtipoidentificacion();
-            
+            */
             /*List<Venta> ventaListOld = persistentCliente.getVentaList();
             List<Venta> ventaListNew = cliente.getVentaList();
             List<Fotocliente> fotoclienteListOld = persistentCliente.getFotoclienteList();
@@ -202,7 +204,8 @@ public class ClienteJpaController implements Serializable {
             }*/
             /*if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }*/
+            }
+            
             if (ciudadIdciudadNew != null) {
                 ciudadIdciudadNew = em.getReference(ciudadIdciudadNew.getClass(), ciudadIdciudadNew.getIdciudad());
                 cliente.setCiudadIdciudad(ciudadIdciudadNew);
@@ -243,7 +246,6 @@ public class ClienteJpaController implements Serializable {
             }
             empenoListNew = attachedEmpenoListNew;
             cliente.setEmpenoList(empenoListNew);
-            cliente = em.merge(cliente);*/
             if (ciudadIdciudadOld != null && !ciudadIdciudadOld.equals(ciudadIdciudadNew)) {
                 ciudadIdciudadOld.getClienteList().remove(cliente);
                 ciudadIdciudadOld = em.merge(ciudadIdciudadOld);
@@ -268,7 +270,7 @@ public class ClienteJpaController implements Serializable {
                 tipoidentificacionIdtipoidentificacionNew.getClienteList().add(cliente);
                 tipoidentificacionIdtipoidentificacionNew = em.merge(tipoidentificacionIdtipoidentificacionNew);
             }
-            /*for (Venta ventaListNewVenta : ventaListNew) {
+            for (Venta ventaListNewVenta : ventaListNew) {
                 if (!ventaListOld.contains(ventaListNewVenta)) {
                     Cliente oldClienteIdclienteOfVentaListNewVenta = ventaListNewVenta.getClienteIdcliente();
                     ventaListNewVenta.setClienteIdcliente(cliente);

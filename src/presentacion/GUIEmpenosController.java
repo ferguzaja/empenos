@@ -102,10 +102,15 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("GUICliente.fxml"));
+            
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUICliente.fxml").openStream());
+            
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
+            GUIClienteController clienteController = (GUIClienteController) loader.getController();
+            clienteController.recibeStage(stage);
             stage.setTitle("Nuevo cliente");
             stage.show();
         } catch (IOException ex) {
@@ -128,12 +133,12 @@ public class GUIEmpenosController implements Initializable {
             GUIClienteController clienteController = (GUIClienteController) loader.getController();                                                            
             //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
             //como parámetro una instancia de la GUIEmpenos y el objeto
-            clienteController.recibeParametros(guiEmpenosControler, cliente, clicEditar);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Editar cliente");
+            clienteController.recibeParametros(guiEmpenosControler, cliente, clicEditar,stage);
             stage.show();                            
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);

@@ -70,6 +70,7 @@ public class GUIEmpenoController implements Initializable {
                 emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
                 emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
                 emp.setNumBolsa(empenos.get(i).getNoBolsa());
+                emp.setIdEmpeno(empenos.get(i).getIdempeno());
                 listaEmpenos.add(emp);
             }
         }        

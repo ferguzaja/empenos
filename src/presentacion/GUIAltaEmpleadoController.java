@@ -108,16 +108,17 @@ public class GUIAltaEmpleadoController implements Initializable {
     }
     @FXML
     private void guardarEmpleado(){
-        try{
-        EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
-        empleadoJPA.create(obtenEmpleado());
-         mensajePantalla("Empleado Guardado Exitosamente");
-         admin.llenaTabla();
-         stage.close();
-        } catch (Exception ex) {
-            mensajePantalla("Error");
-            Logger.getLogger(GUIAltaEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+        datos.Empleado empleado = new Empleado();
+        if(empleado.guardar(obtenEmpleado())){
+            mensajePantalla("Empleado Guardado Exitosamente");
+            admin.llenaTabla();
+            stage.close();
+        }else{
+            mensajePantalla("Error: no se pudo guardar el empleado");
         }
+
+         
+       
     }
     private datos.Empleado obtenEmpleado(){
         Empleado empleado= new Empleado();
