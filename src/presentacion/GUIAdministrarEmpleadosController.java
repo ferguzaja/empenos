@@ -9,7 +9,6 @@ import datos.EmpleadoJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -127,6 +125,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     }
     @FXML
     private void botonEditarEmpleado(ActionEvent event){
+        if(tablaEmpleados.getSelectionModel().getSelectedItem()!=null){
        try {
            FXMLLoader loader= new FXMLLoader();
             
@@ -141,6 +140,8 @@ public class GUIAdministrarEmpleadosController implements Initializable {
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
+        }}else{
+            //aqui implementamos elmensaje en pantalla de utilerias
         }
         }
     public void llenaTabla(){

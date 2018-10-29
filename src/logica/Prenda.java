@@ -13,36 +13,16 @@ public class Prenda {
         private String descripcion;
         private Double montoValuo;
         private Double montoPrestamo;
-	private int tipoPrenda;
 	private boolean estadoEmpeno;
 	private boolean comercializada;
-        private String nombreTipoPrenda;
+        private TipoPrenda tipoPrenda;
+        
+    
 
-    public String getNombreTipoPrenda() {
-        return nombreTipoPrenda;
+    public Prenda() {
     }
 
-    public void setNombreTipoPrenda(String nombreTipoPrenda) {
-        this.nombreTipoPrenda = nombreTipoPrenda;
-    }
-	
-	
-	
-
-	public Prenda(){
-
-	}
-
-    public Prenda(String descripcion, Double montoValuo, Double montoPrestamo, int tipoPrenda,String nombreTipoPrenda) {
-        this.descripcion = descripcion;
-        this.montoValuo = montoValuo;
-        this.montoPrestamo = montoPrestamo;
-        this.tipoPrenda = tipoPrenda;
-        this.nombreTipoPrenda=nombreTipoPrenda;
-    }
-
-    public Prenda(int idPrenda, String descripcion, Double montoValuo, Double montoPrestamo, int tipoPrenda) {
-        this.idPrenda = idPrenda;
+    public Prenda(String descripcion, Double montoValuo, Double montoPrestamo, TipoPrenda tipoPrenda) {
         this.descripcion = descripcion;
         this.montoValuo = montoValuo;
         this.montoPrestamo = montoPrestamo;
@@ -50,29 +30,16 @@ public class Prenda {
     }
     
     
-    public Prenda(int idPrenda, String descripcion, Double montoValuo, Double montoPrestamo, int tipoPrenda, boolean estadoEmpeno, boolean comercializada) {
+    public Prenda(int idPrenda, String descripcion, Double montoValuo, Double montoPrestamo, boolean estadoEmpeno, boolean comercializada, TipoPrenda TipoPrenda) {
         this.idPrenda = idPrenda;
         this.descripcion = descripcion;
         this.montoValuo = montoValuo;
         this.montoPrestamo = montoPrestamo;
-        this.tipoPrenda = tipoPrenda;
         this.estadoEmpeno = estadoEmpeno;
         this.comercializada = comercializada;
-    }
-
-    public Prenda(String descripcion, Double montoValuo, Double montoPrestamo) {
-        this.descripcion = descripcion;
-        this.montoValuo = montoValuo;
-        this.montoPrestamo = montoPrestamo;
+        this.tipoPrenda = TipoPrenda;
     }
     
-    
-
-    @Override
-    public String toString() {
-        return "Prenda{" + "idPrenda=" + getIdPrenda() + ", descripcion=" + getDescripcion() + ", montoValuo=" + getMontoValuo() + ", montoPrestamo=" + getMontoPrestamo() + ", tipoPrenda=" + getTipoPrenda() + ", estadoEmpeno=" + isEstadoEmpeno() + ", comercializada=" + isComercializada() + '}';
-    }
-
     /**
      * @return the idPrenda
      */
@@ -132,14 +99,14 @@ public class Prenda {
     /**
      * @return the tipoPrenda
      */
-    public int getTipoPrenda() {
+    public TipoPrenda getTipoPrenda() {
         return tipoPrenda;
     }
 
     /**
      * @param tipoPrenda the tipoPrenda to set
      */
-    public void setTipoPrenda(int tipoPrenda) {
+    public void setTipoPrenda(TipoPrenda tipoPrenda) {
         this.tipoPrenda = tipoPrenda;
     }
 
@@ -170,6 +137,9 @@ public class Prenda {
     public void setComercializada(boolean comercializada) {
         this.comercializada = comercializada;
     }
-
+    @Override
+    public String toString() {
+        return "Prenda{" + "idPrenda=" + getIdPrenda() + ", descripcion=" + getDescripcion() + ", montoValuo=" + getMontoValuo() + ", montoPrestamo=" + getMontoPrestamo() + ", tipoPrenda=" + getTipoPrenda() + ", estadoEmpeno=" + isEstadoEmpeno() + ", comercializada=" + isComercializada() + '}';
+    }
     
 }

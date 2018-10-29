@@ -98,5 +98,9 @@ public class Tipoprenda implements Serializable {
     public String toString() {
         return "datos.Tipoprenda[ idtipoprenda=" + idtipoprenda + " ]";
     }
+    public logica.TipoPrenda clonar(){
+        logica.TipoPrenda prenda = new logica.TipoPrenda(getIdtipoprenda(), getNombre());
+        return prenda;
+    }
     
 }

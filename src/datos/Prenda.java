@@ -6,6 +6,7 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -187,6 +188,25 @@ public class Prenda implements Serializable {
     @Override
     public String toString() {
         return "datos.Prenda[ idprenda=" + idprenda + " ]";
+    }
+
+    public List<logica.Prenda> encuentraContrato(int noContrato) {
+        PrendaJpaController prendaJPA = new PrendaJpaController();
+        List<datos.Prenda> prendas = prendaJPA.findPrendaEntities();
+
+        List<logica.Prenda> listaPrendas = new ArrayList<>();
+        for (int i = 0; i < prendas.size(); i++) {
+            if (prendas.get(i).getEmpenoIdempeno().getIdempeno()==noContrato) {
+                logica.Prenda prenda = new logica.Prenda();
+                prenda.setDescripcion(prendas.get(i).getDescripcion());
+                prenda.setMontoPrestamo(Double.parseDouble(Float.toString(prendas.get(i).getMontoPrestamo())));
+                prenda.setMontoValuo(Double.parseDouble(Float.toString(prendas.get(i).getMontoValuo())));
+                prenda.setTipoPrenda(prendas.get(i).getTipoprendaIdtipoprenda().clonar());
+                
+                listaPrendas.add(prenda);
+            }
+        }
+        return listaPrendas;
     }
     
 }

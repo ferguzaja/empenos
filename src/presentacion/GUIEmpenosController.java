@@ -210,7 +210,7 @@ public class GUIEmpenosController implements Initializable {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
-        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("nombreTipoPrenda"));
+        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
         montoAvaluoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
         montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));

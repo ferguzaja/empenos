@@ -9,72 +9,78 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="667.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
-  <tabs>
-    <Tab text="Datos Contrato">
-         <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="354.0" layoutY="31.0" prefHeight="17.0" prefWidth="128.0" text="Interes mensual" />
-                  <Label layoutX="354.0" layoutY="103.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
-                  <Label layoutX="354.0" layoutY="137.0" prefHeight="17.0" prefWidth="128.0" text="CAT" />
-                  <Label layoutX="14.0" layoutY="138.0" prefHeight="17.0" prefWidth="153.0" text=" No. de extencion de tiempo" />
-                  <Label layoutX="15.0" layoutY="68.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final del empeño" />
-                  <Label layoutX="15.0" layoutY="31.0" prefHeight="17.0" prefWidth="128.0" text="Fecha de inicio" />
-                  <Label layoutX="15.0" layoutY="171.0" prefHeight="17.0" prefWidth="128.0" text="Fecha extencion" />
-                  <Label layoutX="15.0" layoutY="206.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final de extencion" />
-                  <Label layoutX="15.0" layoutY="240.0" prefHeight="17.0" prefWidth="128.0" text="número de bolsa" />
-                  <Label layoutX="354.0" layoutY="68.0" prefHeight="17.0" prefWidth="128.0" text="Monto prestado" />
-                  <Label layoutX="18.0" layoutY="103.0" prefHeight="17.0" prefWidth="123.0" text="cotitular:" />
-                  <TextField layoutX="186.0" layoutY="27.0" />
-                  <TextField layoutX="186.0" layoutY="64.0" />
-                  <TextField layoutX="186.0" layoutY="99.0" />
-                  <TextField layoutX="186.0" layoutY="133.0" />
-                  <TextField layoutX="186.0" layoutY="167.0" />
-                  <TextField layoutX="186.0" layoutY="200.0" />
-                  <TextField layoutX="186.0" layoutY="233.0" />
-                  <TextField layoutX="475.0" layoutY="27.0" />
-                  <TextField layoutX="475.0" layoutY="64.0" />
-                  <TextField layoutX="475.0" layoutY="99.0" />
-                  <TextField layoutX="475.0" layoutY="133.0" />
-               </children>
-            </AnchorPane>
-         </content></Tab>
-    <Tab text="Prendas">
-         <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TableView prefHeight="324.0" prefWidth="667.0">
-                    <columns>
-                      <TableColumn prefWidth="89.0" text="tipo de Prenda" />
-                      <TableColumn prefWidth="82.0" text="Descripcion" />
-                        <TableColumn prefWidth="101.0" text="Monto Valuo" />
-                        <TableColumn prefWidth="111.0" text="Monto Prestamo" />
-                    </columns>
-                  </TableView>
-                  <Button layoutX="574.0" layoutY="345.0" mnemonicParsing="false" text="ver Fotos" />
-               </children>
-            </AnchorPane>
-         </content></Tab>
-      <Tab text="Pagos">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TableView layoutX="14.0" layoutY="57.0" prefHeight="200.0" prefWidth="632.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="No" />
-                      <TableColumn prefWidth="75.0" text="Prestamo" />
-                        <TableColumn prefWidth="75.0" text="Interes" />
-                        <TableColumn prefWidth="75.0" text="Almacenaje" />
-                        <TableColumn prefWidth="75.0" text="Iva" />
-                        <TableColumn prefWidth="75.0" text="Refrendo" />
-                        <TableColumn prefWidth="75.0" text="Desempeño" />
-                        <TableColumn prefWidth="106.0" text="Fechas" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
-      </Tab>
-  </tabs>
-</TabPane>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIDetallesContratoController">
+   <children>
+      <TabPane layoutX="20.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="667.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab fx:id="TabDatosContrato" text="Datos Contrato">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="354.0" layoutY="31.0" prefHeight="17.0" prefWidth="128.0" text="Interes mensual" />
+                        <Label layoutX="354.0" layoutY="103.0" prefHeight="17.0" prefWidth="128.0" text="IVA" />
+                        <Label layoutX="354.0" layoutY="137.0" prefHeight="17.0" prefWidth="128.0" text="CAT" />
+                        <Label layoutX="14.0" layoutY="138.0" prefHeight="17.0" prefWidth="153.0" text=" No. de extension de tiempo" />
+                        <Label layoutX="15.0" layoutY="68.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final del empeño" />
+                        <Label layoutX="15.0" layoutY="31.0" prefHeight="17.0" prefWidth="128.0" text="Fecha de inicio" />
+                        <Label layoutX="15.0" layoutY="171.0" prefHeight="17.0" prefWidth="128.0" text="Fecha extension" />
+                        <Label layoutX="15.0" layoutY="206.0" prefHeight="17.0" prefWidth="128.0" text="Fecha final de extension" />
+                        <Label layoutX="15.0" layoutY="240.0" prefHeight="17.0" prefWidth="128.0" text="número de bolsa" />
+                        <Label layoutX="354.0" layoutY="68.0" prefHeight="17.0" prefWidth="128.0" text="Monto prestado" />
+                        <Label layoutX="18.0" layoutY="103.0" prefHeight="17.0" prefWidth="123.0" text="cotitular:" />
+                        <TextField fx:id="TFFechaInicio" layoutX="186.0" layoutY="27.0" />
+                        <TextField fx:id="TFFechaFin" layoutX="186.0" layoutY="64.0" />
+                        <TextField fx:id="TFCotitular" layoutX="186.0" layoutY="99.0" />
+                        <TextField fx:id="TFNoExtencion" layoutX="186.0" layoutY="133.0" />
+                        <TextField fx:id="TFFechaExtension" layoutX="186.0" layoutY="167.0" />
+                        <TextField fx:id="TFFechaFinalExtension" layoutX="186.0" layoutY="200.0" />
+                        <TextField fx:id="TFNoBolsa" layoutX="186.0" layoutY="233.0" />
+                        <TextField fx:id="TFInteresMensual" layoutX="475.0" layoutY="27.0" />
+                        <TextField fx:id="TFMontoPrestado" layoutX="475.0" layoutY="64.0" />
+                        <TextField fx:id="TFIva" layoutX="475.0" layoutY="99.0" />
+                        <TextField fx:id="TFCat" layoutX="475.0" layoutY="133.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="TabPrendas" text="Prendas">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tablaPrendas" prefHeight="324.0" prefWidth="667.0">
+                           <columns>
+                              <TableColumn fx:id="tipoArticuloColum" prefWidth="89.0" text="tipo de Prenda" />
+                              <TableColumn fx:id="descripcionColumn" prefWidth="82.0" text="Descripcion" />
+                              <TableColumn fx:id="montoAvaluoColumn" prefWidth="101.0" text="Monto Valuo" />
+                              <TableColumn fx:id="montoPrestamoColumn" prefWidth="111.0" text="Monto Prestamo" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="574.0" layoutY="345.0" mnemonicParsing="false" text="ver Fotos" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="TabPagos" text="Pagos">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="14.0" layoutY="57.0" prefHeight="200.0" prefWidth="632.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="No" />
+                              <TableColumn prefWidth="75.0" text="Prestamo" />
+                              <TableColumn prefWidth="75.0" text="Interes" />
+                              <TableColumn prefWidth="75.0" text="Almacenaje" />
+                              <TableColumn prefWidth="75.0" text="Iva" />
+                              <TableColumn prefWidth="75.0" text="Refrendo" />
+                              <TableColumn prefWidth="75.0" text="Desempeño" />
+                              <TableColumn prefWidth="106.0" text="Fechas" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

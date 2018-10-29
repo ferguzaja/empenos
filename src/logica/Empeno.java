@@ -20,21 +20,20 @@ public class Empeno {
     private int numExtencionTiempo;
     private Date fechaExtencion;
     private Date fechaFinExtencion;
-    private float iva;
-    private float cat;
-    private float interesMensual;
-    private float porcentajeComercializacion;
-    private float porcentajeMutuo;
+    private double iva;
+    private double cat;
+    private double interesMensual;
+    private double porcentajeComercializacion;
+    private double porcentajeMutuo;
     private int numBolsa;
     private float monto;
-    private int idCliente;
-    private String nombreCliente;
+    private Cliente cliente;
     private String nombreCotitular;
 
     public Empeno() {
     }
 
-    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, int idEmpleado, int cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, float iva, float cat, float interesMensual, float porcentajeComercializacion, float porcentajeMutuo, int numBolsa, float monto, int idCliente, String nombreCliente, String nombreCotitular) {
+    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, int idEmpleado, int cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, double iva, double cat, double interesMensual, double porcentajeComercializacion, double porcentajeMutuo, int numBolsa, float monto, Cliente cliente, String nombreCotitular) {
         this.idEmpeno = idEmpeno;
         this.fechaInicio = fechaInicio;
         this.fechaFinEmpeno = fechaFinEmpeno;
@@ -50,8 +49,7 @@ public class Empeno {
         this.porcentajeMutuo = porcentajeMutuo;
         this.numBolsa = numBolsa;
         this.monto = monto;
-        this.idCliente = idCliente;
-        this.nombreCliente = nombreCliente;
+        this.cliente = cliente;
         this.nombreCotitular = nombreCotitular;
     }
 
@@ -119,43 +117,43 @@ public class Empeno {
         this.fechaFinExtencion = fechaFinExtencion;
     }
 
-    public float getIva() {
+    public double getIva() {
         return iva;
     }
 
-    public void setIva(float iva) {
+    public void setIva(double iva) {
         this.iva = iva;
     }
 
-    public float getCat() {
+    public double getCat() {
         return cat;
     }
 
-    public void setCat(float cat) {
+    public void setCat(double cat) {
         this.cat = cat;
     }
 
-    public float getInteresMensual() {
+    public double getInteresMensual() {
         return interesMensual;
     }
 
-    public void setInteresMensual(float interesMensual) {
+    public void setInteresMensual(double interesMensual) {
         this.interesMensual = interesMensual;
     }
 
-    public float getPorcentajeComercializacion() {
+    public double getPorcentajeComercializacion() {
         return porcentajeComercializacion;
     }
 
-    public void setPorcentajeComercializacion(float porcentajeComercializacion) {
+    public void setPorcentajeComercializacion(double porcentajeComercializacion) {
         this.porcentajeComercializacion = porcentajeComercializacion;
     }
 
-    public float getPorcentajeMutuo() {
+    public double getPorcentajeMutuo() {
         return porcentajeMutuo;
     }
 
-    public void setPorcentajeMutuo(float porcentajeMutuo) {
+    public void setPorcentajeMutuo(double porcentajeMutuo) {
         this.porcentajeMutuo = porcentajeMutuo;
     }
 
@@ -175,20 +173,12 @@ public class Empeno {
         this.monto = monto;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getNombreCotitular() {
@@ -198,6 +188,5 @@ public class Empeno {
     public void setNombreCotitular(String nombreCotitular) {
         this.nombreCotitular = nombreCotitular;
     }
-    
     
 }

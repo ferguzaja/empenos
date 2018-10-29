@@ -5,7 +5,6 @@
  */
 package presentacion;
 
-import datos.EmpleadoJpaController;
 import datos.TipoempleadoJpaController;
 import java.net.URL;
 import java.text.ParseException;
@@ -26,8 +25,6 @@ import javafx.stage.StageStyle;
 import datos.Empleado;
 import logica.TipoEmpleado;
 import datos.Tipoempleado;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.stage.Stage;
 //import logica.Persona;
 

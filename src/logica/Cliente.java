@@ -237,6 +237,9 @@ public class Cliente {
     public void setTipoIden(TipoIdentificacion tipoIden) {
         this.tipoIden = tipoIden;
     }
-        
+    @Override
+    public String toString(){
+        return getNombre()+" "+getApellidoPaterno()+" "+getApellidoMaterno();
+    }
     
 }

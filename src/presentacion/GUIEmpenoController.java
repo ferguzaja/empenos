@@ -6,20 +6,27 @@
 package presentacion;
 
 import datos.EmpenoJpaController;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import logica.Empeno;
 
 /**
@@ -34,7 +41,18 @@ public class GUIEmpenoController implements Initializable {
     
     @FXML
     private Button botonBuscar;
-    
+    @FXML
+    private Button altaContratoButton;
+    @FXML
+    private Button refrendarButton;
+    @FXML
+    private Button abonarButton;
+    @FXML
+    private Button finiquitarButton;
+    @FXML
+    private Button extencionButton;
+    @FXML
+    private Button verDetallesButton;
     @FXML
     private TableView<logica.Empeno> tablaEmpenos;
     
@@ -62,7 +80,7 @@ public class GUIEmpenoController implements Initializable {
         for (int i = 0; i < empenos.size(); i++) {
             if (empenos.get(i).getClienteIdcliente().getNombre().contains(txtBuscar.getText())){
                 logica.Empeno emp = new logica.Empeno();
-                emp.setNombreCliente(empenos.get(i).getClienteIdcliente().getNombre());
+                emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
                 if(!empenos.get(i).getCotitularidCotitular().getNombre().isEmpty()){
                     emp.setNombreCotitular(empenos.get(i).getCotitularidCotitular().getNombre());
                 }
@@ -75,14 +93,33 @@ public class GUIEmpenoController implements Initializable {
             }
         }        
         ObservableList<logica.Empeno> obsempenos = FXCollections.observableArrayList(listaEmpenos);
-        nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("nombreCliente"));
+        nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("cliente"));
         fechaInicioColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaInicio"));
         fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaFinEmpeno"));
         numeroExtencionColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numExtencionTiempo"));
         numeroBolsaColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numBolsa"));
         tablaEmpenos.setItems(obsempenos);
     }
-    
+    @FXML
+    public void verDetalles(){
+        if(tablaEmpenos.getSelectionModel().getSelectedItem()!=null){
+            try {
+           FXMLLoader loader= new FXMLLoader();
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIDetallesContrato.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);
+            GUIDetallesContratoController detallesController=(GUIDetallesContratoController)loader.getController();
+            detallesController.recibe(tablaEmpenos.getSelectionModel().getSelectedItem());
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }else{
+            
+        }
+        
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

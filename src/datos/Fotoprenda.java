@@ -6,7 +6,9 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -115,5 +117,15 @@ public class Fotoprenda implements Serializable {
     public String toString() {
         return "datos.Fotoprenda[ idfotoPrenda=" + idfotoPrenda + " ]";
     }
+    public List <Fotoprenda> buscaFotos(int prenda){
+        FotoprendaJpaController foto = new FotoprendaJpaController();
+        List <Fotoprenda> fotos = foto.findFotoprendaEntities();
+         List<Fotoprenda> listafotos = new ArrayList<>();
+        for (int i = 0; i < fotos.size(); i++) {
+            if (fotos.get(i).getPrendaIdprenda().getIdprenda()==prenda) {
+                listafotos.add(fotos.get(i));
+            }
+    }
+        return listafotos;
     
-}
+}}

@@ -24,11 +24,11 @@
       </TableView>
       <Button layoutX="505.0" layoutY="54.0" mnemonicParsing="false" text="&lt;&lt;" />
       <Button layoutX="551.0" layoutY="54.0" mnemonicParsing="false" text="&gt;&gt;" />
-      <Button layoutX="768.0" layoutY="375.0" mnemonicParsing="false" text="Ver Detalles" />
-      <Button layoutX="642.0" layoutY="54.0" mnemonicParsing="false" text="Nuevo Contrato" />
-      <Button layoutX="44.0" layoutY="375.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Refrendar" />
-      <Button layoutX="188.0" layoutY="375.0" mnemonicParsing="false" text="Abonar" />
-      <Button layoutX="300.0" layoutY="375.0" mnemonicParsing="false" text="Finiquitar" />
-      <Button layoutX="424.0" layoutY="375.0" mnemonicParsing="false" text="Extencion Tiempo" />
+      <Button fx:id="verDetallesButton" layoutX="768.0" layoutY="375.0" mnemonicParsing="false" onAction="#verDetalles" text="Ver Detalles" />
+      <Button fx:id="altaContratoButton" layoutX="642.0" layoutY="54.0" mnemonicParsing="false" text="Nuevo Contrato" />
+      <Button fx:id="refrendarButton" layoutX="44.0" layoutY="375.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Refrendar" />
+      <Button fx:id="abonarButton" layoutX="188.0" layoutY="375.0" mnemonicParsing="false" text="Abonar" />
+      <Button fx:id="finiquitarButton" layoutX="300.0" layoutY="375.0" mnemonicParsing="false" text="Finiquitar" />
+      <Button fx:id="extencionButton" layoutX="424.0" layoutY="375.0" mnemonicParsing="false" text="Extencion Tiempo" />
    </children>
 </AnchorPane>

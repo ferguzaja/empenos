@@ -115,7 +115,7 @@ public class GUIAgregarProductoController implements Initializable {
     if(!validarCamposVacios()){
         mensajePantalla("Favor de no dejar Campos Vacios");
     }else{
-        Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue().getIdTipoPrenda(),tipoPrenda.getValue().getNombre());
+        Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue());
         controlador.agregarPrenda(prenda,planillaStage);
         
         //dispose();
