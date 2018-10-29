@@ -18,6 +18,7 @@ public class Empleado{
     private String password;
     private int tipoUsuario;
     private String nombreTipoEmpleado;
+    private TipoEmpleado tipoEmp;
 
    
 
@@ -136,6 +137,15 @@ public class Empleado{
     public void setNombreTipoEmpleado(String nombreTipoEmpleado) {
         this.nombreTipoEmpleado = nombreTipoEmpleado;
     }
+
+    public TipoEmpleado getTipoEmp() {
+        return tipoEmp;
+    }
+
+    public void setTipoEmp(TipoEmpleado tipoEmp) {
+        this.tipoEmp = tipoEmp;
+    }
+    
     
     
 }

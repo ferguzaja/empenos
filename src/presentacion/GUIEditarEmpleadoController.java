@@ -123,9 +123,8 @@ public class GUIEditarEmpleadoController implements Initializable {
         contraseña.setText(empleado.getPassword());
         confirmacion.setText(empleado.getPassword());
         idEmpleado=empleado.getIdEmpleado();
-        //creas una instancia del tipo del objeto del combo box y luego se l mandandas con el metodo select en la linea de abajo
-        TipoEmpleado tipoEmpleado= new TipoEmpleado(empleado.getTipoUsuario(),empleado.getNombreTipoEmpleado());
-        tipo.getSelectionModel().select(tipoEmpleado);
+        //creas una instancia del tipo del objeto del combo box y luego se l mandandas con el metodo select en la linea de abaj
+        tipo.getSelectionModel().select(empleado.getTipoEmp());
         stagemaster=stage;
         this.admin=admin;
         //falta el comboBox

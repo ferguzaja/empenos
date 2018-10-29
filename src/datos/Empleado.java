@@ -215,4 +215,19 @@ public class Empleado implements Serializable {
         return "datos.Empleado[ idempleado=" + idempleado + " ]";
     }
     
+    
+    public boolean guardarEmpleado(Empleado empleado){
+        boolean guardar =true;
+        try{
+        EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
+        empleadoJPA.create(empleado);
+        } catch (Exception ex) {
+            guardar=false;
+            ex.printStackTrace();
+        }
+        
+        
+        return guardar;
+    }
+    
 }

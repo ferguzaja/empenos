@@ -109,9 +109,8 @@ public class GUIAdministrarEmpleadosController implements Initializable {
                 emple.setDireccion(empleado.get(i).getDireccion());
                 emple.setTelefono(empleado.get(i).getTelefono());
                 emple.setUsuario(empleado.get(i).getUsuario());
-                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
                 emple.setPassword(empleado.get(i).getContrasena());
-                emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
+                emple.setTipoEmp(empleado.get(i).getTipoempleadoIdtipoempleado().clonar());
                 listaEmpleado.add(emple);
                 }
         }
@@ -121,7 +120,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
         apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
         direccionColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("direccion"));
-        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombreTipoEmpleado"));
+        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("TipoEmp"));
         
         tablaEmpleados.setItems(obsEmpleado);
     }
@@ -156,9 +155,8 @@ public class GUIAdministrarEmpleadosController implements Initializable {
                 emple.setDireccion(empleado.get(i).getDireccion());
                 emple.setTelefono(empleado.get(i).getTelefono());
                 emple.setUsuario(empleado.get(i).getUsuario());
-                emple.setNombreTipoEmpleado(empleado.get(i).getTipoempleadoIdtipoempleado().getNombre());
                 emple.setPassword(empleado.get(i).getContrasena());
-                emple.setTipoUsuario(empleado.get(i).getTipoempleadoIdtipoempleado().getIdtipoempleado());
+                emple.setTipoEmp(empleado.get(i).getTipoempleadoIdtipoempleado().clonar());
                 listaEmpleado.add(emple);
             
         }
@@ -168,7 +166,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
         apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoPaterno"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("apellidoMaterno"));
         direccionColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("direccion"));
-        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("nombreTipoEmpleado"));
+        tipoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<Empleado,String> ("tipoEmp"));
         
         tablaEmpleados.setItems(obsEmpleado);
         

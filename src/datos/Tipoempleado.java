@@ -98,5 +98,9 @@ public class Tipoempleado implements Serializable {
     public String toString() {
         return "datos.Tipoempleado[ idtipoempleado=" + idtipoempleado + " ]";
     }
+    public logica.TipoEmpleado clonar(){
+        logica.TipoEmpleado tipo = new logica.TipoEmpleado(getIdtipoempleado(), getNombre());
+        return  tipo;
+    }
     
 }
