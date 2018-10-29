@@ -158,7 +158,8 @@ public class ClienteJpaController implements Serializable {
             Ocupacion ocupacionIdocupacionNew = cliente.getOcupacionIdocupacion();
             Tipoidentificacion tipoidentificacionIdtipoidentificacionOld = persistentCliente.getTipoidentificacionIdtipoidentificacion();
             Tipoidentificacion tipoidentificacionIdtipoidentificacionNew = cliente.getTipoidentificacionIdtipoidentificacion();
-            List<Venta> ventaListOld = persistentCliente.getVentaList();
+            
+            /*List<Venta> ventaListOld = persistentCliente.getVentaList();
             List<Venta> ventaListNew = cliente.getVentaList();
             List<Fotocliente> fotoclienteListOld = persistentCliente.getFotoclienteList();
             List<Fotocliente> fotoclienteListNew = cliente.getFotoclienteList();
@@ -198,10 +199,10 @@ public class ClienteJpaController implements Serializable {
                     }
                     illegalOrphanMessages.add("You must retain Empeno " + empenoListOldEmpeno + " since its clienteIdcliente field is not nullable.");
                 }
-            }
-            if (illegalOrphanMessages != null) {
+            }*/
+            /*if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
+            }*/
             if (ciudadIdciudadNew != null) {
                 ciudadIdciudadNew = em.getReference(ciudadIdciudadNew.getClass(), ciudadIdciudadNew.getIdciudad());
                 cliente.setCiudadIdciudad(ciudadIdciudadNew);
@@ -214,7 +215,7 @@ public class ClienteJpaController implements Serializable {
                 tipoidentificacionIdtipoidentificacionNew = em.getReference(tipoidentificacionIdtipoidentificacionNew.getClass(), tipoidentificacionIdtipoidentificacionNew.getIdtipoidentificacion());
                 cliente.setTipoidentificacionIdtipoidentificacion(tipoidentificacionIdtipoidentificacionNew);
             }
-            List<Venta> attachedVentaListNew = new ArrayList<Venta>();
+            /*List<Venta> attachedVentaListNew = new ArrayList<Venta>();
             for (Venta ventaListNewVentaToAttach : ventaListNew) {
                 ventaListNewVentaToAttach = em.getReference(ventaListNewVentaToAttach.getClass(), ventaListNewVentaToAttach.getIdventa());
                 attachedVentaListNew.add(ventaListNewVentaToAttach);
@@ -242,7 +243,7 @@ public class ClienteJpaController implements Serializable {
             }
             empenoListNew = attachedEmpenoListNew;
             cliente.setEmpenoList(empenoListNew);
-            cliente = em.merge(cliente);
+            cliente = em.merge(cliente);*/
             if (ciudadIdciudadOld != null && !ciudadIdciudadOld.equals(ciudadIdciudadNew)) {
                 ciudadIdciudadOld.getClienteList().remove(cliente);
                 ciudadIdciudadOld = em.merge(ciudadIdciudadOld);
@@ -267,7 +268,7 @@ public class ClienteJpaController implements Serializable {
                 tipoidentificacionIdtipoidentificacionNew.getClienteList().add(cliente);
                 tipoidentificacionIdtipoidentificacionNew = em.merge(tipoidentificacionIdtipoidentificacionNew);
             }
-            for (Venta ventaListNewVenta : ventaListNew) {
+            /*for (Venta ventaListNewVenta : ventaListNew) {
                 if (!ventaListOld.contains(ventaListNewVenta)) {
                     Cliente oldClienteIdclienteOfVentaListNewVenta = ventaListNewVenta.getClienteIdcliente();
                     ventaListNewVenta.setClienteIdcliente(cliente);
@@ -277,8 +278,8 @@ public class ClienteJpaController implements Serializable {
                         oldClienteIdclienteOfVentaListNewVenta = em.merge(oldClienteIdclienteOfVentaListNewVenta);
                     }
                 }
-            }
-            for (Fotocliente fotoclienteListNewFotocliente : fotoclienteListNew) {
+            }*/
+            /*for (Fotocliente fotoclienteListNewFotocliente : fotoclienteListNew) {
                 if (!fotoclienteListOld.contains(fotoclienteListNewFotocliente)) {
                     Cliente oldClienteIdclienteOfFotoclienteListNewFotocliente = fotoclienteListNewFotocliente.getClienteIdcliente();
                     fotoclienteListNewFotocliente.setClienteIdcliente(cliente);
@@ -288,8 +289,8 @@ public class ClienteJpaController implements Serializable {
                         oldClienteIdclienteOfFotoclienteListNewFotocliente = em.merge(oldClienteIdclienteOfFotoclienteListNewFotocliente);
                     }
                 }
-            }
-            for (Remate remateListNewRemate : remateListNew) {
+            }/*
+            /*for (Remate remateListNewRemate : remateListNew) {
                 if (!remateListOld.contains(remateListNewRemate)) {
                     Cliente oldClienteIdclienteOfRemateListNewRemate = remateListNewRemate.getClienteIdcliente();
                     remateListNewRemate.setClienteIdcliente(cliente);
@@ -299,8 +300,8 @@ public class ClienteJpaController implements Serializable {
                         oldClienteIdclienteOfRemateListNewRemate = em.merge(oldClienteIdclienteOfRemateListNewRemate);
                     }
                 }
-            }
-            for (Empeno empenoListNewEmpeno : empenoListNew) {
+            }*/
+            /*for (Empeno empenoListNewEmpeno : empenoListNew) {
                 if (!empenoListOld.contains(empenoListNewEmpeno)) {
                     Cliente oldClienteIdclienteOfEmpenoListNewEmpeno = empenoListNewEmpeno.getClienteIdcliente();
                     empenoListNewEmpeno.setClienteIdcliente(cliente);
@@ -310,7 +311,7 @@ public class ClienteJpaController implements Serializable {
                         oldClienteIdclienteOfEmpenoListNewEmpeno = em.merge(oldClienteIdclienteOfEmpenoListNewEmpeno);
                     }
                 }
-            }
+            }*/
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
