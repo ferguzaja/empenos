@@ -209,4 +209,22 @@ public class Prenda implements Serializable {
         return listaPrendas;
     }
     
+    public static boolean guardarPrendas(List<logica.Prenda> prendas){
+        boolean guardar = true;
+        try {
+            PrendaJpaController prendaJPA = new PrendaJpaController();
+            for (int i = 0; i < prendas.size(); i++) {
+                datos.Prenda prenda = new Prenda();
+                prenda.setIdprenda(prendas.get(0).getIdPrenda());
+                prenda.setDescripcion(prendas.get(i).getDescripcion());
+                prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
+                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
+                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
+                prendaJPA.create(prenda);
+            }            
+        } catch (Exception e) {
+            guardar = false;
+        }
+        return guardar;
+    }
 }

@@ -128,6 +128,7 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private void botonGuardarContrato(ActionEvent event) {
+        //Registro del empeño
         Empeno empeno = new logica.Empeno();        
         //recuperar fecha del sistema
         Calendar cal = Calendar.getInstance(); 
@@ -140,14 +141,13 @@ public class GUIEmpenosController implements Initializable {
         int mesSiguiente = cal.get(Calendar.MONTH) + 1;
         String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);               
         Date dateFinal = java.sql.Date.valueOf(fechaFinal);
-        empeno.setFechaFinEmpeno(dateFinal);
-        
+        empeno.setFechaFinEmpeno(dateFinal);        
         empeno.setIdEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()));
-        System.out.println(empeno.getIdEmpleado());
         
-        
+        //Aqui falta el cotitular                                
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         
+        //Parte de productos
         
     }
     

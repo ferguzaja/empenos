@@ -274,4 +274,7 @@ public class Empeno implements Serializable {
         return "datos.Empeno[ idempeno=" + idempeno + " ]";
     }
     
+    public static void guardarEmpeno(){
+        
+    }
 }

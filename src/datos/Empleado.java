@@ -227,10 +227,4 @@ public class Empleado implements Serializable {
         return guardar;
     }
     
-    public datos.Empleado recuperarEmpleado(int idEmpleado){
-        boolean recuperar = true;        
-        EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
-        Empleado empleado = empleadoJPA.findEmpleado(idEmpleado);
-        return empleado;
-    }
 }

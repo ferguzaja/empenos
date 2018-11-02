@@ -98,9 +98,15 @@ public class Tipoprenda implements Serializable {
     public String toString() {
         return "datos.Tipoprenda[ idtipoprenda=" + idtipoprenda + " ]";
     }
+    
     public logica.TipoPrenda clonar(){
         logica.TipoPrenda prenda = new logica.TipoPrenda(getIdtipoprenda(), getNombre());
         return prenda;
     }
-    
+
+    public static Tipoprenda recuperarTipoPrenda(int idTipoPrenda){
+        TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();
+        Tipoprenda tipoPrenda = tipoPrendaJPA.findTipoprenda(idTipoPrenda);
+        return tipoPrenda;
+    }
 }
