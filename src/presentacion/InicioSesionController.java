@@ -9,8 +9,12 @@ import datos.Empleado;
 import datos.EmpleadoJpaController;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -35,6 +40,8 @@ public class InicioSesionController implements Initializable {
     @FXML
     private TextField boxContrasena;
 
+    private Map<String, Object> parametrosGlobales = new HashMap<>();
+
     @FXML
     private void botonIniciarSesion(ActionEvent event) {
         if (validarCamposVacios()) {
@@ -45,6 +52,22 @@ public class InicioSesionController implements Initializable {
             }
             if (estatus == 1) {
                 try {
+                    FXMLLoader loader = new FXMLLoader();
+                    //agregamos el openStream (no se para que)
+                    AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIPrincipall.fxml").openStream());
+                    //ahora creo una instancia del controlador del form que voy a abrir casteando
+                    Scene scene = new Scene(root);
+                    Stage planillaStage = new Stage();
+                    planillaStage.setScene(scene);
+                    
+                    GUIPrincipalController principalController = (GUIPrincipalController) loader.getController();
+                    principalController.recibeHashMap(parametrosGlobales);
+                    planillaStage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                /*try {
                     Parent root = FXMLLoader.load(getClass().getResource("GUIPrincipall.fxml"));                    
                     Scene scene = new Scene(root);                    
                     Stage stage = new Stage();
@@ -52,7 +75,7 @@ public class InicioSesionController implements Initializable {
                     stage.show();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                }
+                }*/
             }
             if (estatus == 2) {
                 mensajePantalla("Contraseña incorrecta");
@@ -69,6 +92,7 @@ public class InicioSesionController implements Initializable {
             if (verificarUsuarioRegistrado(nombre)) {
                 if (empleados.get(i).getUsuario().equals(nombre)
                         && empleados.get(i).getContrasena().equals(contrasena)) {
+                    parametrosGlobales.put("idSesion", empleados.get(i).getIdempleado());                    
                     //Regresa 1 si el usuario y contraseña coinciden
                     estadoCuenta = 1;
                     break;

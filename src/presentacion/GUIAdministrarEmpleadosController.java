@@ -71,8 +71,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     }
     @FXML
     private void botonNuevoEmpleado(ActionEvent event) {
-//hola jahir
-//que onda
+
         try {
             FXMLLoader loader= new FXMLLoader();
             

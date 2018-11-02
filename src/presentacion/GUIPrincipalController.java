@@ -7,13 +7,18 @@ package presentacion;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -25,13 +30,14 @@ public class GUIPrincipalController implements Initializable {
     @FXML
     private Pane panelPrincipal;
     
-   
+    private Map<String, Object> parametrosGlobales;
     
     @FXML
     private void menuItemParametros(ActionEvent event) {
         try {                                               
             Parent root = FXMLLoader.load(getClass().getResource("GUIParametros.fxml"));            
             panelPrincipal.getChildren().setAll(root);
+            System.out.println(parametrosGlobales.get("idSesion"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -40,8 +46,23 @@ public class GUIPrincipalController implements Initializable {
     @FXML
     private void menuItemEmpenos(ActionEvent event) {
         try {                                               
-            Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
+            /*Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
+            panelPrincipal.getChildren().setAll(root);*/
+            //se agrega el .openStream
+            
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIEmpenos.fxml").openStream());
+            
+            //Instancia del controlador 2
+            GUIEmpenosController empenosController = (GUIEmpenosController) loader.getController();
+            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
+            //como parámetro una instancia de la GUIEmpenos y el objeto
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);            
+            empenosController.recibeHashMap(parametrosGlobales);
             panelPrincipal.getChildren().setAll(root);
+            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -75,6 +96,11 @@ public class GUIPrincipalController implements Initializable {
             ex.printStackTrace();
         }
     }
+    
+    public void recibeHashMap(Map<String, Object> parametros){
+        parametrosGlobales = parametros;
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

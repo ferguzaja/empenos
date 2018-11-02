@@ -1,13 +1,12 @@
 package logica;
 
-
-
 /**
  * @author ferguzaja
  * @version 1.0
  * @created 07-oct.-2018 10:35:57 p. m.
  */
-public class Empleado{
+public class Empleado {
+
     private int idEmpleado;
     private String nombre;
     private String apellidoPaterno;
@@ -19,14 +18,11 @@ public class Empleado{
     private int tipoUsuario;
     private String nombreTipoEmpleado;
 
-   
+    public Empleado() {
 
-    
-	public Empleado(){
-            
-	}
+    }
 
-    public Empleado(int idEmpleado, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario,String nombreTipoEmpleado) {
+    public Empleado(int idEmpleado, String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario, String nombreTipoEmpleado) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -36,7 +32,7 @@ public class Empleado{
         this.usuario = usuario;
         this.password = password;
         this.tipoUsuario = tipoUsuario;
-        this.nombreTipoEmpleado=nombreTipoEmpleado;
+        this.nombreTipoEmpleado = nombreTipoEmpleado;
     }
 
     public Empleado(String nombre, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono, String usuario, String password, int tipoUsuario) {
@@ -54,8 +50,6 @@ public class Empleado{
     public String toString() {
         return "Empleado{" + "idEmpleado=" + idEmpleado + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", direccion=" + direccion + ", telefono=" + telefono + ", usuario=" + usuario + ", password=" + password + ", tipoUsuario=" + tipoUsuario + ", nombreTipoEmpleado=" + nombreTipoEmpleado + '}';
     }
-    
-    
 
     public int getIdEmpleado() {
         return idEmpleado;
@@ -136,6 +130,5 @@ public class Empleado{
     public void setNombreTipoEmpleado(String nombreTipoEmpleado) {
         this.nombreTipoEmpleado = nombreTipoEmpleado;
     }
-    
-    
+
 }

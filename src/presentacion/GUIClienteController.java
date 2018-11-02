@@ -251,9 +251,11 @@ public class GUIClienteController implements Initializable {
         cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
         return cliente;
     }
+    
     public void recibeStage(Stage stage){
-        stagemaster=stage;
+        stagemaster = stage;
     }
+    
     public boolean validarCamposVacios() {
         boolean bandera = true;
         if (nombre.getText().isEmpty() || apellidoM.getText().isEmpty()

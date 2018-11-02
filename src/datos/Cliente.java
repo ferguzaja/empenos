@@ -257,6 +257,7 @@ public class Cliente implements Serializable {
     public String toString() {
         return "datos.Cliente[ idcliente=" + idcliente + " ]";
     }
+    
     public logica.Cliente clonar(){
         logica.Cliente cliente = new logica.Cliente();
         cliente.setNombre(getNombre());

@@ -8,11 +8,15 @@ package presentacion;
 import datos.Cliente;
 import logica.Prenda;
 import datos.ClienteJpaController;
+import datos.Empleado;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -32,6 +35,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logica.Empeno;
 
 /**
  * FXML Controller class
@@ -45,6 +49,9 @@ public class GUIEmpenosController implements Initializable {
     
     @FXML
     private Button botonEditarCliente;
+    
+    @FXML
+    private Button botonAgregarContrato;
     
     @FXML
     private TextField txtBuscar;
@@ -91,13 +98,14 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private Button agregarPrenda;
     
+    
     @FXML
     private List<logica.Prenda> listaPrenda = new ArrayList<>();
     
     GUIEmpenosController guiEmpenosControler;
     
     private int clicEditar;
-
+    private Map<String, Object> parametrosGlobales;
     
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -119,12 +127,36 @@ public class GUIEmpenosController implements Initializable {
     }
     
     @FXML
+    private void botonGuardarContrato(ActionEvent event) {
+        Empeno empeno = new logica.Empeno();        
+        //recuperar fecha del sistema
+        Calendar cal = Calendar.getInstance(); 
+        int mes = cal.get(Calendar.MONTH) + 1;
+        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
+        Date date = java.sql.Date.valueOf(fecha);
+        empeno.setFechaInicio(date);
+        
+        cal.add(Calendar.DAY_OF_MONTH, 30);
+        int mesSiguiente = cal.get(Calendar.MONTH) + 1;
+        String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);               
+        Date dateFinal = java.sql.Date.valueOf(fechaFinal);
+        empeno.setFechaFinEmpeno(dateFinal);
+        
+        empeno.setIdEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()));
+        System.out.println(empeno.getIdEmpleado());
+        
+        
+        empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+        
+        
+    }
+    
+    @FXML
     private void botonEditarCliente(ActionEvent event) {
         try {
             clicEditar = 1;
             //objeto que quiero enviar a la GUICLiente
             logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();                        
-            //System.out.println(cliente.getNombre()+cliente.getIdTipoIdentificacion());
             //se agrega el .openStream
             FXMLLoader loader = new FXMLLoader();
             AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUICliente.fxml").openStream());
@@ -206,6 +238,8 @@ public class GUIEmpenosController implements Initializable {
         tablaClientes.setItems(obsClientes);
     }
     
+    
+    
     public void agregarPrenda(Prenda prenda,Stage stage) {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
@@ -218,6 +252,10 @@ public class GUIEmpenosController implements Initializable {
         tablaPrenda.setItems(obsPrenda);
         stage.close();
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
+    }
+    
+    public void recibeHashMap(Map<String, Object> parametros){
+        parametrosGlobales = parametros;
     }
     
     @Override
