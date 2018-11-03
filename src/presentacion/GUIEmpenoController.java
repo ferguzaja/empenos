@@ -46,8 +46,6 @@ public class GUIEmpenoController implements Initializable {
     @FXML
     private Button refrendarButton;
     @FXML
-    private Button abonarButton;
-    @FXML
     private Button finiquitarButton;
     @FXML
     private Button extencionButton;
@@ -102,7 +100,7 @@ public class GUIEmpenoController implements Initializable {
     }
     @FXML
     public void verDetalles(){
-        if(tablaEmpenos.getSelectionModel().getSelectedItem()!=null){
+        if(validarSeleccionado()){
             try {
            FXMLLoader loader= new FXMLLoader();
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIDetallesContrato.fxml").openStream());
@@ -115,10 +113,34 @@ public class GUIEmpenoController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        }else{
+        }
+        
+    }
+    @FXML
+    public void botonFiniquitar(){
+        if(validarSeleccionado()){
+            try {
+           FXMLLoader loader= new FXMLLoader();
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIFiniquito.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);
+            GUIFiniquitoController finiquitarController=(GUIFiniquitoController)loader.getController();
+            finiquitarController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem());
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
             
         }
         
+    }
+    public boolean validarSeleccionado(){
+        boolean seleccionado=false;
+        if(tablaEmpenos.getSelectionModel().getSelectedItem()!=null){
+            seleccionado=true;
+        }
+        return seleccionado;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

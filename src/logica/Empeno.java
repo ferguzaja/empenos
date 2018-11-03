@@ -26,9 +26,10 @@ public class Empeno {
     private double porcentajeComercializacion;
     private double porcentajeMutuo;
     private int numBolsa;
-    private float monto;
+    private double monto;
     private Cliente cliente;
     private String nombreCotitular;
+    private Date fechaFinalizacion;
 
     public Empeno() {
     }
@@ -171,11 +172,11 @@ public class Empeno {
         this.numBolsa = numBolsa;
     }
 
-    public float getMonto() {
+    public double getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(double monto) {
         this.monto = monto;
     }
 
@@ -194,5 +195,14 @@ public class Empeno {
     public void setNombreCotitular(String nombreCotitular) {
         this.nombreCotitular = nombreCotitular;
     }
+
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
+
+    public void setFechaFinalizacion(Date fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
+    }
+    
     
 }

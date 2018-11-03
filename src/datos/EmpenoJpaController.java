@@ -98,6 +98,8 @@ public class EmpenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno persistentEmpeno = em.find(Empeno.class, empeno.getIdempeno());
+            empeno = em.merge(empeno);
+            /*
             Cotitular cotitularidCotitularOld = persistentEmpeno.getCotitularidCotitular();
             Cotitular cotitularidCotitularNew = empeno.getCotitularidCotitular();
             Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
@@ -137,7 +139,6 @@ public class EmpenoJpaController implements Serializable {
             }
             prendaListNew = attachedPrendaListNew;
             empeno.setPrendaList(prendaListNew);
-            empeno = em.merge(empeno);
             if (cotitularidCotitularOld != null && !cotitularidCotitularOld.equals(cotitularidCotitularNew)) {
                 cotitularidCotitularOld.getEmpenoList().remove(empeno);
                 cotitularidCotitularOld = em.merge(cotitularidCotitularOld);
@@ -172,7 +173,7 @@ public class EmpenoJpaController implements Serializable {
                         oldEmpenoIdempenoOfPrendaListNewPrenda = em.merge(oldEmpenoIdempenoOfPrendaListNewPrenda);
                     }
                 }
-            }
+            }*/
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();

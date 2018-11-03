@@ -127,6 +127,8 @@ public class GUIDetallesContratoController implements Initializable {
             Fotoprenda fotoprenda = new Fotoprenda();
             List <Fotoprenda> fotos=fotoprenda.buscaFotos(tablaPrendas.getSelectionModel().getSelectedItem().getIdPrenda());
         }
+        //PONER UN BOTON VER GALERIA PARA MOSTRAR TODAS LAS FOTOS DEL EMPEÑO
+        
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

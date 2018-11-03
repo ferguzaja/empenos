@@ -51,10 +51,10 @@ public class Prenda implements Serializable {
     private String descripcion;
     @Basic(optional = false)
     @Column(name = "montoValuo")
-    private float montoValuo;
+    private double montoValuo;
     @Basic(optional = false)
     @Column(name = "montoPrestamo")
-    private float montoPrestamo;
+    private double montoPrestamo;
     @Column(name = "estadoEmpeno")
     private Short estadoEmpeno;
     @Column(name = "comercializada")
@@ -99,7 +99,7 @@ public class Prenda implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public float getMontoValuo() {
+    public double getMontoValuo() {
         return montoValuo;
     }
 
@@ -107,7 +107,7 @@ public class Prenda implements Serializable {
         this.montoValuo = montoValuo;
     }
 
-    public float getMontoPrestamo() {
+    public double getMontoPrestamo() {
         return montoPrestamo;
     }
 
@@ -190,7 +190,7 @@ public class Prenda implements Serializable {
         return "datos.Prenda[ idprenda=" + idprenda + " ]";
     }
 
-    public List<logica.Prenda> encuentraContrato(int noContrato) {
+    public static List<logica.Prenda> encuentraContrato(int noContrato) {
         PrendaJpaController prendaJPA = new PrendaJpaController();
         List<datos.Prenda> prendas = prendaJPA.findPrendaEntities();
 
@@ -198,9 +198,10 @@ public class Prenda implements Serializable {
         for (int i = 0; i < prendas.size(); i++) {
             if (prendas.get(i).getEmpenoIdempeno().getIdempeno()==noContrato) {
                 logica.Prenda prenda = new logica.Prenda();
+                prenda.setIdPrenda(prendas.get(0).getIdprenda());
                 prenda.setDescripcion(prendas.get(i).getDescripcion());
-                prenda.setMontoPrestamo(Double.parseDouble(Float.toString(prendas.get(i).getMontoPrestamo())));
-                prenda.setMontoValuo(Double.parseDouble(Float.toString(prendas.get(i).getMontoValuo())));
+                prenda.setMontoPrestamo(prendas.get(i).getMontoPrestamo());
+                prenda.setMontoValuo(prendas.get(i).getMontoValuo());
                 prenda.setTipoPrenda(prendas.get(i).getTipoprendaIdtipoprenda().clonar());
                 
                 listaPrendas.add(prenda);
@@ -227,5 +228,13 @@ public class Prenda implements Serializable {
             e.printStackTrace();
         }
         return guardar;
+    }
+    public static double montoPagar(List<logica.Prenda> listaPrendas){
+        double monto=0;
+        for(int i=0; i<listaPrendas.size();i++){
+            monto+=listaPrendas.get(i).getMontoPrestamo();
+        }
+        
+        return monto;
     }
 }

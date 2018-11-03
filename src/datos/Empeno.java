@@ -5,9 +5,12 @@
  */
 package datos;
 
+import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -71,22 +74,22 @@ public class Empeno implements Serializable {
     private Date fechaExtencion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "iva")
-    private Float iva;
+    private double iva;
     @Column(name = "cat")
-    private Float cat;
+    private double cat;
     @Column(name = "interesMensual")
-    private Float interesMensual;
+    private double interesMensual;
     @Column(name = "porcentajeComercializacion")
-    private Float porcentajeComercializacion;
+    private double porcentajeComercializacion;
     @Column(name = "porcentajeMutuo")
-    private Float porcentajeMutuo;
+    private double porcentajeMutuo;
     @Column(name = "fechaFinalizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaFinalizacion;
     @Column(name = "noBolsa")
     private Integer noBolsa;
     @Column(name = "montoRecibido")
-    private Float montoRecibido;
+    private double montoRecibido;
     @JoinColumn(name = "cotitular_idCotitular", referencedColumnName = "idcotitular")
     @ManyToOne(optional = false)
     private Cotitular cotitularidCotitular;
@@ -152,7 +155,7 @@ public class Empeno implements Serializable {
         this.fechaExtencion = fechaExtencion;
     }
 
-    public Float getIva() {
+    public double getIva() {
         return iva;
     }
 
@@ -160,7 +163,7 @@ public class Empeno implements Serializable {
         this.iva = iva;
     }
 
-    public Float getCat() {
+    public double getCat() {
         return cat;
     }
 
@@ -168,27 +171,27 @@ public class Empeno implements Serializable {
         this.cat = cat;
     }
 
-    public Float getInteresMensual() {
+    public double getInteresMensual() {
         return interesMensual;
     }
 
-    public void setInteresMensual(Float interesMensual) {
+    public void setInteresMensual(double interesMensual) {
         this.interesMensual = interesMensual;
     }
 
-    public Float getPorcentajeComercializacion() {
+    public double getPorcentajeComercializacion() {
         return porcentajeComercializacion;
     }
 
-    public void setPorcentajeComercializacion(Float porcentajeComercializacion) {
+    public void setPorcentajeComercializacion(double porcentajeComercializacion) {
         this.porcentajeComercializacion = porcentajeComercializacion;
     }
 
-    public Float getPorcentajeMutuo() {
+    public double getPorcentajeMutuo() {
         return porcentajeMutuo;
     }
 
-    public void setPorcentajeMutuo(Float porcentajeMutuo) {
+    public void setPorcentajeMutuo(double porcentajeMutuo) {
         this.porcentajeMutuo = porcentajeMutuo;
     }
 
@@ -208,11 +211,11 @@ public class Empeno implements Serializable {
         this.noBolsa = noBolsa;
     }
 
-    public Float getMontoRecibido() {
+    public double getMontoRecibido() {
         return montoRecibido;
     }
 
-    public void setMontoRecibido(Float montoRecibido) {
+    public void setMontoRecibido(double montoRecibido) {
         this.montoRecibido = montoRecibido;
     }
 
@@ -284,5 +287,20 @@ public class Empeno implements Serializable {
         empeno.setCotitularidCotitular(Cotitular.recuperarCotitular(1));
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         empenoJPA.create(empeno);
-    }  
+    }
+    public static void finiquitarContrato(logica.Empeno emp){
+        try {
+            datos.Empeno empeno = new datos.Empeno();
+            empeno.setIdempeno(emp.getIdEmpeno());
+            empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
+            empeno.setMontoRecibido(emp.getMonto());            
+            EmpenoJpaController empenoJPA = new EmpenoJpaController();
+            empenoJPA.edit(empeno);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }

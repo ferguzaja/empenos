@@ -55,7 +55,7 @@
                               <TableColumn fx:id="montoPrestamoColumn" prefWidth="111.0" text="Monto Prestamo" />
                            </columns>
                         </TableView>
-                        <Button layoutX="574.0" layoutY="345.0" mnemonicParsing="false" text="ver Fotos" />
+                        <Button fx:id="verFotosButton" layoutX="574.0" layoutY="345.0" mnemonicParsing="false" text="ver Fotos" />
                      </children>
                   </AnchorPane>
                </content>
@@ -64,16 +64,15 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="14.0" layoutY="57.0" prefHeight="200.0" prefWidth="632.0">
+                        <TableView fx:id="tablaPagos" layoutX="14.0" layoutY="57.0" prefHeight="200.0" prefWidth="632.0">
                            <columns>
-                              <TableColumn prefWidth="75.0" text="No" />
-                              <TableColumn prefWidth="75.0" text="Prestamo" />
-                              <TableColumn prefWidth="75.0" text="Interes" />
-                              <TableColumn prefWidth="75.0" text="Almacenaje" />
-                              <TableColumn prefWidth="75.0" text="Iva" />
-                              <TableColumn prefWidth="75.0" text="Refrendo" />
-                              <TableColumn prefWidth="75.0" text="Desempeño" />
-                              <TableColumn prefWidth="106.0" text="Fechas" />
+                              <TableColumn fx:id="noColumn" prefWidth="75.0" text="No" />
+                              <TableColumn fx:id="prestamoColumn" prefWidth="75.0" text="Prestamo" />
+                              <TableColumn fx:id="interesColumn" prefWidth="75.0" text="Interes" />
+                              <TableColumn fx:id="ivaColumn" prefWidth="75.0" text="Iva" />
+                              <TableColumn fx:id="refrendoColumn" prefWidth="99.0" text="Refrendo" />
+                              <TableColumn fx:id="desempeñoColumn" prefWidth="110.0" text="Desempeño" />
+                              <TableColumn fx:id="fechasColumn" prefWidth="122.0" text="Fechas" />
                            </columns>
                         </TableView>
                      </children>

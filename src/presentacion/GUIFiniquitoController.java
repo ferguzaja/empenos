@@ -5,9 +5,9 @@
  */
 package presentacion;
 
-import datos.EmpenoJpaController;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -24,8 +24,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.Empeno;
+import logica.Prenda;
 
 /**
  * FXML Controller class
@@ -35,26 +37,23 @@ import logica.Empeno;
 public class GUIFiniquitoController implements Initializable {
     
     @FXML
-    private Button buscar;
-    @FXML
     private Button finiquito;
     @FXML
-    private TextField txtBuscar;
-    
+    private TextField TFMontoPagar;
     @FXML
-    private TableView<logica.Empeno> tablaEmpeno;
-    
+    private TextField TFFecha;
     @FXML
-    private TableColumn<Empeno, String> nombreClienteColumn;
-    
+    private TableView<Prenda> tablaPrenda;
     @FXML
-    private TableColumn<Empeno, String> fechaFinColumn;
-    
+    private TableColumn<Prenda, String> tipoArticuloColum;
     @FXML
-    private TableColumn<Empeno, String> noBolsaColum;
-    
+    private TableColumn<Prenda, String> descripcionColumn;
     @FXML
-    private TableColumn<Empeno, String> montoAPagarColummn;
+    private TableColumn<Prenda, String> montoPrestamoColumn;
+    private List<logica.Prenda> listaPrendas;
+    private Empeno empeno;
+
+    private Stage stage;
     
     /**
      * Initializes the controller class.
@@ -62,61 +61,56 @@ public class GUIFiniquitoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    @FXML
-    private void llenarTabla(){
-        
     }
-    @FXML
-    private void buscarEmpenos(ActionEvent event){
-        EmpenoJpaController empenoJPA = new EmpenoJpaController();
-        List<datos.Empeno> empenos = empenoJPA.findEmpenoEntities();
-
-        List<logica.Empeno> listaEmpenos = new ArrayList<>();
-        for (int i = 0; i < empenos.size(); i++) {
-            if (empenos.get(i).getClienteIdcliente().getNombre().equals(txtBuscar.getText())) {
-                logica.Empeno empenoaux = new logica.Empeno();
-                //empenoaux.setM_Cliente(empenos.get(i).getClienteIdcliente().getNombre());
-                empenoaux.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
-                empenoaux.setNumBolsa(empenos.get(i).getNoBolsa());
-                //aqui va la consulta para sacar el monto
-                listaEmpenos.add(empenoaux);
-            }
-        }
-
-        ObservableList<logica.Empeno> obsEmpenos = FXCollections.observableArrayList(listaEmpenos);
-        nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno,String> ("nombre"));
-        fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno,String> ("fecha"));
-        noBolsaColum.setCellValueFactory(new PropertyValueFactory<Empeno,String> ("noBolsa"));
-        montoAPagarColummn.setCellValueFactory(new PropertyValueFactory<Empeno,String> ("monto a Pagar"));
-        
-        tablaEmpeno.setItems(obsEmpenos);
+    public void recibeParametros(Stage stage,Empeno empeno){
+        this.empeno=empeno;
+        this.stage=stage;
+        TFFecha.setText(empeno.getFechaFinEmpeno().toString());
+        llenaTabla(empeno.getIdEmpeno());
+        TFMontoPagar.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(empeno.getIdEmpeno()))));
     }
+    private void llenaTabla(int idEmpeno){
+        listaPrendas=datos.Prenda.encuentraContrato(idEmpeno);
+        ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrendas);
+        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
+        montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
+        tablaPrenda.setEditable(false);
+        tablaPrenda.setItems(obsPrenda);
+    }
+    
     @FXML
     private void botonFiniquitar(ActionEvent event){
-        //if(fila seleccionadaget){
-            MensajeFiniquitar(tablaEmpeno.getSelectionModel().getSelectedItem());
-        //}
+        if(confirmacion()){
+            datos.Empeno.finiquitarContrato(empeno);
+            //
+
+        }
        
     }
-    @FXML
-    private void MensajeFiniquitar(Empeno empeno) {
-//        Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
-//        dialogo.setTitle("Aviso");
-//        Button botonno= new Button("No");
-//        Button botonSi= new Button("Si");
-//        dialogo.setHeaderText(null);
-//        dialogo.setContentText(mensaje);
-//        dialogo.initStyle(StageStyle.UTILITY);
-//        dialogo.showAndWait();
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmacion");
-        alert.setHeaderText("¿Desea finiquitar este Empeño?");
+    private Empeno cambiarStatus(){
+        empeno.setMonto(Double.valueOf(TFMontoPagar.getText()));
+        //recuperar fecha del sistema
+        Calendar cal = Calendar.getInstance(); 
+        int mes = cal.get(Calendar.MONTH) + 1;
+        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
+        Date date = java.sql.Date.valueOf(fecha);
+        empeno.setFechaFinalizacion(date);
+        return empeno;
+    }
+    private boolean confirmacion(){
+        boolean confiramcion=false;
+        Alert alert = new Alert(AlertType.CONFIRMATION); alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Finiquitar Contrato");
+        alert.setContentText("¿Esta Seguro que quiere Finiquitar Su Contrato?");
+
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            mensajePantalla("Empeño Pagado");
-            
-        }}
+        if (result.get() == ButtonType.OK) 
+            confiramcion=true;
+        
+        return false;
+    }
+    
     @FXML
     private void mensajePantalla(String mensaje) {
         Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
