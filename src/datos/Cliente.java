@@ -266,4 +266,10 @@ public class Cliente implements Serializable {
         return cliente;
     }
     
+    public static datos.Cliente recuperarCliente(int idCliente){
+        ClienteJpaController clienteJPA = new ClienteJpaController();
+        datos.Cliente cliente = clienteJPA.findCliente(idCliente);
+        return cliente;
+    }
+    
 }

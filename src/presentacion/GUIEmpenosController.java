@@ -144,9 +144,11 @@ public class GUIEmpenosController implements Initializable {
         empeno.setFechaFinEmpeno(dateFinal);        
         empeno.setIdEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()));
         
-        //Aqui falta el cotitular                                
+        //Aqui falta el cotitular
+        empeno.setCotitular(1);
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
-        
+        datos.Empeno.guardarEmpeno(empeno);
+                
         //Parte de productos
         
     }

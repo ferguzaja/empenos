@@ -33,7 +33,13 @@ public class Empeno {
     public Empeno() {
     }
 
-    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, int idEmpleado, int cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, double iva, double cat, double interesMensual, double porcentajeComercializacion, double porcentajeMutuo, int numBolsa, float monto, Cliente cliente, String nombreCotitular) {
+    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno
+            , int idEmpleado, int cotitular, int numExtencionTiempo
+            , Date fechaExtencion, Date fechaFinExtencion, double iva
+            , double cat, double interesMensual
+            , double porcentajeComercializacion, double porcentajeMutuo
+            , int numBolsa, float monto, Cliente cliente
+            , String nombreCotitular) {
         this.idEmpeno = idEmpeno;
         this.fechaInicio = fechaInicio;
         this.fechaFinEmpeno = fechaFinEmpeno;

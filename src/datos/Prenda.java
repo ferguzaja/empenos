@@ -224,6 +224,7 @@ public class Prenda implements Serializable {
             }            
         } catch (Exception e) {
             guardar = false;
+            e.printStackTrace();
         }
         return guardar;
     }

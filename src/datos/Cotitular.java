@@ -108,4 +108,10 @@ public class Cotitular implements Serializable {
         return "datos.Cotitular[ idcotitular=" + idcotitular + " ]";
     }
     
+    public static datos.Cotitular recuperarCotitular(int idCotitular){        
+        CotitularJpaController cotitularJPA = new CotitularJpaController();
+        datos.Cotitular cotitular = cotitularJPA.findCotitular(idCotitular);
+        return cotitular;
+    }
+    
 }

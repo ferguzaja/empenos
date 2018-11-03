@@ -274,7 +274,15 @@ public class Empeno implements Serializable {
         return "datos.Empeno[ idempeno=" + idempeno + " ]";
     }
     
-    public static void guardarEmpeno(){
-        
-    }
+    public static void guardarEmpeno(logica.Empeno emp){
+        datos.Empeno empeno = new datos.Empeno();
+        empeno.setFechaInicioEmpeno(emp.getFechaInicio());
+        empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
+        empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado()));
+        empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
+        //se lo pasé directo, hay qu corregirlo
+        empeno.setCotitularidCotitular(Cotitular.recuperarCotitular(1));
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        empenoJPA.create(empeno);
+    }  
 }
