@@ -36,15 +36,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Fotocliente.findByFechaHora", query = "SELECT f FROM Fotocliente f WHERE f.fechaHora = :fechaHora")})
 public class Fotocliente implements Serializable {
 
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idfotoCliente")
     private Integer idfotoCliente;
-    @Lob
-    @Column(name = "foto")
-    private byte[] foto;
     @Column(name = "fechaHora")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHora;
@@ -67,13 +68,6 @@ public class Fotocliente implements Serializable {
         this.idfotoCliente = idfotoCliente;
     }
 
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
 
     public Date getFechaHora() {
         return fechaHora;
@@ -114,6 +108,14 @@ public class Fotocliente implements Serializable {
     @Override
     public String toString() {
         return "datos.Fotocliente[ idfotoCliente=" + idfotoCliente + " ]";
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
     
 }

@@ -46,6 +46,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cliente.findByFechaNac", query = "SELECT c FROM Cliente c WHERE c.fechaNac = :fechaNac")})
 public class Cliente implements Serializable {
 
+    @Lob
+    @Column(name = "huellaDigital")
+    private byte[] huellaDigital;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,9 +72,6 @@ public class Cliente implements Serializable {
     @Column(name = "fechaNac")
     @Temporal(TemporalType.DATE)
     private Date fechaNac;
-    @Lob
-    @Column(name = "huellaDigital")
-    private byte[] huellaDigital;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteIdcliente")
     private List<Venta> ventaList;
     @JoinColumn(name = "ciudad_idciudad", referencedColumnName = "idciudad")
@@ -165,13 +166,6 @@ public class Cliente implements Serializable {
         this.fechaNac = fechaNac;
     }
 
-    public byte[] getHuellaDigital() {
-        return huellaDigital;
-    }
-
-    public void setHuellaDigital(byte[] huellaDigital) {
-        this.huellaDigital = huellaDigital;
-    }
 
     @XmlTransient
     public List<Venta> getVentaList() {
@@ -270,6 +264,14 @@ public class Cliente implements Serializable {
         ClienteJpaController clienteJPA = new ClienteJpaController();
         datos.Cliente cliente = clienteJPA.findCliente(idCliente);
         return cliente;
+    }
+
+    public byte[] getHuellaDigital() {
+        return huellaDigital;
+    }
+
+    public void setHuellaDigital(byte[] huellaDigital) {
+        this.huellaDigital = huellaDigital;
     }
     
 }

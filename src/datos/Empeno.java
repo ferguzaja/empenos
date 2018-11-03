@@ -53,6 +53,18 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Empeno.findByMontoRecibido", query = "SELECT e FROM Empeno e WHERE e.montoRecibido = :montoRecibido")})
 public class Empeno implements Serializable {
 
+    @Column(name = "cotitular")
+    private String cotitular;
+    @Column(name = "tipofinalizacion")
+    private String tipofinalizacion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "montoRecibido")
+    private Float montoRecibido;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
+    private List<Pago> pagoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
+    private List<Variblesempeno> variblesempenoList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,8 +100,6 @@ public class Empeno implements Serializable {
     private Date fechaFinalizacion;
     @Column(name = "noBolsa")
     private Integer noBolsa;
-    @Column(name = "montoRecibido")
-    private double montoRecibido;
     @JoinColumn(name = "cotitular_idCotitular", referencedColumnName = "idcotitular")
     @ManyToOne(optional = false)
     private Cotitular cotitularidCotitular;
@@ -211,13 +221,6 @@ public class Empeno implements Serializable {
         this.noBolsa = noBolsa;
     }
 
-    public double getMontoRecibido() {
-        return montoRecibido;
-    }
-
-    public void setMontoRecibido(double montoRecibido) {
-        this.montoRecibido = montoRecibido;
-    }
 
     public Cotitular getCotitularidCotitular() {
         return cotitularidCotitular;
@@ -293,7 +296,7 @@ public class Empeno implements Serializable {
             datos.Empeno empeno = new datos.Empeno();
             empeno.setIdempeno(emp.getIdEmpeno());
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
-            empeno.setMontoRecibido(emp.getMonto());            
+            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMonto())));            
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             empenoJPA.edit(empeno);
         } catch (NonexistentEntityException ex) {
@@ -302,5 +305,47 @@ public class Empeno implements Serializable {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    public String getCotitular() {
+        return cotitular;
+    }
+
+    public void setCotitular(String cotitular) {
+        this.cotitular = cotitular;
+    }
+
+    public String getTipofinalizacion() {
+        return tipofinalizacion;
+    }
+
+    public void setTipofinalizacion(String tipofinalizacion) {
+        this.tipofinalizacion = tipofinalizacion;
+    }
+
+    public Float getMontoRecibido() {
+        return montoRecibido;
+    }
+
+    public void setMontoRecibido(Float montoRecibido) {
+        this.montoRecibido = montoRecibido;
+    }
+
+    @XmlTransient
+    public List<Pago> getPagoList() {
+        return pagoList;
+    }
+
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
+    }
+
+    @XmlTransient
+    public List<Variblesempeno> getVariblesempenoList() {
+        return variblesempenoList;
+    }
+
+    public void setVariblesempenoList(List<Variblesempeno> variblesempenoList) {
+        this.variblesempenoList = variblesempenoList;
     }
 }

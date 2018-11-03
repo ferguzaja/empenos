@@ -41,6 +41,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Prenda.findByComercializada", query = "SELECT p FROM Prenda p WHERE p.comercializada = :comercializada")})
 public class Prenda implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "montoValuo")
+    private float montoValuo;
+    @Basic(optional = false)
+    @Column(name = "montoPrestamo")
+    private float montoPrestamo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +56,6 @@ public class Prenda implements Serializable {
     private Integer idprenda;
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @Column(name = "montoValuo")
-    private double montoValuo;
-    @Basic(optional = false)
-    @Column(name = "montoPrestamo")
-    private double montoPrestamo;
     @Column(name = "estadoEmpeno")
     private Short estadoEmpeno;
     @Column(name = "comercializada")
@@ -99,21 +100,6 @@ public class Prenda implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public double getMontoValuo() {
-        return montoValuo;
-    }
-
-    public void setMontoValuo(float montoValuo) {
-        this.montoValuo = montoValuo;
-    }
-
-    public double getMontoPrestamo() {
-        return montoPrestamo;
-    }
-
-    public void setMontoPrestamo(float montoPrestamo) {
-        this.montoPrestamo = montoPrestamo;
-    }
 
     public Short getEstadoEmpeno() {
         return estadoEmpeno;
@@ -236,5 +222,21 @@ public class Prenda implements Serializable {
         }
         
         return monto;
+    }
+
+    public float getMontoValuo() {
+        return montoValuo;
+    }
+
+    public void setMontoValuo(float montoValuo) {
+        this.montoValuo = montoValuo;
+    }
+
+    public float getMontoPrestamo() {
+        return montoPrestamo;
+    }
+
+    public void setMontoPrestamo(float montoPrestamo) {
+        this.montoPrestamo = montoPrestamo;
     }
 }
