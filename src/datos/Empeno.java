@@ -296,7 +296,7 @@ public class Empeno implements Serializable {
             datos.Empeno empeno = new datos.Empeno();
             empeno.setIdempeno(emp.getIdEmpeno());
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
-            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMonto())));            
+            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));            
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             empenoJPA.edit(empeno);
         } catch (NonexistentEntityException ex) {
@@ -305,6 +305,11 @@ public class Empeno implements Serializable {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    public static Empeno clonar(logica.Empeno empeno){
+       datos.Empeno emp = new Empeno();
+       emp.setIdempeno(empeno.getIdEmpeno());
+       return emp;
     }
 
     public String getCotitular() {

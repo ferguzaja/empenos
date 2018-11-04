@@ -16,6 +16,7 @@ public class Prenda {
 	private boolean estadoEmpeno;
 	private boolean comercializada;
         private TipoPrenda tipoPrenda;
+        private Empeno empeno;
         
     
 
@@ -137,6 +138,15 @@ public class Prenda {
     public void setComercializada(boolean comercializada) {
         this.comercializada = comercializada;
     }
+
+    public Empeno getEmpeno() {
+        return empeno;
+    }
+
+    public void setEmpeno(Empeno empeno) {
+        this.empeno = empeno;
+    }
+    
     @Override
     public String toString() {
         return "Prenda{" + "idPrenda=" + getIdPrenda() + ", descripcion=" + getDescripcion() + ", montoValuo=" + getMontoValuo() + ", montoPrestamo=" + getMontoPrestamo() + ", tipoPrenda=" + getTipoPrenda() + ", estadoEmpeno=" + isEstadoEmpeno() + ", comercializada=" + isComercializada() + '}';

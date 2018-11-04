@@ -107,6 +107,8 @@ public class PrendaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Prenda persistentPrenda = em.find(Prenda.class, prenda.getIdprenda());
+            prenda = em.merge(prenda);
+            /*
             Empeno empenoIdempenoOld = persistentPrenda.getEmpenoIdempeno();
             Empeno empenoIdempenoNew = prenda.getEmpenoIdempeno();
             Tipoprenda tipoprendaIdtipoprendaOld = persistentPrenda.getTipoprendaIdtipoprenda();
@@ -157,7 +159,7 @@ public class PrendaJpaController implements Serializable {
             }
             fotoprendaListNew = attachedFotoprendaListNew;
             prenda.setFotoprendaList(fotoprendaListNew);
-            prenda = em.merge(prenda);
+            
             if (empenoIdempenoOld != null && !empenoIdempenoOld.equals(empenoIdempenoNew)) {
                 empenoIdempenoOld.getPrendaList().remove(prenda);
                 empenoIdempenoOld = em.merge(empenoIdempenoOld);
@@ -195,7 +197,7 @@ public class PrendaJpaController implements Serializable {
                         oldPrendaIdprendaOfFotoprendaListNewFotoprenda = em.merge(oldPrendaIdprendaOfFotoprendaListNewFotoprenda);
                     }
                 }
-            }
+            }*/
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();

@@ -16,31 +16,20 @@ public class Empeno {
     private Date fechaInicio;
     private Date fechaFinEmpeno;
     private int idEmpleado;
-    private int cotitular;
+    private String cotitular;
     private int numExtencionTiempo;
     private Date fechaExtencion;
     private Date fechaFinExtencion;
-    private double iva;
-    private double cat;
-    private double interesMensual;
-    private double porcentajeComercializacion;
-    private double porcentajeMutuo;
     private int numBolsa;
-    private double monto;
+    private double montoRecibido;
     private Cliente cliente;
-    private String nombreCotitular;
     private Date fechaFinalizacion;
+    private String tipoFinalizacion;
 
     public Empeno() {
     }
 
-    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno
-            , int idEmpleado, int cotitular, int numExtencionTiempo
-            , Date fechaExtencion, Date fechaFinExtencion, double iva
-            , double cat, double interesMensual
-            , double porcentajeComercializacion, double porcentajeMutuo
-            , int numBolsa, float monto, Cliente cliente
-            , String nombreCotitular) {
+    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, int idEmpleado, String cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, int numBolsa, double monto, Cliente cliente, Date fechaFinalizacion, String tipoFinalizacion) {
         this.idEmpeno = idEmpeno;
         this.fechaInicio = fechaInicio;
         this.fechaFinEmpeno = fechaFinEmpeno;
@@ -49,15 +38,11 @@ public class Empeno {
         this.numExtencionTiempo = numExtencionTiempo;
         this.fechaExtencion = fechaExtencion;
         this.fechaFinExtencion = fechaFinExtencion;
-        this.iva = iva;
-        this.cat = cat;
-        this.interesMensual = interesMensual;
-        this.porcentajeComercializacion = porcentajeComercializacion;
-        this.porcentajeMutuo = porcentajeMutuo;
         this.numBolsa = numBolsa;
-        this.monto = monto;
+        this.montoRecibido = monto;
         this.cliente = cliente;
-        this.nombreCotitular = nombreCotitular;
+        this.fechaFinalizacion = fechaFinalizacion;
+        this.tipoFinalizacion = tipoFinalizacion;
     }
 
     public int getIdEmpeno() {
@@ -92,11 +77,11 @@ public class Empeno {
         this.idEmpleado = idEmpleado;
     }
 
-    public int getCotitular() {
+    public String getCotitular() {
         return cotitular;
     }
 
-    public void setCotitular(int cotitular) {
+    public void setCotitular(String cotitular) {
         this.cotitular = cotitular;
     }
 
@@ -124,46 +109,6 @@ public class Empeno {
         this.fechaFinExtencion = fechaFinExtencion;
     }
 
-    public double getIva() {
-        return iva;
-    }
-
-    public void setIva(double iva) {
-        this.iva = iva;
-    }
-
-    public double getCat() {
-        return cat;
-    }
-
-    public void setCat(double cat) {
-        this.cat = cat;
-    }
-
-    public double getInteresMensual() {
-        return interesMensual;
-    }
-
-    public void setInteresMensual(double interesMensual) {
-        this.interesMensual = interesMensual;
-    }
-
-    public double getPorcentajeComercializacion() {
-        return porcentajeComercializacion;
-    }
-
-    public void setPorcentajeComercializacion(double porcentajeComercializacion) {
-        this.porcentajeComercializacion = porcentajeComercializacion;
-    }
-
-    public double getPorcentajeMutuo() {
-        return porcentajeMutuo;
-    }
-
-    public void setPorcentajeMutuo(double porcentajeMutuo) {
-        this.porcentajeMutuo = porcentajeMutuo;
-    }
-
     public int getNumBolsa() {
         return numBolsa;
     }
@@ -172,12 +117,12 @@ public class Empeno {
         this.numBolsa = numBolsa;
     }
 
-    public double getMonto() {
-        return monto;
+    public double getMontoRecibido() {
+        return montoRecibido;
     }
 
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public void setMontoRecibido(double monto) {
+        this.montoRecibido = monto;
     }
 
     public Cliente getCliente() {
@@ -188,14 +133,6 @@ public class Empeno {
         this.cliente = cliente;
     }
 
-    public String getNombreCotitular() {
-        return nombreCotitular;
-    }
-
-    public void setNombreCotitular(String nombreCotitular) {
-        this.nombreCotitular = nombreCotitular;
-    }
-
     public Date getFechaFinalizacion() {
         return fechaFinalizacion;
     }
@@ -203,6 +140,16 @@ public class Empeno {
     public void setFechaFinalizacion(Date fechaFinalizacion) {
         this.fechaFinalizacion = fechaFinalizacion;
     }
+
+    public String getTipoFinalizacion() {
+        return tipoFinalizacion;
+    }
+
+    public void setTipoFinalizacion(String tipoFinalizacion) {
+        this.tipoFinalizacion = tipoFinalizacion;
+    }
+
+    
     
     
 }

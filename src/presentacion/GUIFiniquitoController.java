@@ -82,20 +82,23 @@ public class GUIFiniquitoController implements Initializable {
     @FXML
     private void botonFiniquitar(ActionEvent event){
         if(confirmacion()){
-            datos.Empeno.finiquitarContrato(empeno);
+            datos.Empeno.finiquitarContrato(cambiarStatus());
+            datos.Prenda.cambiarPrendasFiniquitadas(listaPrendas);
+            stage.close();
             //
 
         }
        
     }
     private Empeno cambiarStatus(){
-        empeno.setMonto(Double.valueOf(TFMontoPagar.getText()));
+        empeno.setMontoRecibido(Double.valueOf(TFMontoPagar.getText()));
         //recuperar fecha del sistema
         Calendar cal = Calendar.getInstance(); 
         int mes = cal.get(Calendar.MONTH) + 1;
         String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
         Date date = java.sql.Date.valueOf(fecha);
         empeno.setFechaFinalizacion(date);
+        empeno.setTipoFinalizacion("Finiquito");
         return empeno;
     }
     private boolean confirmacion(){

@@ -80,7 +80,7 @@ public class GUIEmpenoController implements Initializable {
                 logica.Empeno emp = new logica.Empeno();
                 emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
                 if(!empenos.get(i).getCotitularidCotitular().getNombre().isEmpty()){
-                    emp.setNombreCotitular(empenos.get(i).getCotitularidCotitular().getNombre());
+                    emp.setCotitular(empenos.get(i).getCotitularidCotitular().getNombre());
                 }
                 emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
                 emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());

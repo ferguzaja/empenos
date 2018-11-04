@@ -7,6 +7,7 @@ package presentacion;
 
 import datos.Fotoprenda;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -42,8 +43,6 @@ public class GUIDetallesContratoController implements Initializable {
     private TextField TFNoExtension;
     @FXML
     private TextField TFFechaExtension;
-    @FXML
-    private TextField TFFechaFinalExtension;
     @FXML
     private TextField TFNoBolsa;
     @FXML
@@ -81,8 +80,6 @@ public class GUIDetallesContratoController implements Initializable {
     @FXML
     private TableColumn interesColumn;
     @FXML
-    private TableColumn almacenajeColumn;
-    @FXML
     private TableColumn ivaColumn;
     @FXML
     private TableColumn refrendoColumn;
@@ -101,19 +98,23 @@ public class GUIDetallesContratoController implements Initializable {
     public void llenaDatos(Empeno empeno){
     TFFechaInicio.setText(empeno.getFechaInicio().toString());
     TFFechaFin.setText(empeno.getFechaFinEmpeno().toString());
-    //TFCotitular.setText(empeno.getNombreCotitular());
-    //TFNoExtension.setText(Integer.toString(empeno.getNumExtencionTiempo()));
-    //TFFechaExtension.setText(empeno.getFechaExtencion().toString());
-    //TFFechaFinalExtension.setText(empeno.getFechaFinExtencion().toString());
+    if(empeno.getCotitular()!=null)
+        TFCotitular.setText(empeno.getCotitular());
+    if(empeno.getNumExtencionTiempo()!=0){
+        TFNoExtension.setText(Integer.toString(empeno.getNumExtencionTiempo()));
+        TFFechaExtension.setText(empeno.getFechaExtencion().toString());
+    }else{
+        TFNoExtension.setText("N/A");
+        TFFechaExtension.setText("N/A");
+    }
     TFNoBolsa.setText(Integer.toString(empeno.getNumBolsa()));
-    TFInteresMensual.setText(Double.toString(empeno.getInteresMensual()));
-    TFMontoPrestado.setText(Double.toString(empeno.getMonto()));
-    TFIva.setText(Double.toString(empeno.getIva()));
-    TFCat.setText(Double.toString(empeno.getIva()));
+    TFInteresMensual.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getIntereMensual()));
+    TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(empeno.getIdEmpeno()))));
+    TFIva.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getIva()));
+    TFCat.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getCat()));
     }
     public void llenaPrendas(Empeno empeno){
-        datos.Prenda prenda = new datos.Prenda();
-        listaPrendas=prenda.encuentraContrato(empeno.getIdEmpeno());
+        listaPrendas=datos.Prenda.encuentraContrato(empeno.getIdEmpeno());
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrendas);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
@@ -129,6 +130,19 @@ public class GUIDetallesContratoController implements Initializable {
         }
         //PONER UN BOTON VER GALERIA PARA MOSTRAR TODAS LAS FOTOS DEL EMPEÑO
         
+    }
+    private void llenaTablaPrestamo(Empeno empeno){
+        List<logica.Pago> pagos =datos.Pago.regresaPagos(empeno.getIdEmpeno());
+        ObservableList<logica.Pago> obsPago = FXCollections.observableArrayList(pagos);
+        noColumn.setCellValueFactory(new PropertyValueFactory<Prenda,String>("noPeriodo"));
+        prestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("prestamo"));
+        interesColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("interes"));
+        ivaColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("iva"));
+        refrendoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("refrendo"));
+        desempeñoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("desempeño"));
+        fechasColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("fecha"));
+        tablaPagos.setEditable(false);
+        tablaPagos.setItems(obsPago);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

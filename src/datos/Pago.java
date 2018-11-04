@@ -6,7 +6,9 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -166,6 +168,26 @@ public class Pago implements Serializable {
     @Override
     public String toString() {
         return "datos.Pago[ idpago=" + idpago + " ]";
+    }
+    public static List<logica.Pago> regresaPagos(int empeno){
+        PagoJpaController pagoJPA = new PagoJpaController();
+        List<datos.Pago> pagos = pagoJPA.findPagoEntities();
+
+        List<logica.Pago> pago = new ArrayList<>();
+        for (int i = 0; i < pagos.size(); i++) {
+            if (pagos.get(i).getEmpenoIdempeno().getIdempeno()==empeno) {
+                logica.Pago pagar= new logica.Pago();
+                pagar.setDesempeño(pagos.get(i).getDesempeno());
+                pagar.setFecha(pagos.get(i).getFechaPeriodo());
+                pagar.setInteres(pagos.get(i).getInteres());
+                pagar.setIva(pagos.get(i).getIva());
+                pagar.setNoPeriodo(pagos.get(i).getNoPeriodo());
+                pagar.setPrestamo(pagos.get(i).getPrestamo());
+                pagar.setRefrendo(pagos.get(i).getRefrendo());
+            }
+                
+            }
+        return pago;
     }
     
 }

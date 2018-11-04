@@ -43,10 +43,10 @@ public class Prenda implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "montoValuo")
-    private float montoValuo;
+    private double montoValuo;
     @Basic(optional = false)
     @Column(name = "montoPrestamo")
-    private float montoPrestamo;
+    private double montoPrestamo;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -223,8 +223,59 @@ public class Prenda implements Serializable {
         
         return monto;
     }
+    public static void cambiarPrendasFiniquitadas(List<logica.Prenda> prendas){
+        try {
+            PrendaJpaController prendaJPA = new PrendaJpaController();
+            for (int i = 0; i < prendas.size(); i++) {
+                datos.Prenda prenda = new Prenda();
+                prenda.setIdprenda(prendas.get(0).getIdPrenda());
+                prenda.setDescripcion(prendas.get(i).getDescripcion());
+                prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
+                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
+                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
+                //prenda.setEstadoEmpeno(); como lo mando
+                prendaJPA.edit(prenda);
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    public static void cambiarPrendasComercializadas(List<logica.Prenda> prendas){
+        try {
+            PrendaJpaController prendaJPA = new PrendaJpaController();
+            for (int i = 0; i < prendas.size(); i++) {
+                datos.Prenda prenda = new Prenda();
+                prenda.setIdprenda(prendas.get(0).getIdPrenda());
+                prenda.setDescripcion(prendas.get(i).getDescripcion());
+                prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
+                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
+                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
+                //prenda.setEstadoEmpeno(); como lo mando
+                prendaJPA.edit(prenda);
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    public static void cambiarPrendasRefrendadas(List<logica.Prenda> prendas){
+        try {
+            PrendaJpaController prendaJPA = new PrendaJpaController();
+            for (int i = 0; i < prendas.size(); i++) {
+                datos.Prenda prenda = new Prenda();
+                prenda.setIdprenda(prendas.get(0).getIdPrenda());
+                prenda.setEmpenoIdempeno(datos.Empeno.clonar(prendas.get(i).getEmpeno()));
+                prenda.setDescripcion(prendas.get(i).getDescripcion());
+                prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
+                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
+                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
+                prendaJPA.edit(prenda);
+            }
+        }catch(Exception e){
+            
+        }
+    }
 
-    public float getMontoValuo() {
+    public double getMontoValuo() {
         return montoValuo;
     }
 
@@ -232,7 +283,7 @@ public class Prenda implements Serializable {
         this.montoValuo = montoValuo;
     }
 
-    public float getMontoPrestamo() {
+    public double getMontoPrestamo() {
         return montoPrestamo;
     }
 
