@@ -67,10 +67,10 @@ public class PrendaJpaController implements Serializable {
             }
             prenda.setFotoprendaList(attachedFotoprendaList);
             em.persist(prenda);
-            if (empenoIdempeno != null) {
+            /*if (empenoIdempeno != null) {
                 empenoIdempeno.getPrendaList().add(prenda);
                 empenoIdempeno = em.merge(empenoIdempeno);
-            }
+            }*/
             if (tipoprendaIdtipoprenda != null) {
                 tipoprendaIdtipoprenda.getPrendaList().add(prenda);
                 tipoprendaIdtipoprenda = em.merge(tipoprendaIdtipoprenda);
@@ -246,10 +246,10 @@ public class PrendaJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Empeno empenoIdempeno = prenda.getEmpenoIdempeno();
-            if (empenoIdempeno != null) {
+            /*if (empenoIdempeno != null) {
                 empenoIdempeno.getPrendaList().remove(prenda);
                 empenoIdempeno = em.merge(empenoIdempeno);
-            }
+            }*/
             Tipoprenda tipoprendaIdtipoprenda = prenda.getTipoprendaIdtipoprenda();
             if (tipoprendaIdtipoprenda != null) {
                 tipoprendaIdtipoprenda.getPrendaList().remove(prenda);

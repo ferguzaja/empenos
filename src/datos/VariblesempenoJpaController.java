@@ -6,7 +6,6 @@
 package datos;
 
 import datos.exceptions.NonexistentEntityException;
-import datos.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author ferguzaja
+ * @author Jahir
  */
 public class VariblesempenoJpaController implements Serializable {
 
@@ -32,7 +31,7 @@ public class VariblesempenoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Variblesempeno variblesempeno) throws PreexistingEntityException, Exception {
+    public void create(Variblesempeno variblesempeno) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,11 +47,6 @@ public class VariblesempenoJpaController implements Serializable {
                 empenoIdempeno = em.merge(empenoIdempeno);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findVariblesempeno(variblesempeno.getIdvariblesempeno()) != null) {
-                throw new PreexistingEntityException("Variblesempeno " + variblesempeno + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();

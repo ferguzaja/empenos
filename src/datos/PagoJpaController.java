@@ -6,7 +6,6 @@
 package datos;
 
 import datos.exceptions.NonexistentEntityException;
-import datos.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,12 +18,12 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author ferguzaja
+ * @author Jahir
  */
 public class PagoJpaController implements Serializable {
 
     public PagoJpaController() {
-         this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -32,7 +31,7 @@ public class PagoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Pago pago) throws PreexistingEntityException, Exception {
+    public void create(Pago pago) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,11 +47,6 @@ public class PagoJpaController implements Serializable {
                 empenoIdempeno = em.merge(empenoIdempeno);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findPago(pago.getIdpago()) != null) {
-                throw new PreexistingEntityException("Pago " + pago + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();

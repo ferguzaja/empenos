@@ -23,7 +23,7 @@ import javax.persistence.criteria.Root;
 public class VariablesJpaController implements Serializable {
 
     public VariablesJpaController() {
-         this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
+        this.emf = Persistence.createEntityManagerFactory("EmpenoFacilPU");
     }
     private EntityManagerFactory emf = null;
 
