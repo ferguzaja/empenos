@@ -76,12 +76,12 @@ public class GUIEmpenoController implements Initializable {
         
         List<logica.Empeno> listaEmpenos = new ArrayList<>();
         for (int i = 0; i < empenos.size(); i++) {
-            if (empenos.get(i).getClienteIdcliente().getNombre().contains(txtBuscar.getText())){
+            if (empenos.get(i).getIdempeno().equals(Integer.parseInt(txtBuscar.getText()))){
                 logica.Empeno emp = new logica.Empeno();
                 emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
-                if(!empenos.get(i).getCotitularidCotitular().getNombre().isEmpty()){
-                    emp.setCotitular(empenos.get(i).getCotitularidCotitular().getNombre());
-                }
+//                if(!empenos.get(i).getCotitular().isEmpty()){
+//                    emp.setCotitular(empenos.get(i).getCotitular());
+//                }
                 emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
                 emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
                 emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
