@@ -5,9 +5,12 @@
  */
 package datos;
 
+import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -241,5 +244,44 @@ public class Empeno implements Serializable {
     public void setVariblesempenoList(List<Variblesempeno> variblesempenoList) {
         this.variblesempenoList = variblesempenoList;
     }
+    public static void guardarEmpeno(logica.Empeno emp){
+        datos.Empeno empeno = new datos.Empeno();
+        empeno.setFechaInicioEmpeno(emp.getFechaInicio());
+        empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
+        empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado()));
+        empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
+        //se lo pasé directo, hay qu corregirlo
+        empeno.setCotitular(emp.getCotitular());
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        empenoJPA.create(empeno);
+    }
+    public static void finiquitarContrato(logica.Empeno emp){
+        try {
+            datos.Empeno empeno = new datos.Empeno();
+            empeno.setIdempeno(emp.getIdEmpeno());
+            empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
+            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));            
+            EmpenoJpaController empenoJPA = new EmpenoJpaController();
+            empenoJPA.edit(empeno);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    public static Empeno clonar(logica.Empeno empeno){
+       datos.Empeno emp = new Empeno();
+       emp.setIdempeno(empeno.getIdEmpeno());
+       return emp;
+    }
+    public static logica.Empeno recuperaID(){
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        List<datos.Empeno> empenos =empenoJPA.findEmpenoEntities();
+        logica.Empeno empeno=new logica.Empeno();
+        empeno.setIdEmpeno(empenos.get(empenos.size()-1).getIdempeno());
+        return empeno;
+    }
+
     
 }

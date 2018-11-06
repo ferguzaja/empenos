@@ -7,7 +7,6 @@ package presentacion;
 
 import datos.Fotoprenda;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -21,7 +20,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logica.Empeno;
+import logica.Pago;
 import logica.Prenda;
+import logica.VariblesEmpeno;
 
 /**
  * FXML Controller class
@@ -72,27 +73,28 @@ public class GUIDetallesContratoController implements Initializable {
     @FXML
     private Button verFotosButton;
     @FXML
-    private TableView tablaPagos;
+    private TableView<Pago> tablaPagos;
     @FXML
-    private TableColumn noColumn;
+    private TableColumn<Pago, String> noColumn;
     @FXML
-    private TableColumn prestamoColumn;
+    private TableColumn<Pago, String> prestamoColumn;
     @FXML
-    private TableColumn interesColumn;
+    private TableColumn<Pago, String> interesColumn;
     @FXML
-    private TableColumn ivaColumn;
+    private TableColumn<Pago, String> ivaColumn;
     @FXML
-    private TableColumn refrendoColumn;
+    private TableColumn <Pago, String>refrendoColumn;
     @FXML
-    private TableColumn desempeñoColumn;
+    private TableColumn<Pago, String> desempeñoColumn;
     @FXML
-    private TableColumn fechasColumn;
+    private TableColumn<Pago, String> fechasColumn;
     private List<logica.Prenda> listaPrendas;
   
     public void recibe(Empeno empeno){
         
         llenaDatos(empeno);
         llenaPrendas(empeno);
+        llenaTablaPrestamo(empeno);
         
     }
     public void llenaDatos(Empeno empeno){
@@ -107,11 +109,17 @@ public class GUIDetallesContratoController implements Initializable {
         TFNoExtension.setText("N/A");
         TFFechaExtension.setText("N/A");
     }
+    if(empeno.getCotitular() == null){
+        TFCotitular.setText("N/A");
+    }else{
+        TFCotitular.setText(empeno.getCotitular());
+    }
     TFNoBolsa.setText(Integer.toString(empeno.getNumBolsa()));
-    TFInteresMensual.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getIntereMensual()));
+        VariblesEmpeno var=datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno());
+    TFInteresMensual.setText(String.valueOf(var.getIntereMensual()));
     TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(empeno.getIdEmpeno()))));
-    TFIva.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getIva()));
-    TFCat.setText(Double.toString(datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno()).getCat()));
+    TFIva.setText(String.valueOf(var.getIva()));
+    TFCat.setText(String.valueOf(var.getCat()));
     }
     public void llenaPrendas(Empeno empeno){
         listaPrendas=datos.Prenda.encuentraContrato(empeno.getIdEmpeno());
@@ -134,13 +142,13 @@ public class GUIDetallesContratoController implements Initializable {
     private void llenaTablaPrestamo(Empeno empeno){
         List<logica.Pago> pagos =datos.Pago.regresaPagos(empeno.getIdEmpeno());
         ObservableList<logica.Pago> obsPago = FXCollections.observableArrayList(pagos);
-        noColumn.setCellValueFactory(new PropertyValueFactory<Prenda,String>("noPeriodo"));
-        prestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("prestamo"));
-        interesColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("interes"));
-        ivaColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("iva"));
-        refrendoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("refrendo"));
-        desempeñoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("desempeño"));
-        fechasColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("fecha"));
+        noColumn.setCellValueFactory(new PropertyValueFactory<Pago,String>("noPeriodo"));
+        prestamoColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("prestamo"));
+        interesColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("interes"));
+        ivaColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("iva"));
+        refrendoColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("refrendo"));
+        desempeñoColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("desempeño"));
+        fechasColumn.setCellValueFactory(new PropertyValueFactory<Pago, String>("fecha"));
         tablaPagos.setEditable(false);
         tablaPagos.setItems(obsPago);
     }

@@ -202,11 +202,11 @@ public class Prenda implements Serializable {
             PrendaJpaController prendaJPA = new PrendaJpaController();
             for (int i = 0; i < prendas.size(); i++) {
                 datos.Prenda prenda = new Prenda();
-                prenda.setIdprenda(prendas.get(0).getIdPrenda());
                 prenda.setDescripcion(prendas.get(i).getDescripcion());
-                prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
-                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
-                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
+                prenda.setMontoValuo(prendas.get(i).getMontoValuo());
+                prenda.setMontoPrestamo(prendas.get(i).getMontoPrestamo());
+                prenda.setEmpenoIdempeno(datos.Empeno.clonar(prendas.get(i).getEmpeno()));
+                prenda.setTipoprendaIdtipoprenda(datos.Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda()));
                 prendaJPA.create(prenda);
             }            
         } catch (Exception e) {
@@ -279,7 +279,7 @@ public class Prenda implements Serializable {
         return montoValuo;
     }
 
-    public void setMontoValuo(float montoValuo) {
+    public void setMontoValuo(double montoValuo) {
         this.montoValuo = montoValuo;
     }
 
@@ -287,7 +287,7 @@ public class Prenda implements Serializable {
         return montoPrestamo;
     }
 
-    public void setMontoPrestamo(float montoPrestamo) {
+    public void setMontoPrestamo(double montoPrestamo) {
         this.montoPrestamo = montoPrestamo;
     }
 }

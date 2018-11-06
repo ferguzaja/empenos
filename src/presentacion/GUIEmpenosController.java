@@ -145,14 +145,20 @@ public class GUIEmpenosController implements Initializable {
         empeno.setIdEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()));
         
         //Aqui falta el cotitular
+        
         empeno.setCotitular("");
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         datos.Empeno.guardarEmpeno(empeno);
-                
+        datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
         //Parte de productos
         
     }
-    
+    private List<logica.Prenda> asignaID(Empeno empeno){
+        for(int i=0; i<listaPrenda.size(); i++){
+            listaPrenda.get(i).setEmpeno(empeno);
+        }
+        return listaPrenda;
+    }
     @FXML
     private void botonEditarCliente(ActionEvent event) {
         try {

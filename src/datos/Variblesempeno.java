@@ -6,6 +6,7 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import logica.VariblesEmpeno;
 
 /**
  *
@@ -44,15 +46,15 @@ public class Variblesempeno implements Serializable {
     private Integer idvariblesempeno;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "iva")
-    private Float iva;
+    private double iva;
     @Column(name = "cat")
-    private Float cat;
+    private double cat;
     @Column(name = "interesMensual")
-    private Float interesMensual;
+    private double interesMensual;
     @Column(name = "porcentajeComercializacion")
-    private Float porcentajeComercializacion;
+    private double porcentajeComercializacion;
     @Column(name = "porcentajeMutuo")
-    private Float porcentajeMutuo;
+    private double porcentajeMutuo;
     @JoinColumn(name = "empeno_idempeno", referencedColumnName = "idempeno")
     @ManyToOne(optional = false)
     private Empeno empenoIdempeno;
@@ -72,7 +74,7 @@ public class Variblesempeno implements Serializable {
         this.idvariblesempeno = idvariblesempeno;
     }
 
-    public Float getIva() {
+    public double getIva() {
         return iva;
     }
 
@@ -80,35 +82,35 @@ public class Variblesempeno implements Serializable {
         this.iva = iva;
     }
 
-    public Float getCat() {
+    public double getCat() {
         return cat;
     }
 
-    public void setCat(Float cat) {
+    public void setCat(double cat) {
         this.cat = cat;
     }
 
-    public Float getInteresMensual() {
+    public double getInteresMensual() {
         return interesMensual;
     }
 
-    public void setInteresMensual(Float interesMensual) {
+    public void setInteresMensual(double interesMensual) {
         this.interesMensual = interesMensual;
     }
 
-    public Float getPorcentajeComercializacion() {
+    public double getPorcentajeComercializacion() {
         return porcentajeComercializacion;
     }
 
-    public void setPorcentajeComercializacion(Float porcentajeComercializacion) {
+    public void setPorcentajeComercializacion(double porcentajeComercializacion) {
         this.porcentajeComercializacion = porcentajeComercializacion;
     }
 
-    public Float getPorcentajeMutuo() {
+    public double getPorcentajeMutuo() {
         return porcentajeMutuo;
     }
 
-    public void setPorcentajeMutuo(Float porcentajeMutuo) {
+    public void setPorcentajeMutuo(double porcentajeMutuo) {
         this.porcentajeMutuo = porcentajeMutuo;
     }
 
@@ -143,6 +145,19 @@ public class Variblesempeno implements Serializable {
     @Override
     public String toString() {
         return "datos.Variblesempeno[ idvariblesempeno=" + idvariblesempeno + " ]";
+    }
+    public static logica.VariblesEmpeno obtenDatos(int idEmpeno){
+        VariblesempenoJpaController variables= new VariblesempenoJpaController();
+        List<Variblesempeno> var=variables.findVariblesempenoEntities();
+        logica.VariblesEmpeno variable= new VariblesEmpeno();
+        for(int i=0; i<var.size(); i++){
+            if(var.get(i).getEmpenoIdempeno().getIdempeno()==idEmpeno){
+                variable.setCat(var.get(i).getCat());
+                variable.setIntereMensual(var.get(i).getInteresMensual());
+                variable.setIva(var.get(i).getIva());
+            }
+        }
+        return variable;
     }
     
 }

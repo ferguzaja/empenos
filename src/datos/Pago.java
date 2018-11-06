@@ -6,7 +6,9 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,15 +53,15 @@ public class Pago implements Serializable {
     private Integer noPeriodo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prestamo")
-    private Float prestamo;
+    private double prestamo;
     @Column(name = "interes")
-    private Float interes;
+    private double interes;
     @Column(name = "iva")
-    private Float iva;
+    private double iva;
     @Column(name = "refrendo")
-    private Float refrendo;
+    private double refrendo;
     @Column(name = "desempeno")
-    private Float desempeno;
+    private double desempeno;
     @Column(name = "fechaPeriodo")
     @Temporal(TemporalType.DATE)
     private Date fechaPeriodo;
@@ -90,43 +92,43 @@ public class Pago implements Serializable {
         this.noPeriodo = noPeriodo;
     }
 
-    public Float getPrestamo() {
+    public double getPrestamo() {
         return prestamo;
     }
 
-    public void setPrestamo(Float prestamo) {
+    public void setPrestamo(double prestamo) {
         this.prestamo = prestamo;
     }
 
-    public Float getInteres() {
+    public double getInteres() {
         return interes;
     }
 
-    public void setInteres(Float interes) {
+    public void setInteres(double interes) {
         this.interes = interes;
     }
 
-    public Float getIva() {
+    public double getIva() {
         return iva;
     }
 
-    public void setIva(Float iva) {
+    public void setIva(double iva) {
         this.iva = iva;
     }
 
-    public Float getRefrendo() {
+    public double getRefrendo() {
         return refrendo;
     }
 
-    public void setRefrendo(Float refrendo) {
+    public void setRefrendo(double refrendo) {
         this.refrendo = refrendo;
     }
 
-    public Float getDesempeno() {
+    public double getDesempeno() {
         return desempeno;
     }
 
-    public void setDesempeno(Float desempeno) {
+    public void setDesempeno(double desempeno) {
         this.desempeno = desempeno;
     }
 
@@ -169,6 +171,26 @@ public class Pago implements Serializable {
     @Override
     public String toString() {
         return "datos.Pago[ idpago=" + idpago + " ]";
+    }
+    public static List<logica.Pago> regresaPagos(int empeno){
+        PagoJpaController pagoJPA = new PagoJpaController();
+        List<datos.Pago> pagos = pagoJPA.findPagoEntities();
+         List<logica.Pago> pago = new ArrayList<>();
+        for (int i = 0; i < pagos.size(); i++) {
+            if (pagos.get(i).getEmpenoIdempeno().getIdempeno()==empeno) {
+                logica.Pago pagar= new logica.Pago();
+                pagar.setDesempeño(pagos.get(i).getDesempeno());
+                pagar.setFecha(pagos.get(i).getFechaPeriodo());
+                pagar.setInteres(pagos.get(i).getInteres());
+                pagar.setIva(pagos.get(i).getIva());
+                pagar.setNoPeriodo(pagos.get(i).getNoPeriodo());
+                pagar.setPrestamo(pagos.get(i).getPrestamo());
+                pagar.setRefrendo(pagos.get(i).getRefrendo());
+                pago.add(pagar);
+            }
+                
+            }
+        return pago;
     }
     
 }

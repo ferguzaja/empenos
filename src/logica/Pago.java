@@ -89,6 +89,8 @@ public class Pago {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+    public String toString(){
+        return noPeriodo+" "+prestamo;
+    }
     
 }
