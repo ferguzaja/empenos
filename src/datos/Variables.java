@@ -131,5 +131,8 @@ public class Variables implements Serializable {
     public String toString() {
         return "datos.Variables[ idvariables=" + idvariables + " ]";
     }
-    
+    public static Variables traerVariables(){
+        VariablesJpaController var = new VariablesJpaController();
+      return var.findVariables(1);
+    }
 }

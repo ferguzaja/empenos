@@ -150,7 +150,9 @@ public class GUIEmpenosController implements Initializable {
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         datos.Empeno.guardarEmpeno(empeno);
         datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
-        //Parte de productos
+        datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
+        datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()),datos.Empeno.recuperaID()));
+                //Parte de productos
         
     }
     private List<logica.Prenda> asignaID(Empeno empeno){

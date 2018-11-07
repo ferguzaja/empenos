@@ -7,6 +7,7 @@ package datos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -22,7 +23,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import logica.VariblesEmpeno;
 
 /**
  *
@@ -191,6 +194,32 @@ public class Pago implements Serializable {
                 
             }
         return pago;
+    }
+    public static void guardarPago(List<datos.Pago> listaPagos){
+        PagoJpaController pagos = new PagoJpaController();
+        for(int i=0; i<listaPagos.size(); i++){
+            pagos.create(listaPagos.get(i));
+        }
+    }
+    public static List<datos.Pago> regresaLista(Variblesempeno var, logica.Empeno emp){
+        List<datos.Pago> pagos = new ArrayList<>();
+        Pago pago = new Pago();
+        pago.setNoPeriodo(1);
+        pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(emp.getIdEmpeno())));
+        pago.setInteres((var.getInteresMensual()*pago.getPrestamo())/2);
+        pago.setIva(pago.getInteres()*.08);
+        pago.setRefrendo(pago.getIva()+pago.getInteres());
+        pago.setDesempeno(pago.refrendo+pago.prestamo);
+        //pago.setFechaPeriodo();
+        pagos.add(pago);
+        pago.noPeriodo=2;
+        pago.interes=pago.interes*2;
+        pago.iva=pago.iva*2;
+        pago.refrendo=pago.refrendo*2;
+        pago.desempeno=pago.refrendo+pago.prestamo;
+        pagos.add(pago);
+        
+        return pagos;
     }
     
 }

@@ -153,11 +153,38 @@ public class Variblesempeno implements Serializable {
         for(int i=0; i<var.size(); i++){
             if(var.get(i).getEmpenoIdempeno().getIdempeno()==idEmpeno){
                 variable.setCat(var.get(i).getCat());
+                System.out.println("interess"+var.get(i).getInteresMensual());
                 variable.setIntereMensual(var.get(i).getInteresMensual());
                 variable.setIva(var.get(i).getIva());
+                variable.setPorcentajeMutuo(var.get(i).getPorcentajeMutuo());
             }
         }
         return variable;
     }
     
+    public static Variblesempeno convertir(datos.Variables variables,logica.Empeno emp){
+        datos.Variblesempeno  var = new Variblesempeno();
+        var.setCat(variables.getCat());
+        var.setInteresMensual(variables.getInteresMensual());
+        var.setIva(variables.getIva());
+        var.setPorcentajeComercializacion(variables.getPorcentajeComercializacion());
+        var.setPorcentajeMutuo(variables.getPorcentajeMutuo());
+        var.setEmpenoIdempeno(datos.Empeno.clonar(emp));
+        return var;
+    }
+    public static void guardar(Variblesempeno variables){
+        VariblesempenoJpaController var = new VariblesempenoJpaController();
+        var.create(variables);
+    }
+    public static Variblesempeno buscarVariables(logica.Empeno empeno){
+        VariblesempenoJpaController var = new VariblesempenoJpaController();
+        List<Variblesempeno>variables=var.findVariblesempenoEntities();
+        Variblesempeno vari = new Variblesempeno();
+        for(int i=0; i<variables.size(); i++){
+            if(variables.get(i).getEmpenoIdempeno().getIdempeno()==empeno.getIdEmpeno()){
+                vari=variables.get(i);
+            }
+        }
+        return vari;
+    }
 }
