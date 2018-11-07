@@ -99,6 +99,7 @@ public class GUIFiniquitoController implements Initializable {
         Date date = java.sql.Date.valueOf(fecha);
         empeno.setFechaFinalizacion(date);
         empeno.setTipoFinalizacion("Finiquito");
+        System.out.println(empeno.getFechaFinalizacion());
         return empeno;
     }
     private boolean confirmacion(){
@@ -111,7 +112,7 @@ public class GUIFiniquitoController implements Initializable {
         if (result.get() == ButtonType.OK) 
             confiramcion=true;
         
-        return false;
+        return confiramcion;
     }
     
     @FXML

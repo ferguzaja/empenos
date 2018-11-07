@@ -19,7 +19,7 @@
             <TableColumn fx:id="fechaFinColumn" prefWidth="115.0" text="Fecha vencimiento" />
             <TableColumn fx:id="numeroExtencionColumn" minWidth="1.0" prefWidth="103.0" text="Extencion no:" />
             <TableColumn fx:id="numeroBolsaColumn" minWidth="0.0" prefWidth="97.0" text="Bolsa" />
-            <TableColumn prefWidth="115.0" text="Status" />
+            <TableColumn fx:id="statusColumn" prefWidth="115.0" text="Status" />
         </columns>
       </TableView>
       <Button layoutX="505.0" layoutY="54.0" mnemonicParsing="false" text="&lt;&lt;" />

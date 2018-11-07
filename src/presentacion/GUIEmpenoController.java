@@ -68,6 +68,8 @@ public class GUIEmpenoController implements Initializable {
     
     @FXML
     private TableColumn<Empeno, String> numeroBolsaColumn;
+    @FXML
+    private TableColumn<Empeno, String> statusColumn;
       
     
     public void buscarEmpenos(ActionEvent event){
@@ -78,15 +80,16 @@ public class GUIEmpenoController implements Initializable {
         for (int i = 0; i < empenos.size(); i++) {
             if (empenos.get(i).getIdempeno().equals(Integer.parseInt(txtBuscar.getText()))){
                 logica.Empeno emp = new logica.Empeno();
-                emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
-//                if(!empenos.get(i).getCotitular().isEmpty()){
-//                    emp.setCotitular(empenos.get(i).getCotitular());
-//                }
+                emp.setIdEmpeno(empenos.get(i).getIdempeno());
                 emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
                 emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
+                emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));//clonar
+                emp.setCotitular(empenos.get(i).getCotitular());
                 emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
+                emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
+                emp.setTipoFinalizacion(empenos.get(i).getTipofinalizacion());
                 emp.setNumBolsa(empenos.get(i).getNoBolsa());
-                emp.setIdEmpeno(empenos.get(i).getIdempeno());
+                emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
                 listaEmpenos.add(emp);
             }
         }        
@@ -96,6 +99,7 @@ public class GUIEmpenoController implements Initializable {
         fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaFinEmpeno"));
         numeroExtencionColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numExtencionTiempo"));
         numeroBolsaColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numBolsa"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("tipoFinalizacion"));
         tablaEmpenos.setItems(obsempenos);
     }
     @FXML

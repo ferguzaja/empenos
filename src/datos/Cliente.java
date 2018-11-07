@@ -254,6 +254,7 @@ public class Cliente implements Serializable {
     
     public logica.Cliente clonar(){
         logica.Cliente cliente = new logica.Cliente();
+        cliente.setIdCliente(getIdcliente());
         cliente.setNombre(getNombre());
         cliente.setApellidoPaterno(getApeliidoPaterno());
         cliente.setApellidoMaterno(getApellidoMaterno());

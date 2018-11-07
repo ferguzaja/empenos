@@ -142,7 +142,7 @@ public class GUIEmpenosController implements Initializable {
         String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);               
         Date dateFinal = java.sql.Date.valueOf(fechaFinal);
         empeno.setFechaFinEmpeno(dateFinal);        
-        empeno.setIdEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()));
+        empeno.setIdEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
         
         //Aqui falta el cotitular
         

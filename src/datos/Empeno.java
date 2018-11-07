@@ -248,7 +248,7 @@ public class Empeno implements Serializable {
         datos.Empeno empeno = new datos.Empeno();
         empeno.setFechaInicioEmpeno(emp.getFechaInicio());
         empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
-        empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado()));
+        empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado().getIdEmpleado()));
         empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
         //se lo pasé directo, hay qu corregirlo
         empeno.setCotitular(emp.getCotitular());
@@ -259,8 +259,17 @@ public class Empeno implements Serializable {
         try {
             datos.Empeno empeno = new datos.Empeno();
             empeno.setIdempeno(emp.getIdEmpeno());
+            empeno.setFechaInicioEmpeno(emp.getFechaInicio());
+            empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
+            empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado().getIdEmpleado()));
+            empeno.setCotitular(emp.getCotitular());
+            empeno.setExtencionTiempo(emp.getNumExtencionTiempo());
+            empeno.setFechaExtencion(emp.getFechaExtencion());
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
-            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));            
+            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));
+            empeno.setNoBolsa(emp.getNumBolsa());
+            empeno.setTipofinalizacion(emp.getTipoFinalizacion());
+            empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             empenoJPA.edit(empeno);
         } catch (NonexistentEntityException ex) {

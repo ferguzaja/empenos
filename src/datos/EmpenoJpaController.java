@@ -69,9 +69,10 @@ public class EmpenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno persistentEmpeno = em.find(Empeno.class, empeno.getIdempeno());
-            Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
-            Empleado empleadoidEmpleadoNew = empeno.getEmpleadoidEmpleado();
-            Cliente clienteIdclienteOld = persistentEmpeno.getClienteIdcliente();
+            //Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
+            //Empleado empleadoidEmpleadoNew = empeno.getEmpleadoidEmpleado();
+            empeno = em.merge(empeno);
+            /*Cliente clienteIdclienteOld = persistentEmpeno.getClienteIdcliente();
             Cliente clienteIdclienteNew = empeno.getClienteIdcliente();
             if (empleadoidEmpleadoNew != null) {
                 empleadoidEmpleadoNew = em.getReference(empleadoidEmpleadoNew.getClass(), empleadoidEmpleadoNew.getIdempleado());
@@ -81,7 +82,6 @@ public class EmpenoJpaController implements Serializable {
                 clienteIdclienteNew = em.getReference(clienteIdclienteNew.getClass(), clienteIdclienteNew.getIdcliente());
                 empeno.setClienteIdcliente(clienteIdclienteNew);
             }
-            empeno = em.merge(empeno);
             if (empleadoidEmpleadoOld != null && !empleadoidEmpleadoOld.equals(empleadoidEmpleadoNew)) {
                 empleadoidEmpleadoOld.getEmpenoList().remove(empeno);
                 empleadoidEmpleadoOld = em.merge(empleadoidEmpleadoOld);
@@ -97,7 +97,7 @@ public class EmpenoJpaController implements Serializable {
             if (clienteIdclienteNew != null && !clienteIdclienteNew.equals(clienteIdclienteOld)) {
                 clienteIdclienteNew.getEmpenoList().add(empeno);
                 clienteIdclienteNew = em.merge(clienteIdclienteNew);
-            }
+            }*/
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();

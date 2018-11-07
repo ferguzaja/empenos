@@ -15,7 +15,7 @@ public class Empeno {
     private int idEmpeno;
     private Date fechaInicio;
     private Date fechaFinEmpeno;
-    private int idEmpleado;
+    private Empleado empleado;
     private String cotitular;
     private int numExtencionTiempo;
     private Date fechaExtencion;
@@ -29,11 +29,11 @@ public class Empeno {
     public Empeno() {
     }
 
-    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, int idEmpleado, String cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, int numBolsa, double monto, Cliente cliente, Date fechaFinalizacion, String tipoFinalizacion) {
+    public Empeno(int idEmpeno, Date fechaInicio, Date fechaFinEmpeno, Empleado idEmpleado, String cotitular, int numExtencionTiempo, Date fechaExtencion, Date fechaFinExtencion, int numBolsa, double monto, Cliente cliente, Date fechaFinalizacion, String tipoFinalizacion) {
         this.idEmpeno = idEmpeno;
         this.fechaInicio = fechaInicio;
         this.fechaFinEmpeno = fechaFinEmpeno;
-        this.idEmpleado = idEmpleado;
+        this.empleado = idEmpleado;
         this.cotitular = cotitular;
         this.numExtencionTiempo = numExtencionTiempo;
         this.fechaExtencion = fechaExtencion;
@@ -69,12 +69,12 @@ public class Empeno {
         this.fechaFinEmpeno = fechaFinEmpeno;
     }
 
-    public int getIdEmpleado() {
-        return idEmpleado;
+    public Empleado getIdEmpleado() {
+        return empleado;
     }
 
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setIdEmpleado(Empleado idEmpleado) {
+        this.empleado = idEmpleado;
     }
 
     public String getCotitular() {

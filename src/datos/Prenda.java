@@ -57,7 +57,7 @@ public class Prenda implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "estadoEmpeno")
-    private Short estadoEmpeno;
+    private boolean estadoEmpeno;
     @Column(name = "comercializada")
     private Short comercializada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prendaIdprenda")
@@ -101,11 +101,11 @@ public class Prenda implements Serializable {
     }
 
 
-    public Short getEstadoEmpeno() {
+    public boolean getEstadoEmpeno() {
         return estadoEmpeno;
     }
 
-    public void setEstadoEmpeno(Short estadoEmpeno) {
+    public void setEstadoEmpeno(boolean estadoEmpeno) {
         this.estadoEmpeno = estadoEmpeno;
     }
 
@@ -228,12 +228,12 @@ public class Prenda implements Serializable {
             PrendaJpaController prendaJPA = new PrendaJpaController();
             for (int i = 0; i < prendas.size(); i++) {
                 datos.Prenda prenda = new Prenda();
-                prenda.setIdprenda(prendas.get(0).getIdPrenda());
+                prenda.setIdprenda(prendas.get(i).getIdPrenda());
                 prenda.setDescripcion(prendas.get(i).getDescripcion());
                 prenda.setMontoValuo(Float.parseFloat(prendas.get(i).getMontoValuo().toString()));
-                Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda());
-                prenda.setTipoprendaIdtipoprenda(tipoPrenda);
-                //prenda.setEstadoEmpeno(); como lo mando
+                prenda.setEmpenoIdempeno(datos.Empeno.clonar(prendas.get(i).getEmpeno()));
+                prenda.setTipoprendaIdtipoprenda(datos.Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda()));
+                prenda.setEstadoEmpeno(false);//como lo mando? 
                 prendaJPA.edit(prenda);
             }
         }catch(Exception e){

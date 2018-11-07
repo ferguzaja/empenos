@@ -161,8 +161,6 @@ public class GUIEditarEmpleadoController implements Initializable {
         tipoempleado.setNombre(tipo.getValue().getNombre());
         empleado.setTipoempleadoIdtipoempleado(tipoempleado);
         empleado.setTelefono(telefono.getText());
-        System.out.println(empleado.getTelefono());
-        System.out.println(idEmpleado);
         return empleado;
     }
     @FXML

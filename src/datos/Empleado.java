@@ -232,5 +232,12 @@ public class Empleado implements Serializable {
         datos.Empleado empleado = empleadoJPA.findEmpleado(idEmpleado);
         return empleado;
     }
+    public static logica.Empleado datosALogicaClonar(datos.Empleado empleado){
+        logica.Empleado emp = new logica.Empleado();
+        emp.setIdEmpleado(empleado.getIdempleado());
+
+        
+        return emp;
+    }
     
 }
