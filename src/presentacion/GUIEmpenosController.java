@@ -43,77 +43,76 @@ import logica.Empeno;
  * @author Jahir
  */
 public class GUIEmpenosController implements Initializable {
-        
+
     @FXML
     private Button botonNuevoCliente;
-    
+
     @FXML
     private Button botonEditarCliente;
-    
+
     @FXML
     private Button botonAgregarContrato;
-    
+
     @FXML
     private TextField txtBuscar;
-    
+
     @FXML
     private TableView<logica.Cliente> tablaClientes;
-    
+
     @FXML
     private TableColumn<Cliente, String> nombreColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> apMaternoColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> apPaternoColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> direccionColumn;
-    
+
     @FXML
     private TableColumn<Cliente, String> noIdentColumn;
-    
+
     @FXML
     private TableView<logica.Prenda> tablaPrenda;
-    
+
     @FXML
     private TableColumn<Prenda, String> tipoArticuloColum;
-    
+
     @FXML
     private TableColumn<Prenda, String> descripcionColumn;
-    
+
     @FXML
     private TableColumn<Prenda, String> montoAvaluoColumn;
-    
+
     @FXML
     private TableColumn<Prenda, String> montoPrestamoColumn;
-    
+
     @FXML
     private TableColumn<Prenda, String> fotografia;
-    
+
     @FXML
     private TableColumn<Button, Button> eliminar;
-    
+
     @FXML
     private Button agregarPrenda;
-    
-    
+
     @FXML
     private List<logica.Prenda> listaPrenda = new ArrayList<>();
-    
+
     GUIEmpenosController guiEmpenosControler;
-    
+
     private int clicEditar;
     private Map<String, Object> parametrosGlobales;
-    
+
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
         try {
-            
+
             FXMLLoader loader = new FXMLLoader();
             AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUICliente.fxml").openStream());
-            
+
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -125,54 +124,60 @@ public class GUIEmpenosController implements Initializable {
             Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @FXML
     private void botonGuardarContrato(ActionEvent event) {
         //Registro del empeño
-        Empeno empeno = new logica.Empeno();        
+        Empeno empeno = new logica.Empeno();
         //recuperar fecha del sistema
-        Calendar cal = Calendar.getInstance(); 
+        Calendar cal = Calendar.getInstance();
         int mes = cal.get(Calendar.MONTH) + 1;
-        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
+        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);
         Date date = java.sql.Date.valueOf(fecha);
         empeno.setFechaInicio(date);
-        
+
         cal.add(Calendar.DAY_OF_MONTH, 30);
         int mesSiguiente = cal.get(Calendar.MONTH) + 1;
-        String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);               
+        String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);
         Date dateFinal = java.sql.Date.valueOf(fechaFinal);
-        empeno.setFechaFinEmpeno(dateFinal);        
+        empeno.setFechaFinEmpeno(dateFinal);
         empeno.setIdEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
-        
-        //Aqui falta el cotitular
-        
+
+        //falta agregar en la gui el cotitular
         empeno.setCotitular("");
+        empeno.setEstatus("activo");
+        empeno.setNumExtencionTiempo(0);
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         datos.Empeno.guardarEmpeno(empeno);
+
         datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
+        datos.Empeno.actualizarEmpeno(empeno);
         datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
-        datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()),datos.Empeno.recuperaID()));
-                //Parte de productos
-        
+        datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
+
     }
-    private List<logica.Prenda> asignaID(Empeno empeno){
-        for(int i=0; i<listaPrenda.size(); i++){
+
+    private List<logica.Prenda> asignaID(Empeno empeno) {
+        for (int i = 0; i < listaPrenda.size(); i++) {
             listaPrenda.get(i).setEmpeno(empeno);
         }
+        empeno.setNumBolsa(empeno.getIdEmpeno());
+
         return listaPrenda;
     }
+
     @FXML
     private void botonEditarCliente(ActionEvent event) {
         try {
             clicEditar = 1;
             //objeto que quiero enviar a la GUICLiente
-            logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();                        
+            logica.Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();
             //se agrega el .openStream
             FXMLLoader loader = new FXMLLoader();
             AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUICliente.fxml").openStream());
-            
+
             //Instancia del controlador 2
-            GUIClienteController clienteController = (GUIClienteController) loader.getController();                                                            
+            GUIClienteController clienteController = (GUIClienteController) loader.getController();
             //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
             //como parámetro una instancia de la GUIEmpenos y el objeto
             Scene scene = new Scene(root);
@@ -180,13 +185,13 @@ public class GUIEmpenosController implements Initializable {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Editar cliente");
-            clienteController.recibeParametros(guiEmpenosControler, cliente, clicEditar,stage);
-            stage.show();                            
+            clienteController.recibeParametros(guiEmpenosControler, cliente, clicEditar, stage);
+            stage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenosController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @FXML
     private void botonAgregarPrenda(ActionEvent event) {
         try {
@@ -198,19 +203,19 @@ public class GUIEmpenosController implements Initializable {
             Stage planillaStage = new Stage();
             planillaStage.setScene(scene);
             GUIAgregarProductoController productosController = (GUIAgregarProductoController) loader.getController();
-            productosController.recibeVariable(this,planillaStage);
+            productosController.recibeVariable(this, planillaStage);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAgregarProductoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
-        
+
         ClienteJpaController clienteJPA = new ClienteJpaController();
         List<datos.Cliente> clientes = clienteJPA.findClienteEntities();
-        
+
         List<logica.Cliente> listaClientes = new ArrayList<>();
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getNombre().contains(txtBuscar.getText())) {
@@ -225,7 +230,7 @@ public class GUIEmpenosController implements Initializable {
                 client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
                 //Para convertir de date que esta en la bd a String
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                client.setFechaNacimiento(sdf.format(clientes.get(i).getFechaNac()));                                
+                client.setFechaNacimiento(sdf.format(clientes.get(i).getFechaNac()));
                 client.setIdCiudad(clientes.get(i).getCiudadIdciudad().getIdciudad());
                 client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
                 client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
@@ -238,23 +243,21 @@ public class GUIEmpenosController implements Initializable {
                 listaClientes.add(client);
             }
         }
-        
+
         ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
         apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoMaterno"));
         direccionColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("direccion"));
-        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("noIdentificacion"));        
+        noIdentColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("noIdentificacion"));
         tablaClientes.setItems(obsClientes);
     }
-    
-    
-    
-    public void agregarPrenda(Prenda prenda,Stage stage) {
+
+    public void agregarPrenda(Prenda prenda, Stage stage) {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
-        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
+        tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda, String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
         montoAvaluoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
         montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
@@ -263,14 +266,14 @@ public class GUIEmpenosController implements Initializable {
         stage.close();
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
     }
-    
-    public void recibeHashMap(Map<String, Object> parametros){
+
+    public void recibeHashMap(Map<String, Object> parametros) {
         parametrosGlobales = parametros;
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         guiEmpenosControler = this;
     }
-    
+
 }

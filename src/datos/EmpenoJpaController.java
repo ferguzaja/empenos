@@ -5,16 +5,18 @@
  */
 package datos;
 
+import datos.exceptions.IllegalOrphanException;
 import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
@@ -32,6 +34,9 @@ public class EmpenoJpaController implements Serializable {
     }
 
     public void create(Empeno empeno) {
+        if (empeno.getPagoList() == null) {
+            empeno.setPagoList(new ArrayList<Pago>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -46,6 +51,12 @@ public class EmpenoJpaController implements Serializable {
                 clienteIdcliente = em.getReference(clienteIdcliente.getClass(), clienteIdcliente.getIdcliente());
                 empeno.setClienteIdcliente(clienteIdcliente);
             }
+            List<Pago> attachedPagoList = new ArrayList<Pago>();
+            for (Pago pagoListPagoToAttach : empeno.getPagoList()) {
+                pagoListPagoToAttach = em.getReference(pagoListPagoToAttach.getClass(), pagoListPagoToAttach.getIdpago());
+                attachedPagoList.add(pagoListPagoToAttach);
+            }
+            empeno.setPagoList(attachedPagoList);
             em.persist(empeno);
             if (empleadoidEmpleado != null) {
                 empleadoidEmpleado.getEmpenoList().add(empeno);
@@ -55,6 +66,15 @@ public class EmpenoJpaController implements Serializable {
                 clienteIdcliente.getEmpenoList().add(empeno);
                 clienteIdcliente = em.merge(clienteIdcliente);
             }
+            for (Pago pagoListPago : empeno.getPagoList()) {
+                Empeno oldEmpenoIdempenoOfPagoListPago = pagoListPago.getEmpenoIdempeno();
+                pagoListPago.setEmpenoIdempeno(empeno);
+                pagoListPago = em.merge(pagoListPago);
+                if (oldEmpenoIdempenoOfPagoListPago != null) {
+                    oldEmpenoIdempenoOfPagoListPago.getPagoList().remove(pagoListPago);
+                    oldEmpenoIdempenoOfPagoListPago = em.merge(oldEmpenoIdempenoOfPagoListPago);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -63,17 +83,31 @@ public class EmpenoJpaController implements Serializable {
         }
     }
 
-    public void edit(Empeno empeno) throws NonexistentEntityException, Exception {
+    public void edit(Empeno empeno) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno persistentEmpeno = em.find(Empeno.class, empeno.getIdempeno());
-            //Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
-            //Empleado empleadoidEmpleadoNew = empeno.getEmpleadoidEmpleado();
-            empeno = em.merge(empeno);
-            /*Cliente clienteIdclienteOld = persistentEmpeno.getClienteIdcliente();
+            /*
+            Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
+            Empleado empleadoidEmpleadoNew = empeno.getEmpleadoidEmpleado();
+            Cliente clienteIdclienteOld = persistentEmpeno.getClienteIdcliente();
             Cliente clienteIdclienteNew = empeno.getClienteIdcliente();
+            List<Pago> pagoListOld = persistentEmpeno.getPagoList();
+            List<Pago> pagoListNew = empeno.getPagoList();
+            List<String> illegalOrphanMessages = null;
+            for (Pago pagoListOldPago : pagoListOld) {
+                if (!pagoListNew.contains(pagoListOldPago)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Pago " + pagoListOldPago + " since its empenoIdempeno field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (empleadoidEmpleadoNew != null) {
                 empleadoidEmpleadoNew = em.getReference(empleadoidEmpleadoNew.getClass(), empleadoidEmpleadoNew.getIdempleado());
                 empeno.setEmpleadoidEmpleado(empleadoidEmpleadoNew);
@@ -82,7 +116,15 @@ public class EmpenoJpaController implements Serializable {
                 clienteIdclienteNew = em.getReference(clienteIdclienteNew.getClass(), clienteIdclienteNew.getIdcliente());
                 empeno.setClienteIdcliente(clienteIdclienteNew);
             }
-            if (empleadoidEmpleadoOld != null && !empleadoidEmpleadoOld.equals(empleadoidEmpleadoNew)) {
+            List<Pago> attachedPagoListNew = new ArrayList<Pago>();
+            for (Pago pagoListNewPagoToAttach : pagoListNew) {
+                pagoListNewPagoToAttach = em.getReference(pagoListNewPagoToAttach.getClass(), pagoListNewPagoToAttach.getIdpago());
+                attachedPagoListNew.add(pagoListNewPagoToAttach);
+            }
+            pagoListNew = attachedPagoListNew;
+            empeno.setPagoList(pagoListNew);
+            */empeno = em.merge(empeno);
+            /*if (empleadoidEmpleadoOld != null && !empleadoidEmpleadoOld.equals(empleadoidEmpleadoNew)) {
                 empleadoidEmpleadoOld.getEmpenoList().remove(empeno);
                 empleadoidEmpleadoOld = em.merge(empleadoidEmpleadoOld);
             }
@@ -97,6 +139,17 @@ public class EmpenoJpaController implements Serializable {
             if (clienteIdclienteNew != null && !clienteIdclienteNew.equals(clienteIdclienteOld)) {
                 clienteIdclienteNew.getEmpenoList().add(empeno);
                 clienteIdclienteNew = em.merge(clienteIdclienteNew);
+            }
+            for (Pago pagoListNewPago : pagoListNew) {
+                if (!pagoListOld.contains(pagoListNewPago)) {
+                    Empeno oldEmpenoIdempenoOfPagoListNewPago = pagoListNewPago.getEmpenoIdempeno();
+                    pagoListNewPago.setEmpenoIdempeno(empeno);
+                    pagoListNewPago = em.merge(pagoListNewPago);
+                    if (oldEmpenoIdempenoOfPagoListNewPago != null && !oldEmpenoIdempenoOfPagoListNewPago.equals(empeno)) {
+                        oldEmpenoIdempenoOfPagoListNewPago.getPagoList().remove(pagoListNewPago);
+                        oldEmpenoIdempenoOfPagoListNewPago = em.merge(oldEmpenoIdempenoOfPagoListNewPago);
+                    }
+                }
             }*/
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -115,7 +168,7 @@ public class EmpenoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -126,6 +179,17 @@ public class EmpenoJpaController implements Serializable {
                 empeno.getIdempeno();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The empeno with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            List<Pago> pagoListOrphanCheck = empeno.getPagoList();
+            for (Pago pagoListOrphanCheckPago : pagoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Empeno (" + empeno + ") cannot be destroyed since the Pago " + pagoListOrphanCheckPago + " in its pagoList field has a non-nullable empenoIdempeno field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Empleado empleadoidEmpleado = empeno.getEmpleadoidEmpleado();
             if (empleadoidEmpleado != null) {

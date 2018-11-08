@@ -45,15 +45,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Empeno.findByExtencionTiempo", query = "SELECT e FROM Empeno e WHERE e.extencionTiempo = :extencionTiempo")
     , @NamedQuery(name = "Empeno.findByFechaExtencion", query = "SELECT e FROM Empeno e WHERE e.fechaExtencion = :fechaExtencion")
     , @NamedQuery(name = "Empeno.findByFechaFinalizacion", query = "SELECT e FROM Empeno e WHERE e.fechaFinalizacion = :fechaFinalizacion")
-    , @NamedQuery(name = "Empeno.findByTipofinalizacion", query = "SELECT e FROM Empeno e WHERE e.tipofinalizacion = :tipofinalizacion")
+    , @NamedQuery(name = "Empeno.findByEstatus", query = "SELECT e FROM Empeno e WHERE e.estatus = :estatus")
     , @NamedQuery(name = "Empeno.findByNoBolsa", query = "SELECT e FROM Empeno e WHERE e.noBolsa = :noBolsa")
     , @NamedQuery(name = "Empeno.findByMontoRecibido", query = "SELECT e FROM Empeno e WHERE e.montoRecibido = :montoRecibido")})
 public class Empeno implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
-    private List<Pago> pagoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
-    private List<Variblesempeno> variblesempenoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -79,8 +74,8 @@ public class Empeno implements Serializable {
     @Column(name = "fechaFinalizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaFinalizacion;
-    @Column(name = "tipofinalizacion")
-    private String tipofinalizacion;
+    @Column(name = "estatus")
+    private String estatus;
     @Column(name = "noBolsa")
     private Integer noBolsa;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -92,6 +87,8 @@ public class Empeno implements Serializable {
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente")
     @ManyToOne(optional = false)
     private Cliente clienteIdcliente;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
+    private List<Pago> pagoList;
 
     public Empeno() {
     }
@@ -162,12 +159,12 @@ public class Empeno implements Serializable {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
-    public String getTipofinalizacion() {
-        return tipofinalizacion;
+    public String getEstatus() {
+        return estatus;
     }
 
-    public void setTipofinalizacion(String tipofinalizacion) {
-        this.tipofinalizacion = tipofinalizacion;
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
     public Integer getNoBolsa() {
@@ -202,6 +199,15 @@ public class Empeno implements Serializable {
         this.clienteIdcliente = clienteIdcliente;
     }
 
+    @XmlTransient
+    public List<Pago> getPagoList() {
+        return pagoList;
+    }
+
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -226,36 +232,47 @@ public class Empeno implements Serializable {
     public String toString() {
         return "datos.Empeno[ idempeno=" + idempeno + " ]";
     }
-
-    @XmlTransient
-    public List<Pago> getPagoList() {
-        return pagoList;
-    }
-
-    public void setPagoList(List<Pago> pagoList) {
-        this.pagoList = pagoList;
-    }
-
-    @XmlTransient
-    public List<Variblesempeno> getVariblesempenoList() {
-        return variblesempenoList;
-    }
-
-    public void setVariblesempenoList(List<Variblesempeno> variblesempenoList) {
-        this.variblesempenoList = variblesempenoList;
-    }
-    public static void guardarEmpeno(logica.Empeno emp){
+    
+    public static void guardarEmpeno(logica.Empeno emp) {
         datos.Empeno empeno = new datos.Empeno();
         empeno.setFechaInicioEmpeno(emp.getFechaInicio());
         empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
         empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado().getIdEmpleado()));
         empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
-        //se lo pasé directo, hay qu corregirlo
-        empeno.setCotitular(emp.getCotitular());
+        //revisar si hay que validar contra nulo!empeno.getCotitular().isEmpty
+        if (empeno.getCotitular()!=null) {
+            empeno.setCotitular(emp.getCotitular());
+        }
+        empeno.setEstatus(emp.getEstatus());
+        empeno.setExtencionTiempo(emp.getNumExtencionTiempo());
+        empeno.setNoBolsa(emp.getNumBolsa());
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         empenoJPA.create(empeno);
     }
-    public static void finiquitarContrato(logica.Empeno emp){
+
+    public static void actualizarEmpeno(logica.Empeno emp) {
+        try {
+            datos.Empeno empeno = new datos.Empeno();
+            empeno.setIdempeno(emp.getIdEmpeno());
+            empeno.setFechaInicioEmpeno(emp.getFechaInicio());
+            empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
+            empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado().getIdEmpleado()));
+            empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
+            if (empeno.getCotitular()!=null) {
+                empeno.setCotitular(emp.getCotitular());
+            }            
+            empeno.setNoBolsa(emp.getNumBolsa());
+            empeno.setExtencionTiempo(emp.getNumExtencionTiempo());
+            empeno.setEstatus(emp.getEstatus());
+            EmpenoJpaController empenoJPA = new EmpenoJpaController();
+            
+            empenoJPA.edit(empeno);
+        } catch (Exception ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void finiquitarContrato(logica.Empeno emp) {
         try {
             datos.Empeno empeno = new datos.Empeno();
             empeno.setIdempeno(emp.getIdEmpeno());
@@ -268,7 +285,7 @@ public class Empeno implements Serializable {
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
             empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));
             empeno.setNoBolsa(emp.getNumBolsa());
-            empeno.setTipofinalizacion(emp.getTipoFinalizacion());
+            empeno.setEstatus(emp.getEstatus());
             empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             empenoJPA.edit(empeno);
@@ -277,20 +294,20 @@ public class Empeno implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }
-    public static Empeno clonar(logica.Empeno empeno){
-       datos.Empeno emp = new Empeno();
-       emp.setIdempeno(empeno.getIdEmpeno());
-       return emp;
-    }
-    public static logica.Empeno recuperaID(){
-        EmpenoJpaController empenoJPA = new EmpenoJpaController();
-        List<datos.Empeno> empenos =empenoJPA.findEmpenoEntities();
-        logica.Empeno empeno=new logica.Empeno();
-        empeno.setIdEmpeno(empenos.get(empenos.size()-1).getIdempeno());
-        return empeno;
+
     }
 
-    
+    public static Empeno clonar(logica.Empeno empeno) {
+        datos.Empeno emp = new Empeno();
+        emp.setIdempeno(empeno.getIdEmpeno());
+        return emp;
+    }
+
+    public static logica.Empeno recuperaID() {
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        List<datos.Empeno> empenos = empenoJPA.findEmpenoEntities();
+        logica.Empeno empeno = new logica.Empeno();
+        empeno.setIdEmpeno(empenos.get(empenos.size() - 1).getIdempeno());
+        return empeno;
+    }
 }

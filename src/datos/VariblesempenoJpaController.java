@@ -37,6 +37,7 @@ public class VariblesempenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno empenoIdempeno = variblesempeno.getEmpenoIdempeno();
+            /*
             if (empenoIdempeno != null) {
                 empenoIdempeno = em.getReference(empenoIdempeno.getClass(), empenoIdempeno.getIdempeno());
                 variblesempeno.setEmpenoIdempeno(empenoIdempeno);
@@ -45,7 +46,7 @@ public class VariblesempenoJpaController implements Serializable {
             if (empenoIdempeno != null) {
                 empenoIdempeno.getVariblesempenoList().add(variblesempeno);
                 empenoIdempeno = em.merge(empenoIdempeno);
-            }
+            }*/
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -60,13 +61,14 @@ public class VariblesempenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Variblesempeno persistentVariblesempeno = em.find(Variblesempeno.class, variblesempeno.getIdvariblesempeno());
+            /*
             Empeno empenoIdempenoOld = persistentVariblesempeno.getEmpenoIdempeno();
             Empeno empenoIdempenoNew = variblesempeno.getEmpenoIdempeno();
             if (empenoIdempenoNew != null) {
                 empenoIdempenoNew = em.getReference(empenoIdempenoNew.getClass(), empenoIdempenoNew.getIdempeno());
                 variblesempeno.setEmpenoIdempeno(empenoIdempenoNew);
             }
-            variblesempeno = em.merge(variblesempeno);
+
             if (empenoIdempenoOld != null && !empenoIdempenoOld.equals(empenoIdempenoNew)) {
                 empenoIdempenoOld.getVariblesempenoList().remove(variblesempeno);
                 empenoIdempenoOld = em.merge(empenoIdempenoOld);
@@ -74,7 +76,8 @@ public class VariblesempenoJpaController implements Serializable {
             if (empenoIdempenoNew != null && !empenoIdempenoNew.equals(empenoIdempenoOld)) {
                 empenoIdempenoNew.getVariblesempenoList().add(variblesempeno);
                 empenoIdempenoNew = em.merge(empenoIdempenoNew);
-            }
+            }*/
+            variblesempeno = em.merge(variblesempeno);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -106,7 +109,7 @@ public class VariblesempenoJpaController implements Serializable {
             }
             Empeno empenoIdempeno = variblesempeno.getEmpenoIdempeno();
             if (empenoIdempeno != null) {
-                empenoIdempeno.getVariblesempenoList().remove(variblesempeno);
+                //empenoIdempeno.getVariblesempenoList().remove(variblesempeno);
                 empenoIdempeno = em.merge(empenoIdempeno);
             }
             em.remove(variblesempeno);

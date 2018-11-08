@@ -98,7 +98,7 @@ public class GUIFiniquitoController implements Initializable {
         String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
         Date date = java.sql.Date.valueOf(fecha);
         empeno.setFechaFinalizacion(date);
-        empeno.setTipoFinalizacion("Finiquito");
+        empeno.setEstatus("Finiquito");
         System.out.println(empeno.getFechaFinalizacion());
         return empeno;
     }

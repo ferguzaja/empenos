@@ -86,8 +86,10 @@ public class GUIEmpenoController implements Initializable {
                 emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));//clonar
                 emp.setCotitular(empenos.get(i).getCotitular());
                 emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
+                if(empenos.get(i).getExtencionTiempo()!= 0){                
                 emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
-                emp.setTipoFinalizacion(empenos.get(i).getTipofinalizacion());
+                }
+                emp.setEstatus(empenos.get(i).getEstatus());
                 emp.setNumBolsa(empenos.get(i).getNoBolsa());
                 emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
                 listaEmpenos.add(emp);

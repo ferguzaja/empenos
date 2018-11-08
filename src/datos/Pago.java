@@ -7,7 +7,6 @@ package datos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import static java.util.Collections.list;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -23,9 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import logica.VariblesEmpeno;
 
 /**
  *
@@ -175,6 +172,7 @@ public class Pago implements Serializable {
     public String toString() {
         return "datos.Pago[ idpago=" + idpago + " ]";
     }
+    
     public static List<logica.Pago> regresaPagos(int empeno){
         PagoJpaController pagoJPA = new PagoJpaController();
         List<datos.Pago> pagos = pagoJPA.findPagoEntities();
@@ -221,5 +219,4 @@ public class Pago implements Serializable {
         
         return pagos;
     }
-    
 }

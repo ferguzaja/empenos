@@ -24,7 +24,7 @@ public class Empeno {
     private double montoRecibido;
     private Cliente cliente;
     private Date fechaFinalizacion;
-    private String tipoFinalizacion;
+    private String estatus;
 
     public Empeno() {
     }
@@ -42,7 +42,7 @@ public class Empeno {
         this.montoRecibido = monto;
         this.cliente = cliente;
         this.fechaFinalizacion = fechaFinalizacion;
-        this.tipoFinalizacion = tipoFinalizacion;
+        this.estatus = tipoFinalizacion;
     }
 
     public int getIdEmpeno() {
@@ -141,15 +141,12 @@ public class Empeno {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
-    public String getTipoFinalizacion() {
-        return tipoFinalizacion;
+    public String getEstatus() {
+        return estatus;
     }
 
-    public void setTipoFinalizacion(String tipoFinalizacion) {
-        this.tipoFinalizacion = tipoFinalizacion;
+    public void setEstatus(String tipoFinalizacion) {
+        this.estatus = tipoFinalizacion;
     }
-
-    
-    
-    
+            
 }
