@@ -89,6 +89,7 @@ public class EmpenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno persistentEmpeno = em.find(Empeno.class, empeno.getIdempeno());
+            empeno = em.merge(empeno);
             /*
             Empleado empleadoidEmpleadoOld = persistentEmpeno.getEmpleadoidEmpleado();
             Empleado empleadoidEmpleadoNew = empeno.getEmpleadoidEmpleado();
@@ -123,7 +124,7 @@ public class EmpenoJpaController implements Serializable {
             }
             pagoListNew = attachedPagoListNew;
             empeno.setPagoList(pagoListNew);
-            */empeno = em.merge(empeno);
+            */
             /*if (empleadoidEmpleadoOld != null && !empleadoidEmpleadoOld.equals(empleadoidEmpleadoNew)) {
                 empleadoidEmpleadoOld.getEmpenoList().remove(empeno);
                 empleadoidEmpleadoOld = em.merge(empleadoidEmpleadoOld);

@@ -5,8 +5,11 @@
  */
 package datos;
 
+import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -214,18 +217,6 @@ public class Empleado implements Serializable {
     public String toString() {
         return "datos.Empleado[ idempleado=" + idempleado + " ]";
     }
-
-    public boolean guardar(Empleado empleado) {
-        boolean guardar = true;
-        try {
-            EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
-            empleadoJPA.create(empleado);
-
-        } catch (Exception e) {
-            guardar = false;
-        }
-        return guardar;
-    }
     
     public static datos.Empleado recuperarEmpleado(int idEmpleado){        
         EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
@@ -239,5 +230,17 @@ public class Empleado implements Serializable {
         
         return emp;
     }
-    
+    public static boolean guardarEmpleado(datos.Empleado empleado){
+        boolean guardado=true;
+        try {
+            EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
+            empleadoJPA.edit(empleado);
+    }   catch (NonexistentEntityException ex) {
+            guardado=false;
+            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return guardado;
+    }
 }

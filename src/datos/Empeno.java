@@ -80,7 +80,7 @@ public class Empeno implements Serializable {
     private Integer noBolsa;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "montoRecibido")
-    private Float montoRecibido;
+    private double montoRecibido;
     @JoinColumn(name = "empleado_idEmpleado", referencedColumnName = "idempleado")
     @ManyToOne(optional = false)
     private Empleado empleadoidEmpleado;
@@ -89,6 +89,8 @@ public class Empeno implements Serializable {
     private Cliente clienteIdcliente;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
     private List<Pago> pagoList;
+     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
+    private List<Variblesempeno> variblesempenoList;
 
     public Empeno() {
     }
@@ -175,11 +177,11 @@ public class Empeno implements Serializable {
         this.noBolsa = noBolsa;
     }
 
-    public Float getMontoRecibido() {
+    public double getMontoRecibido() {
         return montoRecibido;
     }
 
-    public void setMontoRecibido(Float montoRecibido) {
+    public void setMontoRecibido(double montoRecibido) {
         this.montoRecibido = montoRecibido;
     }
 
@@ -206,6 +208,13 @@ public class Empeno implements Serializable {
 
     public void setPagoList(List<Pago> pagoList) {
         this.pagoList = pagoList;
+    }
+    @XmlTransient
+    public List<Variblesempeno> getVariblesempenoList() {
+        return variblesempenoList;
+    }
+     public void setVariblesempenoList(List<Variblesempeno> variblesempenoList) {
+        this.variblesempenoList = variblesempenoList;
     }
 
     @Override

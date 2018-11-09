@@ -36,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logica.Empeno;
+import utilerias.fechas;
 
 /**
  * FXML Controller class
@@ -129,18 +130,11 @@ public class GUIEmpenosController implements Initializable {
     private void botonGuardarContrato(ActionEvent event) {
         //Registro del empeño
         Empeno empeno = new logica.Empeno();
-        //recuperar fecha del sistema
-        Calendar cal = Calendar.getInstance();
-        int mes = cal.get(Calendar.MONTH) + 1;
-        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);
-        Date date = java.sql.Date.valueOf(fecha);
+        Date date =utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
         empeno.setFechaInicio(date);
+        empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
 
-        cal.add(Calendar.DAY_OF_MONTH, 30);
-        int mesSiguiente = cal.get(Calendar.MONTH) + 1;
-        String fechaFinal = cal.get(cal.YEAR) + "-" + mesSiguiente + "-" + cal.get(cal.DATE);
-        Date dateFinal = java.sql.Date.valueOf(fechaFinal);
-        empeno.setFechaFinEmpeno(dateFinal);
+        
         empeno.setIdEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
 
         //falta agregar en la gui el cotitular
@@ -149,20 +143,21 @@ public class GUIEmpenosController implements Initializable {
         empeno.setNumExtencionTiempo(0);
         empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         datos.Empeno.guardarEmpeno(empeno);
-
+       
         datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
+        empeno.setIdEmpeno(datos.Empeno.recuperaID().getIdEmpeno());
+        empeno.setNumBolsa(datos.Empeno.recuperaID().getIdEmpeno());
         datos.Empeno.actualizarEmpeno(empeno);
         datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
         datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
 
     }
-
+    
+    
     private List<logica.Prenda> asignaID(Empeno empeno) {
         for (int i = 0; i < listaPrenda.size(); i++) {
             listaPrenda.get(i).setEmpeno(empeno);
         }
-        empeno.setNumBolsa(empeno.getIdEmpeno());
-
         return listaPrenda;
     }
 

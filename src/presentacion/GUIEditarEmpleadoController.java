@@ -70,23 +70,6 @@ public class GUIEditarEmpleadoController implements Initializable {
     private ArrayList<TextField> listaText= new ArrayList<>();
     
     @FXML
-    private void mensajePantalla(String mensaje) {
-        Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
-        dialogo.setTitle("Aviso");
-        dialogo.setHeaderText(null);
-        dialogo.setContentText(mensaje);
-        dialogo.initStyle(StageStyle.UTILITY);
-        dialogo.showAndWait();
-    }
-    @FXML
-    private void elliminarEspacios( ) {
-        for(int i=0; i<listaText.size(); i++){
-            listaText.get(i).setText(listaText.get(i).getText());
-            }
-    }
-    
-    //Te falta validar
-    @FXML
     private boolean validarCamposVacios(){
         boolean correcto=true;
         for(int i=0; i<listaText.size(); i++){
@@ -98,16 +81,12 @@ public class GUIEditarEmpleadoController implements Initializable {
     }
     @FXML
     private void guardarEmpleado() throws NonexistentEntityException{
-       
-        try {
-            EmpleadoJpaController empleadoJPA = new EmpleadoJpaController();
-            empleadoJPA.edit(obtenEmpleado());
-            mensajePantalla("Empleado Guardado Exitosamente");
-            admin.llenaTabla();
-                    stagemaster.close();
-        } catch (Exception ex) {
-            mensajePantalla("Error");
-            Logger.getLogger(GUIEditarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            if(datos.Empleado.guardarEmpleado(obtenEmpleado())){    
+                utilerias.mensajes.mensage("Empleado Guardado Exitosamente");
+                admin.llenaTabla();
+                stagemaster.close();
+        }else{
+            utilerias.mensajes.mensage("Error");
         }
             
           
@@ -165,14 +144,14 @@ public class GUIEditarEmpleadoController implements Initializable {
     }
     @FXML
     private void botonGuardar(ActionEvent event)throws ParseException, NonexistentEntityException {
-        elliminarEspacios();
+        utilerias.validacion.elliminarEspacios(listaText);
         if(!validarCamposVacios()){
-            mensajePantalla("Favor de no dejar Campos Vacios");
+            utilerias.mensajes.mensage("Favor de no dejar Campos Vacios");
         }else{
             if(contraseña.getText().equals(confirmacion.getText())){
                     guardarEmpleado();
             }else{
-                mensajePantalla("contraseñas no coinciden");
+                utilerias.mensajes.mensage("contraseñas no coinciden");
             }
         }
     }

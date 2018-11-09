@@ -37,7 +37,7 @@ public class VariblesempenoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno empenoIdempeno = variblesempeno.getEmpenoIdempeno();
-            /*
+            
             if (empenoIdempeno != null) {
                 empenoIdempeno = em.getReference(empenoIdempeno.getClass(), empenoIdempeno.getIdempeno());
                 variblesempeno.setEmpenoIdempeno(empenoIdempeno);
@@ -46,7 +46,7 @@ public class VariblesempenoJpaController implements Serializable {
             if (empenoIdempeno != null) {
                 empenoIdempeno.getVariblesempenoList().add(variblesempeno);
                 empenoIdempeno = em.merge(empenoIdempeno);
-            }*/
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {

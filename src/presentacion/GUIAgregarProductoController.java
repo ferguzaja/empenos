@@ -85,16 +85,6 @@ public class GUIAgregarProductoController implements Initializable {
          evt.consume();  // ignorar el evento de teclado
       }
         }
-    
-    @FXML
-    private void mensajePantalla(String mensaje) {
-        Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
-        dialogo.setTitle("Aviso");
-        dialogo.setHeaderText(null);
-        dialogo.setContentText(mensaje);
-        dialogo.initStyle(StageStyle.UTILITY);
-        dialogo.showAndWait();
-    }
     @FXML
     private boolean validarCamposVacios(){
         boolean correcto=true;
@@ -113,13 +103,10 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private void botonGuardar(ActionEvent event) throws Exception {
     if(!validarCamposVacios()){
-        mensajePantalla("Favor de no dejar Campos Vacios");
+        utilerias.mensajes.mensage("Favor de no dejar Campos Vacios");
     }else{
         Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue());
         controlador.agregarPrenda(prenda,planillaStage);
-        
-        //dispose();
-            
         }
     }
     @FXML

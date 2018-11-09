@@ -202,21 +202,26 @@ public class Pago implements Serializable {
     public static List<datos.Pago> regresaLista(Variblesempeno var, logica.Empeno emp){
         List<datos.Pago> pagos = new ArrayList<>();
         Pago pago = new Pago();
+        Pago pago2 = new Pago();
         pago.setNoPeriodo(1);
         pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(emp.getIdEmpeno())));
-        pago.setInteres((var.getInteresMensual()*pago.getPrestamo())/2);
-        pago.setIva(pago.getInteres()*.08);
-        pago.setRefrendo(pago.getIva()+pago.getInteres());
-        pago.setDesempeno(pago.refrendo+pago.prestamo);
-        //pago.setFechaPeriodo();
+        pago.setInteres((var.getInteresMensual() * pago.getPrestamo()) / 200);
+        pago.setIva(pago.getInteres() * var.getIva() / 200);
+        pago.setRefrendo(pago.getIva() + pago.getInteres());
+        pago.setDesempeno(pago.refrendo + pago.prestamo);
+        pago.setEmpenoIdempeno(datos.Empeno.clonar(emp));
+        pago.setFechaPeriodo(utilerias.fechas.aumentaDias(emp.getFechaInicio(),15));
+
+        pago2.noPeriodo = 2;
+        pago2.prestamo=pago.prestamo;
+        pago2.interes = pago.interes * 2;
+        pago2.iva = pago.iva * 2;
+        pago2.refrendo = pago.refrendo * 2;
+        pago2.desempeno = pago2.refrendo + pago.prestamo;
+        pago2.empenoIdempeno=datos.Empeno.clonar(emp);
+        pago2.fechaPeriodo=utilerias.fechas.aumentaDias(emp.getFechaInicio(),30);           
         pagos.add(pago);
-        pago.noPeriodo=2;
-        pago.interes=pago.interes*2;
-        pago.iva=pago.iva*2;
-        pago.refrendo=pago.refrendo*2;
-        pago.desempeno=pago.refrendo+pago.prestamo;
-        pagos.add(pago);
-        
+        pagos.add(pago2);
         return pagos;
     }
 }

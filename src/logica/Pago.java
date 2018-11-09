@@ -18,6 +18,7 @@ public class Pago {
     private double iva;
     private double refrendo;
     private double desempeño;
+    private Empeno empeno;
     private Date fecha;
 
     public Pago(int noPeriodo, double prestamo, double interes, double iva, double refrendo, double desempeño, Date fecha) {
@@ -92,5 +93,14 @@ public class Pago {
     public String toString(){
         return noPeriodo+" "+prestamo;
     }
+
+    public Empeno getEmpeno() {
+        return empeno;
+    }
+
+    public void setEmpeno(Empeno empeno) {
+        this.empeno = empeno;
+    }
+    
     
 }

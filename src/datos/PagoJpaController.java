@@ -37,15 +37,15 @@ public class PagoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Empeno empenoIdempeno = pago.getEmpenoIdempeno();
-//            if (empenoIdempeno != null) {
-//                empenoIdempeno = em.getReference(empenoIdempeno.getClass(), empenoIdempeno.getIdempeno());
-//                pago.setEmpenoIdempeno(empenoIdempeno);
-//            }
-//            em.persist(pago);
-//            if (empenoIdempeno != null) {
-//                empenoIdempeno.getPagoList().add(pago);
-//                empenoIdempeno = em.merge(empenoIdempeno);
-//            }
+            if (empenoIdempeno != null) {
+                empenoIdempeno = em.getReference(empenoIdempeno.getClass(), empenoIdempeno.getIdempeno());
+                pago.setEmpenoIdempeno(empenoIdempeno);
+            }
+            em.persist(pago);
+            if (empenoIdempeno != null) {
+                empenoIdempeno.getPagoList().add(pago);
+                empenoIdempeno = em.merge(empenoIdempeno);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {

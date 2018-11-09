@@ -81,7 +81,7 @@ public class GUIFiniquitoController implements Initializable {
     
     @FXML
     private void botonFiniquitar(ActionEvent event){
-        if(confirmacion()){
+        if(utilerias.mensajes.mensageConfirmacion("Finiquitar Contrato", "¿Desea finiquitar su contrato?")){
             datos.Empeno.finiquitarContrato(cambiarStatus());
             datos.Prenda.cambiarPrendasFiniquitadas(listaPrendas);
             stage.close();
@@ -92,40 +92,9 @@ public class GUIFiniquitoController implements Initializable {
     }
     private Empeno cambiarStatus(){
         empeno.setMontoRecibido(Double.valueOf(TFMontoPagar.getText()));
-        //recuperar fecha del sistema
-        Calendar cal = Calendar.getInstance(); 
-        int mes = cal.get(Calendar.MONTH) + 1;
-        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);               
-        Date date = java.sql.Date.valueOf(fecha);
-        empeno.setFechaFinalizacion(date);
+        empeno.setFechaFinalizacion(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
         empeno.setEstatus("Finiquito");
-        System.out.println(empeno.getFechaFinalizacion());
         return empeno;
-    }
-    private boolean confirmacion(){
-        boolean confiramcion=false;
-        Alert alert = new Alert(AlertType.CONFIRMATION); alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Finiquitar Contrato");
-        alert.setContentText("¿Esta Seguro que quiere Finiquitar Su Contrato?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) 
-            confiramcion=true;
-        
-        return confiramcion;
-    }
-    
-    @FXML
-    private void mensajePantalla(String mensaje) {
-        Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
-        dialogo.setTitle("Aviso");
-        dialogo.setHeaderText(null);
-        dialogo.setContentText(mensaje);
-        dialogo.initStyle(StageStyle.UTILITY);
-        dialogo.showAndWait();
-    }
-    private void pagar(Empeno empeno){
-        
     }
     }
     

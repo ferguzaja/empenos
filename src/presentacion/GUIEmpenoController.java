@@ -101,12 +101,12 @@ public class GUIEmpenoController implements Initializable {
         fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaFinEmpeno"));
         numeroExtencionColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numExtencionTiempo"));
         numeroBolsaColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numBolsa"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("tipoFinalizacion"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("estatus"));
         tablaEmpenos.setItems(obsempenos);
     }
     @FXML
     public void verDetalles(){
-        if(validarSeleccionado()){
+        if(utilerias.validacion.seleccionado(tablaEmpenos)){
             try {
            FXMLLoader loader= new FXMLLoader();
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIDetallesContrato.fxml").openStream());
@@ -119,12 +119,14 @@ public class GUIEmpenoController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }else{
+            utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
         
     }
     @FXML
     public void botonFiniquitar(){
-        if(validarSeleccionado()){
+        if(utilerias.validacion.seleccionado(tablaEmpenos)){
             try {
            FXMLLoader loader= new FXMLLoader();
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIFiniquito.fxml").openStream());
@@ -138,15 +140,44 @@ public class GUIEmpenoController implements Initializable {
             Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
         }
             
+        }else{
+            utilerias.mensajes.mensage("favor de seleccionar un contrato");
+        }   
+    }
+    @FXML 
+    private void botonExtension(){
+        if(utilerias.validacion.seleccionado(tablaEmpenos)){
+        if(extensionTiempo()){
+            try {
+            FXMLLoader loader= new FXMLLoader();
+            
+            //agregamos el openStream (no se para que)
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIExtensionTiempo.fxml").openStream());
+            //ahora creo una instancia del controlador del form que voy a abrir casteando
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);           
+            GUIExtensionTiempoController extensionController=(GUIExtensionTiempoController)loader.getController();
+            extensionController.recibeStage(planillaStage,this);
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }else{
+            utilerias.mensajes.mensage("ya no se admite otra extension para este contrato");
         }
         
-    }
-    public boolean validarSeleccionado(){
-        boolean seleccionado=false;
-        if(tablaEmpenos.getSelectionModel().getSelectedItem()!=null){
-            seleccionado=true;
+    }else{
+             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
-        return seleccionado;
+    }
+    @FXML
+    private boolean extensionTiempo(){
+        boolean aceptar=false;
+        if(tablaEmpenos.getSelectionModel().getSelectedItem().getNumExtencionTiempo()<3){
+            aceptar=true;
+        }
+        return aceptar;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

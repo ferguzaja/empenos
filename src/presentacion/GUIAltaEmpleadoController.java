@@ -68,23 +68,14 @@ public class GUIAltaEmpleadoController implements Initializable {
     private void botonGuardar(ActionEvent event)throws ParseException {
     elliminarEspacios();
     if(!validarCamposVacios()){
-        mensajePantalla("Favor de no dejar Campos Vacios");
+        utilerias.mensajes.mensage("Favor de no dejar Campos Vacios");
     }else{
         if(contraseña.getText().equals(confirmacion.getText())){
             guardarEmpleado();
         }else{
-            mensajePantalla("contraseñas no coinciden");
+            utilerias.mensajes.mensage("contraseñas no coinciden");
         }
     }
-    }
-    @FXML
-    private void mensajePantalla(String mensaje) {
-        Alert dialogo = new Alert(Alert.AlertType.INFORMATION);
-        dialogo.setTitle("Aviso");
-        dialogo.setHeaderText(null);
-        dialogo.setContentText(mensaje);
-        dialogo.initStyle(StageStyle.UTILITY);
-        dialogo.showAndWait();
     }
     @FXML
     private void elliminarEspacios( ) {
@@ -107,11 +98,11 @@ public class GUIAltaEmpleadoController implements Initializable {
     private void guardarEmpleado(){
         datos.Empleado empleado = new Empleado();
         if(empleado.guardar(obtenEmpleado())){
-            mensajePantalla("Empleado Guardado Exitosamente");
+            utilerias.mensajes.mensage("Empleado Guardado Exitosamente");
             admin.llenaTabla();
             stage.close();
         }else{
-            mensajePantalla("Error: no se pudo guardar el empleado");
+            utilerias.mensajes.mensage("Error: no se pudo guardar el empleado");
         }
 
          
