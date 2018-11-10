@@ -114,6 +114,7 @@ public class GUIEmpenoController implements Initializable {
 
     private int auxNavegacion = 0;
     private int navegacion = 1;
+    //rango navegacion define cuantos registros se muestran en la tabla
     private int rangoNavegacion = 3;
 
     @FXML
@@ -127,6 +128,7 @@ public class GUIEmpenoController implements Initializable {
         System.out.println(navegacion);
         List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
         llenarTabla(empenos);
+        botonAdelante.setDisable(false);
     }
 
     @FXML
@@ -139,7 +141,10 @@ public class GUIEmpenoController implements Initializable {
         System.out.println(auxNavegacion);
         System.out.println(navegacion);
         List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
-        llenarTabla(empenos);        
+        llenarTabla(empenos);
+        if(empenos.contains(null)){
+            botonAdelante.setDisable(true);
+        }
     }
 
     @FXML
