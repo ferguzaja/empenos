@@ -5,7 +5,9 @@
  */
 package utilerias;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.StageStyle;
 
 /**
@@ -20,5 +22,17 @@ public class mensajes {
         dialogo.setContentText(mensaje);
         dialogo.initStyle(StageStyle.UTILITY);
         dialogo.showAndWait();
+    }
+    public static boolean mensageConfirmacion(String titulo, String cuerpo){
+        boolean confiramcion=false;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titulo);
+        alert.setContentText(cuerpo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) 
+            confiramcion=true;
+        
+        return confiramcion;
     }
 }

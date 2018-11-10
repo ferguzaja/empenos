@@ -5,7 +5,9 @@
  */
 package utilerias;
 
+import java.util.List;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -19,4 +21,10 @@ public class validacion {
         }
         return seleccionado;
     }
+    public static void elliminarEspacios(List<TextField> listaText ) {
+        for(int i=0; i<listaText.size(); i++){
+            listaText.get(i).setText(listaText.get(i).getText());
+            }
+    }
+    
 }

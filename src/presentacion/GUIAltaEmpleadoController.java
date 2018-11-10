@@ -97,7 +97,7 @@ public class GUIAltaEmpleadoController implements Initializable {
     @FXML
     private void guardarEmpleado(){
         datos.Empleado empleado = new Empleado();
-        if(empleado.guardar(obtenEmpleado())){
+        if(empleado.guardarEmpleado(obtenEmpleado())){
             utilerias.mensajes.mensage("Empleado Guardado Exitosamente");
             admin.llenaTabla();
             stage.close();

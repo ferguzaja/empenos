@@ -124,13 +124,10 @@ public class GUIAdministrarEmpleadosController implements Initializable {
     }
     @FXML
     private void botonEditarEmpleado(ActionEvent event){
-        if(tablaEmpleados.getSelectionModel().getSelectedItem()!=null){
+        if(utilerias.validacion.seleccionado(tablaEmpleados)){
        try {
            FXMLLoader loader= new FXMLLoader();
-            
-            //agregamos el openStream (no se para que)
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIEditarEmpleado.fxml").openStream());
-            //ahora creo una instancia del controlador del form que voy a abrir casteando
             Scene scene = new Scene(root);
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);           
@@ -140,7 +137,7 @@ public class GUIAdministrarEmpleadosController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }}else{
-            //aqui implementamos elmensaje en pantalla de utilerias
+           utilerias.mensajes.mensage("favor de seleccionar un empleado");
         }
         }
     public void llenaTabla(){
