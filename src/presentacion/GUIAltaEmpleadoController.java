@@ -103,10 +103,7 @@ public class GUIAltaEmpleadoController implements Initializable {
             stage.close();
         }else{
             utilerias.mensajes.mensage("Error: no se pudo guardar el empleado");
-        }
-
-         
-       
+        }                
     }
     private datos.Empleado obtenEmpleado(){
         Empleado empleado= new Empleado();

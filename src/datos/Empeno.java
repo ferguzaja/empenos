@@ -7,6 +7,7 @@ package datos;
 
 import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -318,5 +319,28 @@ public class Empeno implements Serializable {
         logica.Empeno empeno = new logica.Empeno();
         empeno.setIdEmpeno(empenos.get(empenos.size() - 1).getIdempeno());
         return empeno;
+    }
+    
+    public static List<logica.Empeno> empenosNavegacion(int inicio, int fin){
+        List<logica.Empeno> empenos = new ArrayList<logica.Empeno>();
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        Empeno emp = new Empeno();
+        for (int i = inicio; i < fin; i++) {            
+            emp = empenoJPA.findEmpeno(i);
+            empenos.add(clonarDatosALogica(emp));
+        }        
+        return empenos;
+    }
+    
+    public static logica.Empeno clonarDatosALogica(datos.Empeno empeno){
+        logica.Empeno emp = new logica.Empeno();
+        emp.setIdEmpeno(empeno.getIdempeno());
+        emp.setCliente(empeno.getClienteIdcliente().clonar());
+        emp.setFechaInicio(empeno.getFechaInicioEmpeno());
+        emp.setFechaFinEmpeno(empeno.getFechaFinEmpeno());
+        emp.setNumExtencionTiempo(empeno.getExtencionTiempo());
+        emp.setNumBolsa(empeno.getNoBolsa());
+        emp.setEstatus(empeno.getEstatus());
+        return emp;
     }
 }

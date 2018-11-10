@@ -38,7 +38,7 @@ public class GUIEmpenoController implements Initializable {
 
     @FXML
     private TextField txtBuscar;
-    
+
     @FXML
     private Button botonBuscar;
     @FXML
@@ -52,33 +52,36 @@ public class GUIEmpenoController implements Initializable {
     @FXML
     private Button verDetallesButton;
     @FXML
+    private Button botonAtras;
+    @FXML
+    private Button botonAdelante;
+    @FXML
     private TableView<logica.Empeno> tablaEmpenos;
-    
+
     @FXML
     private TableColumn<Empeno, String> nombreClienteColumn;
-    
+
     @FXML
     private TableColumn<Empeno, String> fechaInicioColumn;
-    
+
     @FXML
     private TableColumn<Empeno, String> fechaFinColumn;
-    
+
     @FXML
     private TableColumn<Empeno, String> numeroExtencionColumn;
-    
+
     @FXML
     private TableColumn<Empeno, String> numeroBolsaColumn;
     @FXML
     private TableColumn<Empeno, String> statusColumn;
-      
-    
-    public void buscarEmpenos(ActionEvent event){
+
+    public void buscarEmpenos(ActionEvent event) {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         List<datos.Empeno> empenos = empenoJPA.findEmpenoEntities();
-        
+
         List<logica.Empeno> listaEmpenos = new ArrayList<>();
         for (int i = 0; i < empenos.size(); i++) {
-            if (empenos.get(i).getIdempeno().equals(Integer.parseInt(txtBuscar.getText()))){
+            if (empenos.get(i).getIdempeno().equals(Integer.parseInt(txtBuscar.getText()))) {
                 logica.Empeno emp = new logica.Empeno();
                 emp.setIdEmpeno(empenos.get(i).getIdempeno());
                 emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
@@ -86,15 +89,19 @@ public class GUIEmpenoController implements Initializable {
                 emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));//clonar
                 emp.setCotitular(empenos.get(i).getCotitular());
                 emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
-                if(empenos.get(i).getExtencionTiempo()!= 0){                
-                emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
+                if (empenos.get(i).getExtencionTiempo() != 0) {
+                    emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
                 }
                 emp.setEstatus(empenos.get(i).getEstatus());
                 emp.setNumBolsa(empenos.get(i).getNoBolsa());
                 emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
                 listaEmpenos.add(emp);
             }
-        }        
+        }
+        llenarTabla(listaEmpenos);
+    }
+    
+    public void llenarTabla(List<logica.Empeno> listaEmpenos){
         ObservableList<logica.Empeno> obsempenos = FXCollections.observableArrayList(listaEmpenos);
         nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("cliente"));
         fechaInicioColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaInicio"));
@@ -104,84 +111,120 @@ public class GUIEmpenoController implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("estatus"));
         tablaEmpenos.setItems(obsempenos);
     }
+
+    private int auxNavegacion = 0;
+    private int navegacion = 1;
+    private int rangoNavegacion = 3;
+
     @FXML
-    public void verDetalles(){
-        if(utilerias.validacion.seleccionado(tablaEmpenos)){
-            try {
-           FXMLLoader loader= new FXMLLoader();
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIDetallesContrato.fxml").openStream());
-            Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);
-            GUIDetallesContratoController detallesController=(GUIDetallesContratoController)loader.getController();
-            detallesController.recibe(tablaEmpenos.getSelectionModel().getSelectedItem());
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+    public void navegarAtras(ActionEvent event) {        
+        navegacion = navegacion - (rangoNavegacion);
+        auxNavegacion = navegacion - (rangoNavegacion);
+        if (auxNavegacion == 1 || navegacion == 1) {
+            botonAtras.setDisable(true);
         }
-        }else{
+        System.out.println(auxNavegacion);
+        System.out.println(navegacion);
+        List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
+        llenarTabla(empenos);
+    }
+
+    @FXML
+    public void navegarAdelante(ActionEvent event) {
+        navegacion = navegacion + rangoNavegacion;
+        auxNavegacion = navegacion - rangoNavegacion;
+        if (navegacion != 1) {
+            botonAtras.setDisable(false);
+        }
+        System.out.println(auxNavegacion);
+        System.out.println(navegacion);
+        List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
+        llenarTabla(empenos);        
+    }
+
+    @FXML
+    public void verDetalles() {
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIDetallesContrato.fxml").openStream());
+                Scene scene = new Scene(root);
+                Stage planillaStage = new Stage();
+                planillaStage.setScene(scene);
+                GUIDetallesContratoController detallesController = (GUIDetallesContratoController) loader.getController();
+                detallesController.recibe(tablaEmpenos.getSelectionModel().getSelectedItem());
+                planillaStage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
-        
+
     }
+
     @FXML
-    public void botonFiniquitar(){
-        if(utilerias.validacion.seleccionado(tablaEmpenos)){
+    public void botonFiniquitar() {
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
             try {
-           FXMLLoader loader= new FXMLLoader();
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIFiniquito.fxml").openStream());
-            Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);
-            GUIFiniquitoController finiquitarController=(GUIFiniquitoController)loader.getController();
-            finiquitarController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem());
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        }else{
+                FXMLLoader loader = new FXMLLoader();
+                AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIFiniquito.fxml").openStream());
+                Scene scene = new Scene(root);
+                Stage planillaStage = new Stage();
+                planillaStage.setScene(scene);
+                GUIFiniquitoController finiquitarController = (GUIFiniquitoController) loader.getController();
+                finiquitarController.recibeParametros(planillaStage, tablaEmpenos.getSelectionModel().getSelectedItem());
+                planillaStage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
-        }   
-    }
-    @FXML 
-    private void botonExtension(){
-        if(utilerias.validacion.seleccionado(tablaEmpenos)){
-        if(extensionTiempo()){
-            try {
-            FXMLLoader loader= new FXMLLoader();
-            
-            //agregamos el openStream (no se para que)
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIExtensionTiempo.fxml").openStream());
-            //ahora creo una instancia del controlador del form que voy a abrir casteando
-            Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);           
-            GUIExtensionTiempoController extensionController=(GUIExtensionTiempoController)loader.getController();
-            extensionController.recibeStage(planillaStage,this);
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }else{
-            utilerias.mensajes.mensage("ya no se admite otra extension para este contrato");
-        }
-        
-    }else{
-             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
     }
+
     @FXML
-    private boolean extensionTiempo(){
-        boolean aceptar=false;
-        if(tablaEmpenos.getSelectionModel().getSelectedItem().getNumExtencionTiempo()<3){
-            aceptar=true;
+    private void botonExtension() {
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
+            if (extensionTiempo()) {
+                try {
+                    FXMLLoader loader = new FXMLLoader();
+
+                    //agregamos el openStream (no se para que)
+                    AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIExtensionTiempo.fxml").openStream());
+                    //ahora creo una instancia del controlador del form que voy a abrir casteando
+                    Scene scene = new Scene(root);
+                    Stage planillaStage = new Stage();
+                    planillaStage.setScene(scene);
+                    GUIExtensionTiempoController extensionController = (GUIExtensionTiempoController) loader.getController();
+                    extensionController.recibeStage(planillaStage, this);
+                    planillaStage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                utilerias.mensajes.mensage("ya no se admite otra extension para este contrato");
+            }
+
+        } else {
+            utilerias.mensajes.mensage("favor de seleccionar un contrato");
+        }
+    }
+
+    @FXML
+    private boolean extensionTiempo() {
+        boolean aceptar = false;
+        if (tablaEmpenos.getSelectionModel().getSelectedItem().getNumExtencionTiempo() < 3) {
+            aceptar = true;
         }
         return aceptar;
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        if (navegacion == 1) {
+            botonAtras.setDisable(true);
+        }
+    }
 }
