@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +75,7 @@ public class GUIEmpenoController implements Initializable {
     private TableColumn<Empeno, String> numeroBolsaColumn;
     @FXML
     private TableColumn<Empeno, String> statusColumn;
+    Map<String, Object> parametrosGlobales;
 
     public void buscarEmpenos(ActionEvent event) {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
@@ -195,7 +197,7 @@ public class GUIEmpenoController implements Initializable {
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);
             GUIRefrendoController refrendoController=(GUIRefrendoController)loader.getController();
-            refrendoController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem());
+            refrendoController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem(),this);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,6 +235,30 @@ public class GUIEmpenoController implements Initializable {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
     }
+    @FXML
+    private void botonNuevoContrato(){
+        try {                                               
+            /*Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
+            panelPrincipal.getChildren().setAll(root);*/
+            //se agrega el .openStream
+            
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIEmpenos.fxml").openStream());
+            
+            //Instancia del controlador 2
+            GUIEmpenosController empenosController = (GUIEmpenosController) loader.getController();
+            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
+            //como parámetro una instancia de la GUIEmpenos y el objeto
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            empenosController.recibeHashMap(parametrosGlobales,stage,this);
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @FXML
     private boolean extensionTiempo() {
@@ -248,5 +274,9 @@ public class GUIEmpenoController implements Initializable {
         if (navegacion == 1) {
             botonAtras.setDisable(true);
         }
+    }
+
+    public void recibeHashMap(Map<String, Object> parametros) {
+        parametrosGlobales = parametros;
     }
 }

@@ -18,6 +18,9 @@ import logica.Empeno;
  */
 public class GUIRefrendoController implements Initializable {
 
+    private GUIEmpenoController controller;
+    private Stage stagemaster;
+
     /**
      * Initializes the controller class.
      */
@@ -26,8 +29,9 @@ public class GUIRefrendoController implements Initializable {
         // TODO
     }    
 
-    void recibeParametros(Stage planillaStage, Empeno selectedItem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    void recibeParametros(Stage planillaStage, Empeno empeno, GUIEmpenoController control) {
+    stagemaster=planillaStage;
+    controller=control;
     }
     
 }

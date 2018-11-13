@@ -6,6 +6,8 @@
 package datos;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -274,5 +276,37 @@ public class Cliente implements Serializable {
     public void setHuellaDigital(byte[] huellaDigital) {
         this.huellaDigital = huellaDigital;
     }
-    
+    public static List<logica.Cliente> buscaClientes(String s){
+        ClienteJpaController clienteJPA = new ClienteJpaController();
+        List<datos.Cliente> clientes = clienteJPA.findClienteEntities();
+
+        List<logica.Cliente> listaClientes = new ArrayList<>();
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getNombre().contains(s)) {
+                logica.Cliente client = new logica.Cliente();
+                client.setIdCliente(clientes.get(i).getIdcliente());
+                client.setNombre(clientes.get(i).getNombre());
+                client.setApellidoMaterno(clientes.get(i).getApellidoMaterno());
+                client.setApellidoPaterno(clientes.get(i).getApeliidoPaterno());
+                client.setDireccion(clientes.get(i).getDireccion());
+                client.setIdTipoIdentificacion(clientes.get(i).getTipoidentificacionIdtipoidentificacion().getIdtipoidentificacion());
+                client.setNoIdentificacion(clientes.get(i).getNoIdentificacion());
+                client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
+                //Para convertir de date que esta en la bd a String
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                client.setFechaNacimiento(sdf.format(clientes.get(i).getFechaNac()));
+                client.setIdCiudad(clientes.get(i).getCiudadIdciudad().getIdciudad());
+                client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
+                client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
+                client.setIdOcupacion(clientes.get(i).getOcupacionIdocupacion().getIdocupacion());
+                client.setPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().clonar());
+                client.setEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().clonar());
+                client.setCiudad(clientes.get(i).getCiudadIdciudad().clonar());
+                client.setOcupacion(clientes.get(i).getOcupacionIdocupacion().clonar());
+                client.setTipoIden(clientes.get(i).getTipoidentificacionIdtipoidentificacion().clonar());
+                listaClientes.add(client);
+            }
+    }
+ return listaClientes;   
+}
 }

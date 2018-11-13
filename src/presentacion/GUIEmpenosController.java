@@ -106,6 +106,8 @@ public class GUIEmpenosController implements Initializable {
 
     private int clicEditar;
     private Map<String, Object> parametrosGlobales;
+    private GUIEmpenoController control;
+    private Stage stagemaster;
 
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -128,6 +130,7 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonGuardarContrato(ActionEvent event) {
+        if(utilerias.validacion.seleccionado(tablaClientes)||!tablaPrenda.getSelectionModel().isEmpty()){
         //Registro del empeño
         Empeno empeno = new logica.Empeno();
         Date date =utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
@@ -150,8 +153,12 @@ public class GUIEmpenosController implements Initializable {
         datos.Empeno.actualizarEmpeno(empeno);
         datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
         datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
-
-    }
+        stagemaster.close();
+        control.navegarAdelante();
+        control.navegarAtras();
+    }else{
+          utilerias.mensajes.mensage("Debe de Seleccionar un cliente y tener prendas para realizar un contrato");
+        }}
     
     
     private List<logica.Prenda> asignaID(Empeno empeno) {
@@ -208,38 +215,10 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
 
-        ClienteJpaController clienteJPA = new ClienteJpaController();
-        List<datos.Cliente> clientes = clienteJPA.findClienteEntities();
+        
+        
 
-        List<logica.Cliente> listaClientes = new ArrayList<>();
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getNombre().contains(txtBuscar.getText())) {
-                logica.Cliente client = new logica.Cliente();
-                client.setIdCliente(clientes.get(i).getIdcliente());
-                client.setNombre(clientes.get(i).getNombre());
-                client.setApellidoMaterno(clientes.get(i).getApellidoMaterno());
-                client.setApellidoPaterno(clientes.get(i).getApeliidoPaterno());
-                client.setDireccion(clientes.get(i).getDireccion());
-                client.setIdTipoIdentificacion(clientes.get(i).getTipoidentificacionIdtipoidentificacion().getIdtipoidentificacion());
-                client.setNoIdentificacion(clientes.get(i).getNoIdentificacion());
-                client.setFechaNacimiento(clientes.get(i).getFechaNac().toString());
-                //Para convertir de date que esta en la bd a String
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                client.setFechaNacimiento(sdf.format(clientes.get(i).getFechaNac()));
-                client.setIdCiudad(clientes.get(i).getCiudadIdciudad().getIdciudad());
-                client.setIdPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().getIdpais());
-                client.setIdEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getIdestado());
-                client.setIdOcupacion(clientes.get(i).getOcupacionIdocupacion().getIdocupacion());
-                client.setPais(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().getPaisIdpais().clonar());
-                client.setEstado(clientes.get(i).getCiudadIdciudad().getEstadoIdestado().clonar());
-                client.setCiudad(clientes.get(i).getCiudadIdciudad().clonar());
-                client.setOcupacion(clientes.get(i).getOcupacionIdocupacion().clonar());
-                client.setTipoIden(clientes.get(i).getTipoidentificacionIdtipoidentificacion().clonar());
-                listaClientes.add(client);
-            }
-        }
-
-        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
+        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(datos.Cliente.buscaClientes(txtBuscar.getText()));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
         apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoMaterno"));
@@ -262,8 +241,10 @@ public class GUIEmpenosController implements Initializable {
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
     }
 
-    public void recibeHashMap(Map<String, Object> parametros) {
+    public void recibeHashMap(Map<String, Object> parametros,Stage stage, GUIEmpenoController controller) {
         parametrosGlobales = parametros;
+        stagemaster= stage;
+        control=controller;
     }
 
     @Override

@@ -329,7 +329,7 @@ public class Empeno implements Serializable {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         List<datos.Empeno> empenos = empenoJPA.findEmpenoEntities();
         logica.Empeno empeno = new logica.Empeno();
-        empeno.setIdEmpeno(empenos.get(empenos.size() - 1).getIdempeno());
+        empeno=clonarDatosALogica(empenos.get(empenos.size() - 1));
         return empeno;
     }
 

@@ -18,8 +18,6 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Empeños">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#menuItemEmpenos" text="Contrato" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuFiniquitar" text="Finiquito" />
                   <MenuItem mnemonicParsing="false" onAction="#menuItemHistorial" text="Historial" />
             </items>
           </Menu>
