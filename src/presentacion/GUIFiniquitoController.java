@@ -6,26 +6,21 @@
 package presentacion;
 
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import logica.Empeno;
 import logica.Prenda;
 
@@ -52,8 +47,10 @@ public class GUIFiniquitoController implements Initializable {
     private TableColumn<Prenda, String> montoPrestamoColumn;
     private List<logica.Prenda> listaPrendas;
     private Empeno empeno;
-
+    private RadioButton RBDia;
+    private RadioButton RBPeriodo;    
     private Stage stage;
+    private ToggleGroup BGrupo;
     
     /**
      * Initializes the controller class.
@@ -96,6 +93,7 @@ public class GUIFiniquitoController implements Initializable {
         empeno.setEstatus("Finiquito");
         return empeno;
     }
+    
     }
     
     

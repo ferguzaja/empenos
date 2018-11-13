@@ -118,28 +118,24 @@ public class GUIEmpenoController implements Initializable {
     private int rangoNavegacion = 3;
 
     @FXML
-    public void navegarAtras(ActionEvent event) {        
+    public void navegarAtras() {        
         navegacion = navegacion - (rangoNavegacion);
         auxNavegacion = navegacion - (rangoNavegacion);
         if (auxNavegacion == 1 || navegacion == 1) {
             botonAtras.setDisable(true);
         }
-        System.out.println(auxNavegacion);
-        System.out.println(navegacion);
         List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
         llenarTabla(empenos);
         botonAdelante.setDisable(false);
     }
 
     @FXML
-    public void navegarAdelante(ActionEvent event) {
+    public void navegarAdelante() {
         navegacion = navegacion + rangoNavegacion;
         auxNavegacion = navegacion - rangoNavegacion;
         if (navegacion != 1) {
             botonAtras.setDisable(false);
         }
-        System.out.println(auxNavegacion);
-        System.out.println(navegacion);
         List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
         llenarTabla(empenos);
         if(empenos.contains(null)){
@@ -188,6 +184,27 @@ public class GUIEmpenoController implements Initializable {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
     }
+    
+    @FXML
+    public void botonRefrendo(){
+        if(utilerias.validacion.seleccionado(tablaEmpenos)){
+            try {
+           FXMLLoader loader= new FXMLLoader();
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIRefrendo.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);
+            GUIRefrendoController refrendoController=(GUIRefrendoController)loader.getController();
+            refrendoController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem());
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        }else{
+            utilerias.mensajes.mensage("favor de seleccionar un contrato");
+        }}   
+
 
     @FXML
     private void botonExtension() {
@@ -203,7 +220,7 @@ public class GUIEmpenoController implements Initializable {
                     Stage planillaStage = new Stage();
                     planillaStage.setScene(scene);
                     GUIExtensionTiempoController extensionController = (GUIExtensionTiempoController) loader.getController();
-                    extensionController.recibeStage(planillaStage, this);
+                    extensionController.recibeStage(planillaStage, this,tablaEmpenos.getSelectionModel().getSelectedItem());
                     planillaStage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);

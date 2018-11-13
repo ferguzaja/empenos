@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -21,5 +23,12 @@
             <TableColumn fx:id="montoPrestamoColumn" prefWidth="128.0" text="Monto Prestamo" />
          </columns>
       </TableView>
+      <Label layoutX="24.0" layoutY="336.0" text="Pagar Por: " />
+      <ToggleButtonGroup fx:id="BGrupo" layoutX="94.0" layoutY="336.0" selectionType="SINGLE">
+         <toggles>
+            <RadioButton fx:id="RBPeriodo" mnemonicParsing="false" selected="true" text="Periodo" />
+            <RadioButton fx:id="RBDia" mnemonicParsing="false" text="Dia" />
+         </toggles>
+      </ToggleButtonGroup>
    </children>
 </AnchorPane>

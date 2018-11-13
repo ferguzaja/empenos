@@ -8,6 +8,8 @@ package presentacion;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
+import logica.Empeno;
 
 /**
  * FXML Controller class
@@ -23,5 +25,9 @@ public class GUIRefrendoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    void recibeParametros(Stage planillaStage, Empeno selectedItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

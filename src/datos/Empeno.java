@@ -312,6 +312,16 @@ public class Empeno implements Serializable {
     public static Empeno clonar(logica.Empeno empeno) {
         datos.Empeno emp = new Empeno();
         emp.setIdempeno(empeno.getIdEmpeno());
+        emp.setClienteIdcliente(datos.Cliente.recuperarCliente(empeno.getCliente().getIdCliente()));
+        emp.setCotitular(empeno.getCotitular());
+        emp.setEstatus(empeno.getEstatus());
+        emp.setFechaExtencion(empeno.getFechaExtencion());
+        emp.setExtencionTiempo(empeno.getNumExtencionTiempo());
+        emp.setFechaFinEmpeno(empeno.getFechaFinEmpeno());
+        emp.setFechaInicioEmpeno(empeno.getFechaInicio());
+        emp.setEstatus(empeno.getEstatus());
+        emp.setNoBolsa(empeno.getNumBolsa());
+        emp.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(empeno.getIdEmpleado().getIdEmpleado()));
         return emp;
     }
 
@@ -338,6 +348,18 @@ public class Empeno implements Serializable {
         }
         return empenos;
     }
+    public static void ExtenderDias(logica.Empeno empeno){
+        EmpenoJpaController empenoJPA = new EmpenoJpaController();
+        try {
+            empenoJPA.edit(clonar(empeno));
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
 
     public static logica.Empeno clonarDatosALogica(datos.Empeno empeno) {
         logica.Empeno emp = new logica.Empeno();
@@ -345,9 +367,11 @@ public class Empeno implements Serializable {
         emp.setCliente(empeno.getClienteIdcliente().clonar());
         emp.setFechaInicio(empeno.getFechaInicioEmpeno());
         emp.setFechaFinEmpeno(empeno.getFechaFinEmpeno());
+        emp.setFechaExtencion(empeno.getFechaExtencion());
         emp.setNumExtencionTiempo(empeno.getExtencionTiempo());
         emp.setNumBolsa(empeno.getNoBolsa());
         emp.setEstatus(empeno.getEstatus());
+        emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empeno.getEmpleadoidEmpleado()));
         return emp;
     }
 }
