@@ -5,25 +5,30 @@
  */
 package presentacion;
 
-import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 import datos.TipoprendaJpaController;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import logica.FotoPrenda;
 import logica.Prenda;
 import logica.TipoPrenda;
 
@@ -52,10 +57,16 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private Button cancelar;
     @FXML
+    private ImageView imagen;
+    @FXML
     private ObservableList<TipoPrenda> obsPrendas;
-    
+    @FXML
+    private ListView<FotoPrenda> lista;
+    @FXML
+    private ObservableList<FotoPrenda> obsfotos;
     private GUIEmpenosController controlador;
     private Stage planillaStage;
+    private List<FotoPrenda> listaFotos;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,7 +117,8 @@ public class GUIAgregarProductoController implements Initializable {
         utilerias.mensajes.mensage("Favor de no dejar Campos Vacios");
     }else{
         Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue());
-        controlador.agregarPrenda(prenda,planillaStage);
+        controlador.agregarPrenda(prenda,listaFotos);
+        planillaStage.close();
         }
     }
     @FXML
@@ -128,4 +140,37 @@ public class GUIAgregarProductoController implements Initializable {
         obsPrendas= FXCollections.observableArrayList(listaPrendas);
         tipoPrenda.setItems(obsPrendas);
     }
+    @FXML
+    private void botonTomarFoto(){
+        try {
+            FXMLLoader loader= new FXMLLoader();
+            
+            //agregamos el openStream (no se para que)
+            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("TakePicture.fxml").openStream());
+            //ahora creo una instancia del controlador del form que voy a abrir casteando
+            Scene scene = new Scene(root);
+            Stage planillaStage=new Stage();
+            planillaStage.setScene(scene);           
+            TakePictureController takePictureController=(TakePictureController)loader.getController();
+            takePictureController.recibeStage(planillaStage,this);
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        
+    
+}
+    public void actualizaLista(){
+        lista.setItems(obsfotos);
+    }
+    public void seleccionaImagen(ActionEvent event){
+        imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
+    }
+
+    public void recibeImagen(FotoPrenda foto) {
+        listaFotos.add(foto);
+        obsfotos.add(foto);
+        
+        }
 }

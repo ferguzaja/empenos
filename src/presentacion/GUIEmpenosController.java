@@ -36,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logica.Empeno;
+import logica.FotoPrenda;
 import utilerias.fechas;
 
 /**
@@ -101,6 +102,7 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private List<logica.Prenda> listaPrenda = new ArrayList<>();
+    private List<List<FotoPrenda>> arregloDeFotos = new ArrayList<>();
 
     GUIEmpenosController guiEmpenosControler;
 
@@ -227,9 +229,10 @@ public class GUIEmpenosController implements Initializable {
         tablaClientes.setItems(obsClientes);
     }
 
-    public void agregarPrenda(Prenda prenda, Stage stage) {
+    public void agregarPrenda(Prenda prenda,List<FotoPrenda> listaFotos) {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
+        arregloDeFotos.add(listaFotos);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda, String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
@@ -237,7 +240,6 @@ public class GUIEmpenosController implements Initializable {
         montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
         //tablaPrenda.setEditable(true);
         tablaPrenda.setItems(obsPrenda);
-        stage.close();
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
     }
 

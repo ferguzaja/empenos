@@ -20,7 +20,7 @@
       <TextArea fx:id="descripcion" layoutX="150.0" layoutY="109.0" prefHeight="62.0" prefWidth="150.0" />
       <TextField fx:id="montoValuo" layoutX="151.0" layoutY="182.0" />
       <TextField fx:id="montoPrestamo" layoutX="151.0" layoutY="224.0" />
-      <Button fx:id="tomarFotografia" layoutX="609.0" layoutY="271.0" mnemonicParsing="false" text="AgregarFoto" />
+      <Button fx:id="tomarFotografia" layoutX="609.0" layoutY="271.0" mnemonicParsing="false" onAction="#botonTomarFoto" text="AgregarFoto" />
       <Button fx:id="guardar" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" onAction="#botonGuardar" text="Agregar" />
       <Button fx:id="cancelar" layoutX="688.0" layoutY="325.0" mnemonicParsing="false" text="Cancelar" />
       <Pane layoutX="550.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;">
@@ -28,6 +28,6 @@
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <ListView layoutX="330.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView fx:id="lista" layoutX="330.0" layoutY="59.0" onDragDetected="#seleccionaImagen" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
