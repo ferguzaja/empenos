@@ -132,37 +132,36 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonGuardarContrato(ActionEvent event) {
-        if(utilerias.validacion.seleccionado(tablaClientes)||!tablaPrenda.getSelectionModel().isEmpty()){
-        //Registro del empeño
-        Empeno empeno = new logica.Empeno();
-        Date date =utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
-        empeno.setFechaInicio(date);
-        empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
+        if (utilerias.validacion.seleccionado(tablaClientes) || !tablaPrenda.getSelectionModel().isEmpty()) {
+            //Registro del empeño
+            Empeno empeno = new logica.Empeno();
+            Date date = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+            empeno.setFechaInicio(date);
+            empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
 
-        
-        empeno.setIdEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
+            empeno.setIdEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
 
-        //falta agregar en la gui el cotitular
-        empeno.setCotitular("");
-        empeno.setEstatus("activo");
-        empeno.setNumExtencionTiempo(0);
-        empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
-        datos.Empeno.guardarEmpeno(empeno);
-       
-        datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
-        empeno.setIdEmpeno(datos.Empeno.recuperaID().getIdEmpeno());
-        empeno.setNumBolsa(datos.Empeno.recuperaID().getIdEmpeno());
-        datos.Empeno.actualizarEmpeno(empeno);
-        datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
-        datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
-        stagemaster.close();
-        control.navegarAdelante();
-        control.navegarAtras();
-    }else{
-          utilerias.mensajes.mensage("Debe de Seleccionar un cliente y tener prendas para realizar un contrato");
-        }}
-    
-    
+            //falta agregar en la gui el cotitular
+            empeno.setCotitular("");
+            empeno.setEstatus("activo");
+            empeno.setNumExtencionTiempo(0);
+            empeno.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+            datos.Empeno.guardarEmpeno(empeno);
+
+            datos.Prenda.guardarPrendas(asignaID(datos.Empeno.recuperaID()));
+            empeno.setIdEmpeno(datos.Empeno.recuperaID().getIdEmpeno());
+            empeno.setNumBolsa(datos.Empeno.recuperaID().getIdEmpeno());
+            datos.Empeno.actualizarEmpeno(empeno);
+            datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
+            datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
+            stagemaster.close();
+            control.navegarAdelante();
+            control.navegarAtras();
+        } else {
+            utilerias.mensajes.mensage("Debe de Seleccionar un cliente y tener prendas para realizar un contrato");
+        }
+    }
+
     private List<logica.Prenda> asignaID(Empeno empeno) {
         for (int i = 0; i < listaPrenda.size(); i++) {
             listaPrenda.get(i).setEmpeno(empeno);
@@ -216,10 +215,6 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
-
-        
-        
-
         ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(datos.Cliente.buscaClientes(txtBuscar.getText()));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
@@ -229,7 +224,7 @@ public class GUIEmpenosController implements Initializable {
         tablaClientes.setItems(obsClientes);
     }
 
-    public void agregarPrenda(Prenda prenda,List<FotoPrenda> listaFotos) {
+    public void agregarPrenda(Prenda prenda, List<FotoPrenda> listaFotos) {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
         arregloDeFotos.add(listaFotos);
@@ -243,10 +238,10 @@ public class GUIEmpenosController implements Initializable {
         //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
     }
 
-    public void recibeHashMap(Map<String, Object> parametros,Stage stage, GUIEmpenoController controller) {
+    public void recibeHashMap(Map<String, Object> parametros, Stage stage, GUIEmpenoController controller) {
         parametrosGlobales = parametros;
-        stagemaster= stage;
-        control=controller;
+        stagemaster = stage;
+        control = controller;
     }
 
     @Override

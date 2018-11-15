@@ -170,7 +170,7 @@ public class GUIAgregarProductoController implements Initializable {
 
     public void recibeImagen(FotoPrenda foto) {
         listaFotos.add(foto);
-        obsfotos.add(foto);
-        
-        }
+        obsfotos.add(foto);        
+    }
+    
 }
