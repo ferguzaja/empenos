@@ -44,7 +44,7 @@
       <TextField fx:id="txtPorMutuo" layoutX="126.0" layoutY="276.0" prefHeight="25.0" prefWidth="245.0" />
       <TextField fx:id="txtInteMensual" layoutX="528.0" layoutY="276.0" prefHeight="25.0" prefWidth="245.0" />
       <TextField fx:id="txtPorcentajeComer" layoutX="126.0" layoutY="385.0" prefHeight="25.0" prefWidth="245.0" />
-      <Button layoutX="386.0" layoutY="475.0" mnemonicParsing="false" onAction="#habilitarCampos" prefHeight="30.0" prefWidth="126.0" text="Editar parámetros" />
-      <Button layoutX="386.0" layoutY="519.0" mnemonicParsing="false" onAction="#actualizarVariables" prefHeight="30.0" prefWidth="126.0" text="Guardar" />
+      <Button layoutX="505.0" layoutY="504.0" mnemonicParsing="false" onAction="#habilitarCampos" prefHeight="30.0" prefWidth="126.0" text="Editar parámetros" />
+      <Button layoutX="647.0" layoutY="504.0" mnemonicParsing="false" onAction="#actualizarVariables" prefHeight="30.0" prefWidth="126.0" text="Guardar" />
    </children>
 </AnchorPane>
