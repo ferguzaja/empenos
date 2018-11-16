@@ -66,7 +66,7 @@ public class GUIAgregarProductoController implements Initializable {
     private ObservableList<FotoPrenda> obsfotos;
     private GUIEmpenosController controlador;
     private Stage planillaStage;
-    private List<FotoPrenda> listaFotos;
+    private List<FotoPrenda> listaFotos=new ArrayList<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,8 +113,8 @@ public class GUIAgregarProductoController implements Initializable {
     
     @FXML
     private void botonGuardar(ActionEvent event) throws Exception {
-    if(!validarCamposVacios()){
-        utilerias.mensajes.mensage("Favor de no dejar Campos Vacios");
+    if(!validarCamposVacios()||(listaFotos.isEmpty())){
+        utilerias.mensajes.mensage("Favor de no dejar Campos Vacios o sin agregar Fotos");
     }else{
         Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue());
         controlador.agregarPrenda(prenda,listaFotos);
@@ -152,7 +152,7 @@ public class GUIAgregarProductoController implements Initializable {
             Stage planillaStage=new Stage();
             planillaStage.setScene(scene);           
             TakePictureController takePictureController=(TakePictureController)loader.getController();
-            takePictureController.recibeStage(planillaStage,this);
+            takePictureController.recibeStage(planillaStage,this,listaFotos.size());
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,11 +166,11 @@ public class GUIAgregarProductoController implements Initializable {
     }
     public void seleccionaImagen(ActionEvent event){
         imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
-    }
+                }
 
     public void recibeImagen(FotoPrenda foto) {
         listaFotos.add(foto);
-        obsfotos.add(foto);        
+        obsfotos=FXCollections.observableArrayList(listaFotos);
+        actualizaLista();   
+        }       
     }
-    
-}

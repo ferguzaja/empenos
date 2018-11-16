@@ -5,19 +5,8 @@
  */
 package logica;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.Date;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
 /**
  *
@@ -26,6 +15,7 @@ import javax.sql.rowset.serial.SerialException;
 public class FotoPrenda {
  private int idFotoPrenda;
  private Image foto;
+ private String nombre;
  private Date FechaHora;
  private Prenda prenda;
 
@@ -76,41 +66,16 @@ public class FotoPrenda {
     public void setPrenda(Prenda prenda) {
         this.prenda = prenda;
     }
-// public static Blob convertirImagenABlob ( Image imagen ) {
-//
-//      Blob imagenBlob = null;
-//      BufferedImage bi;
-//     bi = new BufferedImage ((int) imagen.getWidth(), (int) imagen.getHeight(), BufferedImage.TYPE_INT_ARGB );
-//      Graphics bg = bi.getGraphics ();
-//      BufferedImage image = SwingFXUtils.fromFXImage(imagen, null);
-//      bg.drawImage ( image, 0, 0, null );
-//      bg.dispose ();
-//
-//      ByteArrayOutputStream baos = new ByteArrayOutputStream ();
-//      try {
-//         ImageIO.write (
-//               bi,
-//               image.getDescription ().substring (
-//                     imagen.getDescription ().length () - 3 ), baos );
-//         baos.flush ();
-//         baos.close ();
-//      } catch ( IOException e ) {
-//         e.printStackTrace ();
-//      }
-//
-//      byte [] imagenByte = baos.toByteArray ();
-//
-//      try {
-//         imagenBlob = new SerialBlob ( imagenByte );
-//      } catch ( SerialException se ) {
-//         se.printStackTrace ();
-//      } catch ( SQLException sqle ) {
-//         sqle.printStackTrace ();
-//      }
-//      return imagenBlob;
-//   }
 
-    public Blob convertirImagenABlob(ImageView imgWebCamCapturedImage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    @Override
+    public String toString(){
+        return nombre;
     }
 }

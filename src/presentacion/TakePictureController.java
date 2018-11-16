@@ -62,6 +62,7 @@ public class TakePictureController implements Initializable {
     private Stage stage;
     private GUIAgregarProductoController controller;
     ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
+    private int array;
     
     
     private void cargarWebcams(){
@@ -154,6 +155,7 @@ public class TakePictureController implements Initializable {
     @FXML
     private void selectItem(ActionEvent event){
         initializeWebCam(cmb_webcams.getSelectionModel().getSelectedIndex());
+        tomarFoto.setDisable(false);
     }
     @FXML
     private void tomarFoto(){
@@ -166,14 +168,16 @@ public class TakePictureController implements Initializable {
     }
     @FXML
     private void tomarOtraFoto(){
-        this.tomarFoto.setDisable(true);
-        this.guardarFoto.setDisable(false);
-        this.tomarOtraFoto.setDisable(false);
+        this.tomarFoto.setDisable(false);
+        this.guardarFoto.setDisable(true);
+        this.tomarOtraFoto.setDisable(true);
+        initializeWebCam(cmb_webcams.getSelectionModel().getSelectedIndex());
         stopCamera=false;
     }
     @FXML
     private void guardar(){
         FotoPrenda foto = new FotoPrenda();
+        foto.setNombre("Foto "+(array+1));
         foto.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
         foto.setFoto(imgWebCamCapturedImage.getImage());
         controller.recibeImagen(foto);
@@ -187,9 +191,10 @@ public class TakePictureController implements Initializable {
         startWebCamStream();
     }    
 
-    void recibeStage(Stage planillaStage, GUIAgregarProductoController aThis) {
+    void recibeStage(Stage planillaStage, GUIAgregarProductoController aThis,int tamañoArray) {
         stage=planillaStage;
         controller=aThis;
+        array=tamañoArray;
     }
     
 }

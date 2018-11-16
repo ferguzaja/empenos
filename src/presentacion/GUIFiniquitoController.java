@@ -64,10 +64,10 @@ public class GUIFiniquitoController implements Initializable {
         this.stage=stage;
         TFFecha.setText(empeno.getFechaFinEmpeno().toString());
         llenaTabla(empeno.getIdEmpeno());
-        TFMontoPagar.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.encuentraContrato(empeno.getIdEmpeno()))));
+        TFMontoPagar.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno()))));
     }
     private void llenaTabla(int idEmpeno){
-        listaPrendas=datos.Prenda.encuentraContrato(idEmpeno);
+        listaPrendas=datos.Prenda.prendasPorContrato(idEmpeno);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrendas);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));

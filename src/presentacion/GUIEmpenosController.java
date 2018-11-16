@@ -154,6 +154,8 @@ public class GUIEmpenosController implements Initializable {
             datos.Empeno.actualizarEmpeno(empeno);
             datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
             datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
+            asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno()));
+            datos.Fotoprenda.guardarFotosPrendas(arregloDeFotos);
             stagemaster.close();
             control.navegarAdelante();
             control.navegarAtras();
@@ -167,6 +169,13 @@ public class GUIEmpenosController implements Initializable {
             listaPrenda.get(i).setEmpeno(empeno);
         }
         return listaPrenda;
+    }
+    private void asignaIdPrenda(List<logica.Prenda> prendas){
+        for(int i=0; i<prendas.size();i++){
+            for(int x=0; x<arregloDeFotos.get(i).size();x++){
+                arregloDeFotos.get(i).get(x).setPrenda(prendas.get(i));
+            }
+        }
     }
 
     @FXML

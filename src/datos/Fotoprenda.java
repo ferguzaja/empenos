@@ -5,10 +5,19 @@
  */
 package datos;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +46,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Fotoprenda.findByIdfotoPrenda", query = "SELECT f FROM Fotoprenda f WHERE f.idfotoPrenda = :idfotoPrenda")
     , @NamedQuery(name = "Fotoprenda.findByFechaHora", query = "SELECT f FROM Fotoprenda f WHERE f.fechaHora = :fechaHora")})
 public class Fotoprenda implements Serializable {
+
+    
 
     @Lob
     @Column(name = "foto")
@@ -130,5 +141,55 @@ public class Fotoprenda implements Serializable {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+    private static byte[] convertirImagen(Image foto) {
+        byte [] imagenInByte= null;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            BufferedImage img= SwingFXUtils.fromFXImage(foto, null);
+            ImageIO.write( img, "jpg", baos);
+            try {
+                baos.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            imagenInByte =baos.toByteArray();
+            baos.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return imagenInByte;
+    }
+    public static List<datos.Fotoprenda> deLogicaADatos(List<logica.FotoPrenda> listaFotos){
+        List<datos.Fotoprenda> listaEnviar = new ArrayList<>();
+        for(int i=0; i<listaFotos.size(); i++){
+           Fotoprenda foto= new Fotoprenda();
+           foto.setFechaHora(listaFotos.get(i).getFechaHora());
+           foto.setPrendaIdprenda(datos.Prenda.deLogicaADatos(listaFotos.get(i).getPrenda()));
+           foto.setFoto(convertirImagen(listaFotos.get(i).getFoto()));
+           listaEnviar.add(foto);
+        }
+        return listaEnviar;
+    }
+    public static void guardarFotosPrendas(List<List<logica.FotoPrenda>> listaFotos){
+        List< List<datos.Fotoprenda>> lista = new ArrayList<>();
+        for(int i=0; i<listaFotos.size();i++){
+             List<datos.Fotoprenda> listalocal=deLogicaADatos(listaFotos.get(i));
+             lista.add(listalocal);
+        }
+        FotoprendaJpaController FPJPA= new FotoprendaJpaController();
+        
+        for(int i=0; i<lista.size(); i++){
+            for(int x=0; x<lista.get(i).size(); x++){
+                try {
+                FPJPA.create(lista.get(i).get(x));
+            } catch (Exception ex) {
+                Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            
+            
+        }
     }
 }
