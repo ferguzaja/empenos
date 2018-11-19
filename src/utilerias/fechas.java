@@ -54,4 +54,9 @@ public class fechas {
         );
         return dateFinal;
     }
+    public static int diasDiferencia(Date fecha){
+        int dias= (int) (regresaMilisegundos()-fecha.getTime())/86400000;
+        
+        return dias;
+    }
 }

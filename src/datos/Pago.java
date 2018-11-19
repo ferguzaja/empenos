@@ -224,4 +224,21 @@ public class Pago implements Serializable {
         pagos.add(pago2);
         return pagos;
     }
+    public static double cambiarDias(logica.Empeno empeno){
+        int dias=utilerias.fechas.diasDiferencia(empeno.getFechaInicio());
+        List<logica.Pago> pago =regresaPagos(empeno.getIdEmpeno());
+        double monto=pago.get(1).getRefrendo();
+        return((monto/30)*dias)+pago.get(1).getPrestamo();
+    }
+    public static double montoPorPeriodo(logica.Empeno empeno){
+         double monto=0;
+         List<logica.Pago> pago =regresaPagos(empeno.getIdEmpeno());
+         Date diaHoy=utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+         if(pago.get(0).getFecha().after(diaHoy)){
+             monto=pago.get(0).getDesempeño();
+         }else{
+             monto=pago.get(1).getDesempeño();
+         }
+         return monto;
+    }
 }

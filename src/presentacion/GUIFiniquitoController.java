@@ -6,6 +6,7 @@
 package presentacion;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -14,7 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -47,10 +48,11 @@ public class GUIFiniquitoController implements Initializable {
     private TableColumn<Prenda, String> montoPrestamoColumn;
     private List<logica.Prenda> listaPrendas;
     private Empeno empeno;
-    private RadioButton RBDia;
-    private RadioButton RBPeriodo;    
+    @FXML
+    private ComboBox<String> combo;
     private Stage stage;
-    private ToggleGroup BGrupo;
+    @FXML
+    final ToggleGroup group = new ToggleGroup();
     
     /**
      * Initializes the controller class.
@@ -58,13 +60,15 @@ public class GUIFiniquitoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        llenarCombo();
+        combo.getSelectionModel().select("Por Periodo");
     }
     public void recibeParametros(Stage stage,Empeno empeno){
         this.empeno=empeno;
         this.stage=stage;
         TFFecha.setText(empeno.getFechaFinEmpeno().toString());
         llenaTabla(empeno.getIdEmpeno());
-        TFMontoPagar.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno()))));
+        cambiar();
     }
     private void llenaTabla(int idEmpeno){
         listaPrendas=datos.Prenda.prendasPorContrato(idEmpeno);
@@ -75,7 +79,22 @@ public class GUIFiniquitoController implements Initializable {
         tablaPrenda.setEditable(false);
         tablaPrenda.setItems(obsPrenda);
     }
+    public void llenarCombo(){
+        List<String> lista = new ArrayList<>();
+        lista.add("Por Periodo");
+        lista.add("Por Dia");
+        ObservableList obs = FXCollections.observableArrayList(lista);
+        combo.setItems(obs);
+    }
+    @FXML
+    private void cambiar(){
+        if (combo.getSelectionModel().getSelectedIndex()==0){
+            TFMontoPagar.setText(String.valueOf(datos.Pago.montoPorPeriodo(empeno)));
     
+        } else {
+            TFMontoPagar.setText(String.valueOf(datos.Pago.cambiarDias(empeno)));
+        }
+    }
     @FXML
     private void botonFiniquitar(ActionEvent event){
         if(utilerias.mensajes.mensageConfirmacion("Finiquitar Contrato", "¿Desea finiquitar su contrato?")){
@@ -93,6 +112,7 @@ public class GUIFiniquitoController implements Initializable {
         empeno.setEstatus("Finiquito");
         return empeno;
     }
+    
     
     }
     
