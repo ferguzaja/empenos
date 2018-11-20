@@ -17,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -63,6 +62,27 @@ public class GUIPrincipalController implements Initializable {
             empenoController.recibeHashMap(parametrosGlobales);
             panelPrincipal.getChildren().setAll(root);
             
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    @FXML
+    private void menuVentas(ActionEvent event) {
+        try {                                               
+            /*Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
+            panelPrincipal.getChildren().setAll(root);*/
+            //se agrega el .openStream          
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIVentas.fxml").openStream());      
+            //Instancia del controlador 2
+            GUIVentasController ventasController = (GUIVentasController) loader.getController();
+            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
+            //como parámetro una instancia de la GUIEmpenos y el objeto
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);            
+            ventasController.recibeHashMap(parametrosGlobales);
+            panelPrincipal.getChildren().setAll(root);   
         } catch (IOException ex) {
             ex.printStackTrace();
         }
