@@ -6,6 +6,7 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import logica.ArticuloVenta;
 
 /**
  *
@@ -153,6 +155,28 @@ public class Articuloventa implements Serializable {
     @Override
     public String toString() {
         return "datos.Articuloventa[ idarticuloventa=" + idarticuloventa + " ]";
+    }
+    public static List<logica.ArticuloVenta> obtenArticuloVentas(String busqueda){
+        List<logica.ArticuloVenta> articulosEnviar= new ArrayList<>();
+        ArticuloventaJpaController AJPA = new ArticuloventaJpaController();
+        List<datos.Articuloventa> articulosEncontrados= AJPA.findArticuloventaEntities();
+        for(int i=0; i<articulosEncontrados.size(); i++){
+            //validacion de contenido de datos y que este disponible
+            if(articulosEncontrados.get(i).getDescripcionArticulo().contains(busqueda)&&articulosEncontrados.get(i).getEstado()==0){
+                 ArticuloVenta enviar =datosALogica(articulosEncontrados.get(i));
+                 articulosEnviar.add(enviar);                
+            }
+        }
+        return articulosEnviar;
+    }
+    public static logica.ArticuloVenta datosALogica(datos.Articuloventa articulo){
+        ArticuloVenta enviar = new ArticuloVenta();
+        enviar.setDescripcion(articulo.getDescripcionArticulo());
+        enviar.setEstado(articulo.getEstado());
+        enviar.setIdArticuloVenta(articulo.getIdarticuloventa());
+        enviar.setPrecioVenta(articulo.getPrecioVenta());
+        enviar.setPrenda(datos.Prenda.clonar(articulo.getPrendaIdprenda()));
+        return enviar;
     }
     
 }

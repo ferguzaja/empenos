@@ -9,66 +9,71 @@ package logica;
  */
 public class ArticuloVenta {
 
-	private String descripcio;
-	private boolean estado;
-	private int idArticuloVenta;
-	private float precioVenta;
-	public Prenda m_Prenda;
+        private int idArticuloVenta;
+	private String descripcion;
+	private double precioVenta;
+	private int estado;
+	public Prenda prenda;
 
 	public ArticuloVenta(){
 
-	}
+      	}
 
-	public void finalize() throws Throwable {
+    public ArticuloVenta(int idArticuloVenta, String descripcion, double precioVenta, int estado, Prenda prenda) {
+        this.idArticuloVenta = idArticuloVenta;
+        this.descripcion = descripcion;
+        this.precioVenta = precioVenta;
+        this.estado = estado;
+        this.prenda = prenda;
+    }
 
-	}
+    public ArticuloVenta(String descripcion, double precioVenta, int estado, Prenda prenda) {
+        this.descripcion = descripcion;
+        this.precioVenta = precioVenta;
+        this.estado = estado;
+        this.prenda = prenda;
+    }
 
-	public String getdescripcio(){
-		return descripcio;
-	}
+    public int getIdArticuloVenta() {
+        return idArticuloVenta;
+    }
 
-	public int getidArticuloVenta(){
-		return idArticuloVenta;
-	}
+    public void setIdArticuloVenta(int idArticuloVenta) {
+        this.idArticuloVenta = idArticuloVenta;
+    }
 
-	public float getprecioVenta(){
-		return precioVenta;
-	}
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-	public boolean isestado(){
-		return estado;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setdescripcio(String newVal){
-		descripcio = newVal;
-	}
+    public double getPrecioVenta() {
+        return precioVenta;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setestado(boolean newVal){
-		estado = newVal;
-	}
+    public void setPrecioVenta(double precioVenta) {
+        this.precioVenta = precioVenta;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setidArticuloVenta(int newVal){
-		idArticuloVenta = newVal;
-	}
+    public int getEstado() {
+        return estado;
+    }
 
-	/**
-	 * 
-	 * @param newVal
-	 */
-	public void setprecioVenta(float newVal){
-		precioVenta = newVal;
-	}
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public Prenda getPrenda() {
+        return prenda;
+    }
+
+    public void setPrenda(Prenda prenda) {
+        this.prenda = prenda;
+    }
+        
+        
 
 }

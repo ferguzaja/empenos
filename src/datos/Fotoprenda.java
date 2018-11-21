@@ -6,7 +6,7 @@
 package datos;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,6 +33,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import logica.FotoPrenda;
 
 /**
  *
@@ -191,5 +192,38 @@ public class Fotoprenda implements Serializable {
             
             
         }
+    }
+    
+    public static List<logica.FotoPrenda> devuelveFotos(int idPrenda){
+        List<logica.FotoPrenda> listaFotos= new ArrayList<>();
+        FotoprendaJpaController fotoJPA = new FotoprendaJpaController();
+        List<datos.Fotoprenda> fotos =fotoJPA.findFotoprendaEntities();
+        int x;
+        for(int i=0; i<fotos.size(); i++){
+            if(fotos.get(i).getPrendaIdprenda().getIdprenda()==idPrenda){
+                FotoPrenda fotonueva = datosALogica(fotos.get(i));
+                x=i+1;
+                fotonueva.setNombre("foto"+x);
+                listaFotos.add(fotonueva);
+            }
+        }
+        
+        return listaFotos;
+    }
+    public static logica.FotoPrenda datosALogica(datos.Fotoprenda foto){
+        FotoPrenda fotoenviar = new FotoPrenda();
+        fotoenviar.setFechaHora(foto.getFechaHora());
+        fotoenviar.setPrenda(datos.Prenda.clonar(foto.getPrendaIdprenda()));
+        fotoenviar.setFoto(devuelveImagen(foto.getFoto()));
+        return fotoenviar;
+    }
+    public static Image devuelveImagen(byte[] bytes){
+        BufferedImage img = null;
+        try {
+                img = ImageIO.read(new ByteArrayInputStream(bytes));
+                    } catch (IOException ex) {
+            Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return SwingFXUtils.toFXImage(img, null);
     }
 }

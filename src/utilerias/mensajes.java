@@ -9,6 +9,7 @@ import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.StageStyle;
+import logica.ArticuloVenta;
 
 /**
  *
@@ -28,6 +29,18 @@ public class mensajes {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION); alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titulo);
         alert.setContentText(cuerpo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) 
+            confiramcion=true;
+        
+        return confiramcion;
+    }
+    public static boolean mensajeCarrito(ArticuloVenta art){
+        boolean confiramcion=false;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Agregar Al Carrito");
+        alert.setContentText("El articulo: "+art.getDescripcion()+" tiene un costo de: "+art.getPrecioVenta()+"\n ¿Desea Agregarlo?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) 

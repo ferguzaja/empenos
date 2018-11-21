@@ -286,4 +286,15 @@ public class Prenda implements Serializable {
     public void setMontoPrestamo(double montoPrestamo) {
         this.montoPrestamo = montoPrestamo;
     }
+
+    public static logica.Prenda clonar(datos.Prenda prendadatos) {
+        logica.Prenda prenda= new logica.Prenda();
+        prenda.setDescripcion(prendadatos.getDescripcion());
+        prenda.setEmpeno(datos.Empeno.clonarDatosALogica(prendadatos.getEmpenoIdempeno()));
+        prenda.setIdPrenda(prendadatos.getIdprenda());
+        prenda.setMontoPrestamo(prendadatos.getMontoPrestamo());
+        prenda.setMontoValuo(prendadatos.getMontoValuo());
+        prenda.setTipoPrenda(prendadatos.getTipoprendaIdtipoprenda().clonar());
+        return prenda;
+    }
 }
