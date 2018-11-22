@@ -47,10 +47,6 @@ public class GUIVentasController implements Initializable {
     @FXML
     private TableColumn<ArticuloVenta, String> precioColumn;
     @FXML
-    private ListView<FotoPrenda> listaFotos;
-    @FXML
-    private ImageView fotomuestra;
-    @FXML
     private Button agregarAlCarritoButton;
     @FXML
     private TextField TFBuscarArticulos;
@@ -61,9 +57,6 @@ public class GUIVentasController implements Initializable {
     private Map<String, Object> parametrosGlobales;
     @FXML
     private Button mostrarButton;
-    @FXML
-    private Button verFotoButton;
-    private ObservableList<FotoPrenda> obsfotos;
     @FXML
     private TableView<logica.Cliente> tablaClientes;
     @FXML
@@ -81,23 +74,17 @@ public class GUIVentasController implements Initializable {
         // TODO
     }
 
+    @FXML
     public void botonMostrar() {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
-            listaFotos.getSelectionModel().clearSelection();
-            obsfotos = FXCollections.observableArrayList(datos.Fotoprenda.devuelveFotos(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda()));
-            listaFotos.setItems(obsfotos);
+           
         }
 
     }
 
-    public void seleccionaImagen() {
-        if (listaFotos.getSelectionModel().isEmpty()) {
-            utilerias.mensajes.mensage("favor de seleccionar un Articulo de venta para ver las fotos");
-        } else {
-            fotomuestra.setImage(listaFotos.getSelectionModel().getSelectedItem().getFoto());
-        }
-    }
+    
 
+    @FXML
     public void llenarTablaArticulos() {
         TFBuscarArticulos.setText(TFBuscarArticulos.getText().trim());
         if (TFBuscarArticulos.getText() != "" || TFBuscarArticulos != null) {
@@ -112,6 +99,7 @@ public class GUIVentasController implements Initializable {
         }
     }
 
+    @FXML
     public void llenarTablaClientes() {
         ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(datos.Cliente.buscaClientes(TFbuscarClientes.getText()));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));

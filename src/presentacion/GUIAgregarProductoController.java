@@ -26,6 +26,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logica.FotoPrenda;
@@ -58,45 +59,30 @@ public class GUIAgregarProductoController implements Initializable {
     private Button cancelar;
     @FXML
     private ImageView imagen;
-    @FXML
     private ObservableList<TipoPrenda> obsPrendas;
     @FXML
     private ListView<FotoPrenda> lista;
-    @FXML
     private ObservableList<FotoPrenda> obsfotos;
     private GUIEmpenosController controlador;
     private Stage planillaStage;
     private List<FotoPrenda> listaFotos=new ArrayList<>();
+    @FXML
+    private Button mostrarButton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboTipoPrenda();
         // TODO
-    }   
-    
-    private void montoValuoKeyTyped(java.awt.event.KeyEvent evt){
-        char caracter = evt.getKeyChar();
-
-      // Verificar si la tecla pulsada no es un digito
-      if(((caracter < '0') ||
-         (caracter > '9')) ||(caracter=='.')&&
-         (caracter != '\b' /*corresponde a BACK_SPACE*/))
-      {
-         evt.consume();  // ignorar el evento de teclado
-      }
-        }
-    private void montoPrestamoKeyTyped(java.awt.event.KeyEvent evt){
-        char caracter = evt.getKeyChar();
-
-      // Verificar si la tecla pulsada no es un digito
-      if(((caracter < '0') ||
-         (caracter > '9')) ||(caracter=='.')&&
-         (caracter != '\b' /*corresponde a BACK_SPACE*/))
-      {
-         evt.consume();  // ignorar el evento de teclado
-      }
-        }
+    }
     @FXML
+    private void asignaPrestamo(){
+        if(montoValuo.getText()!=null&&!montoValuo.getText().isEmpty()){
+             montoPrestamo.setText(String.valueOf(Integer.valueOf(montoValuo.getText())*2));
+             //agregar para mutiplicar por las variables de prestamo y validacion numero
+             
+        }
+       
+    }
     private boolean validarCamposVacios(){
         boolean correcto=true;
         if(descripcion.getText().isEmpty()||"".equals(descripcion.getText())){
@@ -121,7 +107,6 @@ public class GUIAgregarProductoController implements Initializable {
         planillaStage.close();
         }
     }
-    @FXML
     private void botontCancelar(ActionEvent event){
         planillaStage.close();
     }
@@ -173,4 +158,13 @@ public class GUIAgregarProductoController implements Initializable {
         obsfotos=FXCollections.observableArrayList(listaFotos);
         actualizaLista();   
         }       
+
+    @FXML
+    private void seleccionaImagen() {
+         if (lista.getSelectionModel().isEmpty()) {
+            utilerias.mensajes.mensage("favor de seleccionar un Articulo de venta para ver las fotos");
+        } else {
+            imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
+        }
+    }
     }

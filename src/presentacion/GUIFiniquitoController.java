@@ -66,7 +66,7 @@ public class GUIFiniquitoController implements Initializable {
     public void recibeParametros(Stage stage,Empeno empeno){
         this.empeno=empeno;
         this.stage=stage;
-        TFFecha.setText(empeno.getFechaFinEmpeno().toString());
+        TFFecha.setText(empeno.getTxtfechaFinEmpeno());
         llenaTabla(empeno.getIdEmpeno());
         cambiar();
     }

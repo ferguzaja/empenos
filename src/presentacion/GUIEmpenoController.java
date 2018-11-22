@@ -106,8 +106,8 @@ public class GUIEmpenoController implements Initializable {
     public void llenarTabla(List<logica.Empeno> listaEmpenos){
         ObservableList<logica.Empeno> obsempenos = FXCollections.observableArrayList(listaEmpenos);
         nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("cliente"));
-        fechaInicioColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaInicio"));
-        fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("fechaFinEmpeno"));
+        fechaInicioColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("txtfechaInicio"));
+        fechaFinColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("txtfechaFinEmpeno"));
         numeroExtencionColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numExtencionTiempo"));
         numeroBolsaColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("numBolsa"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("estatus"));

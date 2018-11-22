@@ -226,6 +226,9 @@ public class Pago implements Serializable {
     }
     public static double cambiarDias(logica.Empeno empeno){
         int dias=utilerias.fechas.diasDiferencia(empeno.getFechaInicio());
+        if(dias>30){
+            dias=30;
+        }
         List<logica.Pago> pago =regresaPagos(empeno.getIdEmpeno());
         double monto=pago.get(1).getRefrendo();
         return((monto/30)*dias)+pago.get(1).getPrestamo();

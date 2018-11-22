@@ -5,6 +5,7 @@
  */
 package logica;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,13 +20,16 @@ public class Empeno {
     private String cotitular;
     private int numExtencionTiempo;
     private Date fechaExtencion;
-    private Date fechaFinExtencion;
     private int numBolsa;
     private double montoRecibido;
     private Cliente cliente;
     private Date fechaFinalizacion;
     private String estatus;
-
+    private SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
+    private String txtfechaInicio;
+    private String txtfechaFinEmpeno;
+    private String txtfechaExtencion;
+    private String txtfechaFinalizacion;
     public Empeno() {
     }
 
@@ -37,7 +41,6 @@ public class Empeno {
         this.cotitular = cotitular;
         this.numExtencionTiempo = numExtencionTiempo;
         this.fechaExtencion = fechaExtencion;
-        this.fechaFinExtencion = fechaFinExtencion;
         this.numBolsa = numBolsa;
         this.montoRecibido = monto;
         this.cliente = cliente;
@@ -59,6 +62,8 @@ public class Empeno {
 
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
+        if(fechaInicio!=null)
+        this.txtfechaInicio=sdf.format(fechaInicio);
     }
 
     public Date getFechaFinEmpeno() {
@@ -67,6 +72,8 @@ public class Empeno {
 
     public void setFechaFinEmpeno(Date fechaFinEmpeno) {
         this.fechaFinEmpeno = fechaFinEmpeno;
+        if(fechaFinEmpeno!=null)
+        this.txtfechaFinEmpeno=sdf.format(fechaFinEmpeno);
     }
 
     public Empleado getIdEmpleado() {
@@ -99,15 +106,10 @@ public class Empeno {
 
     public void setFechaExtencion(Date fechaExtencion) {
         this.fechaExtencion = fechaExtencion;
+        if(fechaExtencion!=null)
+        this.txtfechaExtencion=sdf.format(fechaExtencion);
     }
 
-    public Date getFechaFinExtencion() {
-        return fechaFinExtencion;
-    }
-
-    public void setFechaFinExtencion(Date fechaFinExtencion) {
-        this.fechaFinExtencion = fechaFinExtencion;
-    }
 
     public int getNumBolsa() {
         return numBolsa;
@@ -139,6 +141,8 @@ public class Empeno {
 
     public void setFechaFinalizacion(Date fechaFinalizacion) {
         this.fechaFinalizacion = fechaFinalizacion;
+        if(fechaFinalizacion!=null)
+        this.txtfechaFinalizacion=sdf.format(fechaFinalizacion);
     }
 
     public String getEstatus() {
@@ -148,5 +152,38 @@ public class Empeno {
     public void setEstatus(String tipoFinalizacion) {
         this.estatus = tipoFinalizacion;
     }
+
+    public String getTxtfechaInicio() {
+        return txtfechaInicio;
+    }
+
+    public void setTxtfechaInicio(String txtfechaInicio) {
+        this.txtfechaInicio = txtfechaInicio;
+    }
+
+    public String getTxtfechaFinEmpeno() {
+        return txtfechaFinEmpeno;
+    }
+
+    public void setTxtfechaFinEmpeno(String txtfechaFinEmpeno) {
+        this.txtfechaFinEmpeno = txtfechaFinEmpeno;
+    }
+
+    public String getTxtfechaExtencion() {
+        return txtfechaExtencion;
+    }
+
+    public void setTxtfechaExtencion(String txtfechaExtencion) {
+        this.txtfechaExtencion = txtfechaExtencion;
+    }
+
+    public String getTxtfechaFinalizacion() {
+        return txtfechaFinalizacion;
+    }
+
+    public void setTxtfechaFinalizacion(String txtfechaFinalizacion) {
+        this.txtfechaFinalizacion = txtfechaFinalizacion;
+    }
+    
             
 }

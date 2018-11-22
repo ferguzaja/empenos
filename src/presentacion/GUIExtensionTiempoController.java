@@ -64,17 +64,20 @@ public class GUIExtensionTiempoController implements Initializable {
         emp=empeno;
     }
     public void llenaDatos(Empeno empeno){
-    TFFechaInicio.setText(empeno.getFechaInicio().toString());
-    TFFechaFin.setText(empeno.getFechaFinEmpeno().toString());
+    TFFechaInicio.setText(empeno.getTxtfechaInicio());
+    TFFechaFin.setText(empeno.getTxtfechaFinEmpeno());
     if(empeno.getCotitular()!=null)
         TFCotitular.setText(empeno.getCotitular());
     if(empeno.getNumExtencionTiempo()!=0){
         TFNoExtension.setText(String.valueOf(empeno.getNumExtencionTiempo()+1));
-        TFFechaExtension.setText(utilerias.fechas.convertirFechaString(utilerias.fechas.aumentaDias(empeno.getFechaExtencion(), 5)));
+        fechaExtension=utilerias.fechas.aumentaDias(empeno.getFechaExtencion(), 5);
+        empeno.setFechaExtencion(fechaExtension);
+        TFFechaExtension.setText(empeno.getTxtfechaExtencion());
     }else{
         TFNoExtension.setText("1");
         fechaExtension=utilerias.fechas.aumentaDias(empeno.getFechaFinEmpeno(), 5);
-        TFFechaExtension.setText(utilerias.fechas.convertirFechaString(fechaExtension));
+        empeno.setFechaExtencion(fechaExtension);
+        TFFechaExtension.setText(empeno.getTxtfechaExtencion());
     }
     if(empeno.getCotitular() == null){
         TFCotitular.setText("N/A");

@@ -18,8 +18,8 @@
       <Label layoutX="39.0" layoutY="228.0" text="Monto Prestamo" />
       <ComboBox fx:id="tipoPrenda" layoutX="150.0" layoutY="71.0" prefWidth="150.0" />
       <TextArea fx:id="descripcion" layoutX="150.0" layoutY="109.0" prefHeight="62.0" prefWidth="150.0" />
-      <TextField fx:id="montoValuo" layoutX="151.0" layoutY="182.0" />
-      <TextField fx:id="montoPrestamo" layoutX="151.0" layoutY="224.0" />
+      <TextField fx:id="montoValuo" layoutX="151.0" layoutY="182.0" onKeyReleased="#asignaPrestamo" onKeyTyped="#asignaPrestamo" />
+      <TextField fx:id="montoPrestamo" editable="false" layoutX="151.0" layoutY="224.0" />
       <Button fx:id="tomarFotografia" layoutX="609.0" layoutY="271.0" mnemonicParsing="false" onAction="#botonTomarFoto" text="AgregarFoto" />
       <Button fx:id="guardar" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" onAction="#botonGuardar" text="Agregar" />
       <Button fx:id="cancelar" layoutX="630.0" layoutY="325.0" mnemonicParsing="false" text="Cancelar" />
@@ -29,5 +29,6 @@
             <ImageView fx:id="imagen" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
+      <Button fx:id="mostrarButton" layoutX="417.0" layoutY="271.0" mnemonicParsing="false" onAction="#seleccionaImagen" text="mostrar" />
    </children>
 </AnchorPane>

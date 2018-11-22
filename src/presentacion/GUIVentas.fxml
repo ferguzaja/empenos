@@ -2,13 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 
 <AnchorPane id="AnchorPane" prefHeight="579.0" prefWidth="898.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.GUIVentasController">
    <children>
@@ -22,19 +19,12 @@
             <TableColumn fx:id="precioColumn" prefWidth="74.0" text="Precio " />
         </columns>
       </TableView>
-      <ListView fx:id="listaFotos" layoutX="342.0" layoutY="215.0" prefHeight="294.0" prefWidth="214.0" />
-      <Pane layoutX="626.0" layoutY="215.0" prefHeight="294.0" prefWidth="214.0" style="-fx-border-color: black;">
-         <children>
-            <ImageView fx:id="fotomuestra" fitHeight="272.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </Pane>
       <Button fx:id="agregarAlCarritoButton" layoutX="162.0" layoutY="527.0" mnemonicParsing="false" onAction="#agregarCarrito" text="Agregar Al Carrito" />
       <TextField fx:id="TFBuscarArticulos" layoutX="69.0" layoutY="182.0" />
       <Label layoutX="17.0" layoutY="186.0" text="Articulos:" />
       <Button fx:id="buscarArticulosButton" layoutX="223.0" layoutY="182.0" mnemonicParsing="false" onAction="#llenarTablaArticulos" text="Buscar" />
       <Button fx:id="carrito" layoutX="788.0" layoutY="27.0" mnemonicParsing="false" style="-fx-background-image: ..\icons\carrito.png;" text="Button" />
       <Button fx:id="mostrarButton" layoutX="274.0" layoutY="277.0" mnemonicParsing="false" onAction="#botonMostrar" text="mostrar " />
-      <Button fx:id="verFotoButton" layoutX="564.0" layoutY="277.0" mnemonicParsing="false" onAction="#seleccionaImagen" text="Ver Foto" />
       <TableView fx:id="tablaClientes" layoutX="21.0" layoutY="69.0" prefHeight="104.0" prefWidth="821.0">
          <columns>
             <TableColumn fx:id="nombreColumn" prefWidth="121.0" text="Nombre" />
