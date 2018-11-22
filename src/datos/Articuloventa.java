@@ -178,5 +178,12 @@ public class Articuloventa implements Serializable {
         enviar.setPrenda(datos.Prenda.clonar(articulo.getPrendaIdprenda()));
         return enviar;
     }
+    public static double regresaMonto(List<ArticuloVenta> lista){
+        double monto=0;
+        for(int i=0; i<lista.size(); i++){
+            monto=+(lista.get(i).getPrecioVenta()-lista.get(i).getPrenda().getMontoPrestamo());
+        }
+        return monto;
+    }
     
 }

@@ -6,24 +6,24 @@
 package presentacion;
 
 import datos.Cliente;
+import datos.Venta;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import logica.ArticuloVenta;
-import logica.FotoPrenda;
 
 /**
  * FXML Controller class
@@ -32,8 +32,6 @@ import logica.FotoPrenda;
  */
 public class GUIVentasController implements Initializable {
 
-    @FXML
-    private Button carrito;
     @FXML
     private TextField TFbuscarClientes;
     @FXML
@@ -69,6 +67,21 @@ public class GUIVentasController implements Initializable {
     private TableColumn<Cliente, String> direccionColumn;
     @FXML
     private TableColumn<Cliente, String> noIdentColumn;
+    Map<String, Object> parametrosInterfaz = new HashMap<>();
+    @FXML
+    private Button comprarButton;
+    @FXML
+    private TableView<ArticuloVenta> tablaCarrito;
+    @FXML
+    private TableColumn<ArticuloVenta, String> tipoArticuloCarrito;
+    @FXML
+    private TableColumn<ArticuloVenta, String> descripcionCarrito;
+    @FXML
+    private TableColumn<ArticuloVenta, String> precioCarrito;
+    @FXML
+    private TextField txtTotal;
+    @FXML
+    private Button eliminarCarritoButton;
 
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -77,12 +90,14 @@ public class GUIVentasController implements Initializable {
     @FXML
     public void botonMostrar() {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
-           
+            System.out.println("entro");
+            parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
+            GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+            fotosController.recibeLista(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
+
         }
 
     }
-
-    
 
     @FXML
     public void llenarTablaArticulos() {
@@ -90,13 +105,24 @@ public class GUIVentasController implements Initializable {
         if (TFBuscarArticulos.getText() != "" || TFBuscarArticulos != null) {
             List<ArticuloVenta> listabusqueda = datos.Articuloventa.obtenArticuloVentas(TFBuscarArticulos.getText());
             ObservableList<logica.ArticuloVenta> obsArticulos = FXCollections.observableArrayList(estaEnCarrito(listabusqueda));
-            tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("prenda.getTipoArticulo"));
+            tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));
             descripcionColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));
             precioColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("precioVenta"));
             tablaArticulos.setItems(obsArticulos);
         } else {
             utilerias.mensajes.mensage("favor de introducir un valor para la busqueda");
         }
+    }
+
+    @FXML
+    public void llenarTablaCarrito() {
+        //metodo generico para llenar tablas recibe un objeto que iria dentro del obs la lista de objetos y un String[] para las columnas y otro para las columnas objeto
+        ObservableList<logica.ArticuloVenta> obsArticulos = FXCollections.observableArrayList(ListaCarrito);
+        tipoArticuloCarrito.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));
+        descripcionCarrito.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));
+        precioCarrito.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("precioVenta"));
+        tablaCarrito.setItems(obsArticulos);
+
     }
 
     @FXML
@@ -118,7 +144,7 @@ public class GUIVentasController implements Initializable {
         } else {
             for (int i = 0; i < listaEntrada.size(); i++) {
                 for (int x = 0; x < ListaCarrito.size(); x++) {
-                    if (listaEntrada.get(i).getIdArticuloVenta()==(ListaCarrito.get(x).getIdArticuloVenta())) {
+                    if (listaEntrada.get(i).getIdArticuloVenta() == (ListaCarrito.get(x).getIdArticuloVenta())) {
                         listaEntrada.remove(i);
                         break;
                     }
@@ -136,14 +162,63 @@ public class GUIVentasController implements Initializable {
                 ListaCarrito.add(tablaArticulos.getSelectionModel().getSelectedItem());
                 tablaArticulos.getItems().remove(tablaArticulos.getSelectionModel().getSelectedIndex());
                 tablaArticulos.refresh();
-                        }
+                llenarTablaCarrito();
+                sumarTotal();
+            }
         } else {
             utilerias.mensajes.mensage("favor de seleccionar un articulo para agregar a su carrito");
         }
     }
 
+    @FXML
+    public void eliminarCarrito() {
+        if (utilerias.validacion.seleccionado(tablaCarrito)) {
+            ListaCarrito.remove(tablaCarrito.getSelectionModel().getSelectedIndex());
+            tablaCarrito.getItems().remove(tablaCarrito.getSelectionModel().getSelectedIndex());
+            tablaCarrito.refresh();
+            llenarTablaCarrito();
+            sumarTotal();
+
+        } else {
+            utilerias.mensajes.mensage("favor de seleccionar un articulo para eliminar de su carrito");
+        }
+    }
+    public void sumarTotal(){
+        if(!ListaCarrito.isEmpty()){
+            txtTotal.setText(String.valueOf(suma(ListaCarrito)));
+        }
+    }
+    private double suma(List<ArticuloVenta> lista){
+        double monto=0;
+        for(int i=0; i<lista.size(); i++){
+            monto=monto+lista.get(i).getPrecioVenta();
+        }
+        return monto;
+    }
+
     public void recibeHashMap(Map<String, Object> parametros) {
         parametrosGlobales = parametros;
     }
-
+    @FXML
+    public void generaVenta(){
+        if(utilerias.validacion.seleccionado(tablaClientes)){
+            if(utilerias.mensajes.mensageConfirmacion("Venta Sin Cliente", "Desea guardar la venta como publico general")){
+                datos.Venta.guardarVenta(regresaVenta());
+            }   
+    }else{
+            datos.Venta.guardarVenta(regresaVenta());
+        }
+       
+    }
+    
+    public logica.Venta regresaVenta(){
+         logica.Venta venta = new logica.Venta();
+        venta.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        venta.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
+        venta.setGananciaTotal(Double.parseDouble(txtTotal.getText()));
+        if(utilerias.validacion.seleccionado(tablaClientes)){
+            venta.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+        }
+        return venta;
+    }
 }

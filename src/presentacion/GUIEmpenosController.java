@@ -7,13 +7,9 @@ package presentacion;
 
 import datos.Cliente;
 import logica.Prenda;
-import datos.ClienteJpaController;
-import datos.Empleado;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

@@ -13,7 +13,8 @@ public class ArticuloVenta {
 	private String descripcion;
 	private double precioVenta;
 	private int estado;
-	public Prenda prenda;
+	private Prenda prenda;
+        private String tipoArticulo;
 
 	public ArticuloVenta(){
 
@@ -72,7 +73,18 @@ public class ArticuloVenta {
 
     public void setPrenda(Prenda prenda) {
         this.prenda = prenda;
+        this.tipoArticulo=prenda.getTipoPrenda().getNombre();
+        
     }
+
+    public String getTipoArticulo() {
+        return tipoArticulo;
+    }
+
+    public void setTipoArticulo(String tipoArticulo) {
+        this.tipoArticulo = tipoArticulo;
+    }
+    
         
         
 

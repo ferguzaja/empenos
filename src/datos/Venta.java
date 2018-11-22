@@ -50,7 +50,7 @@ public class Venta implements Serializable {
     private Date fechaHora;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "gananciaTotal")
-    private Float gananciaTotal;
+    private double gananciaTotal;
     @ManyToMany(mappedBy = "ventaList")
     private List<Articuloventa> articuloventaList;
     @JoinColumn(name = "empleado_idEmpleado", referencedColumnName = "idempleado")
@@ -83,11 +83,11 @@ public class Venta implements Serializable {
         this.fechaHora = fechaHora;
     }
 
-    public Float getGananciaTotal() {
+    public double getGananciaTotal() {
         return gananciaTotal;
     }
 
-    public void setGananciaTotal(Float gananciaTotal) {
+    public void setGananciaTotal(double gananciaTotal) {
         this.gananciaTotal = gananciaTotal;
     }
 
@@ -139,6 +139,20 @@ public class Venta implements Serializable {
     @Override
     public String toString() {
         return "datos.Venta[ idventa=" + idventa + " ]";
+    }
+    public static datos.Venta deLogicaADatos(logica.Venta venta){
+        Venta nuevaVenta = new Venta();
+        nuevaVenta.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(venta.getEmpleado().getIdEmpleado()));
+        if(venta.getCliente()!=null){
+            nuevaVenta.setClienteIdcliente(datos.Cliente.recuperarCliente(venta.getCliente().getIdCliente()));
+        }
+        nuevaVenta.setFechaHora(venta.getFechaHora());
+        nuevaVenta.setGananciaTotal(venta.getGananciaTotal());
+        return nuevaVenta;
+    }
+    public static void guardarVenta(logica.Venta venta){
+        VentaJpaController VJPA = new VentaJpaController();
+        VJPA.create(deLogicaADatos(venta));
     }
     
 }

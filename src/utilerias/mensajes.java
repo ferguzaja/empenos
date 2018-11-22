@@ -5,9 +5,18 @@
  */
 package utilerias;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.ArticuloVenta;
 
@@ -47,5 +56,22 @@ public class mensajes {
             confiramcion=true;
         
         return confiramcion;
+    }
+    public static Map<String, Object> nuevaInterfaz(String ventana, Object objeto){
+        Map<String, Object> parametrosInterfaz = new HashMap<>();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            AnchorPane root = (AnchorPane) loader.load(objeto.getClass().getResource(ventana).openStream());
+            Scene scene = new Scene(root);
+            Stage planillaStage = new Stage();
+            planillaStage.setScene(scene);
+            parametrosInterfaz.put("Loader",loader);
+            parametrosInterfaz.put("plantilla", planillaStage);
+            parametrosInterfaz.put("scene",scene);
+            planillaStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(mensajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return parametrosInterfaz;
     }
 }
