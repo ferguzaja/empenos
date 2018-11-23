@@ -39,6 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Venta.findByGananciaTotal", query = "SELECT v FROM Venta v WHERE v.gananciaTotal = :gananciaTotal")})
 public class Venta implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "gananciaTotal")
+    private double gananciaTotal;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +52,6 @@ public class Venta implements Serializable {
     @Column(name = "fechaHora")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHora;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "gananciaTotal")
-    private double gananciaTotal;
     @ManyToMany(mappedBy = "ventaList")
     private List<Articuloventa> articuloventaList;
     @JoinColumn(name = "empleado_idEmpleado", referencedColumnName = "idempleado")
@@ -83,13 +84,6 @@ public class Venta implements Serializable {
         this.fechaHora = fechaHora;
     }
 
-    public double getGananciaTotal() {
-        return gananciaTotal;
-    }
-
-    public void setGananciaTotal(double gananciaTotal) {
-        this.gananciaTotal = gananciaTotal;
-    }
 
     @XmlTransient
     public List<Articuloventa> getArticuloventaList() {
@@ -153,6 +147,14 @@ public class Venta implements Serializable {
     public static void guardarVenta(logica.Venta venta){
         VentaJpaController VJPA = new VentaJpaController();
         VJPA.create(deLogicaADatos(venta));
+    }
+
+    public double getGananciaTotal() {
+        return gananciaTotal;
+    }
+
+    public void setGananciaTotal(double gananciaTotal) {
+        this.gananciaTotal = gananciaTotal;
     }
     
 }

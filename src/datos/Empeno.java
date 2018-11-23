@@ -51,6 +51,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Empeno.findByMontoRecibido", query = "SELECT e FROM Empeno e WHERE e.montoRecibido = :montoRecibido")})
 public class Empeno implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "montoRecibido")
+    private Float montoRecibido;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
+    private List<Prenda> prendaList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,9 +85,6 @@ public class Empeno implements Serializable {
     private String estatus;
     @Column(name = "noBolsa")
     private Integer noBolsa;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "montoRecibido")
-    private double montoRecibido;
     @JoinColumn(name = "empleado_idEmpleado", referencedColumnName = "idempleado")
     @ManyToOne(optional = false)
     private Empleado empleadoidEmpleado;
@@ -178,13 +181,6 @@ public class Empeno implements Serializable {
         this.noBolsa = noBolsa;
     }
 
-    public double getMontoRecibido() {
-        return montoRecibido;
-    }
-
-    public void setMontoRecibido(double montoRecibido) {
-        this.montoRecibido = montoRecibido;
-    }
 
     public Empleado getEmpleadoidEmpleado() {
         return empleadoidEmpleado;
@@ -373,5 +369,22 @@ public class Empeno implements Serializable {
         emp.setEstatus(empeno.getEstatus());
         emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empeno.getEmpleadoidEmpleado()));
         return emp;
+    }
+
+    public Float getMontoRecibido() {
+        return montoRecibido;
+    }
+
+    public void setMontoRecibido(Float montoRecibido) {
+        this.montoRecibido = montoRecibido;
+    }
+
+    @XmlTransient
+    public List<Prenda> getPrendaList() {
+        return prendaList;
+    }
+
+    public void setPrendaList(List<Prenda> prendaList) {
+        this.prendaList = prendaList;
     }
 }

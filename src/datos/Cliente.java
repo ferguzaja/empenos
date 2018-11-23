@@ -269,13 +269,6 @@ public class Cliente implements Serializable {
         return cliente;
     }
 
-    public byte[] getHuellaDigital() {
-        return huellaDigital;
-    }
-
-    public void setHuellaDigital(byte[] huellaDigital) {
-        this.huellaDigital = huellaDigital;
-    }
     public static List<logica.Cliente> buscaClientes(String s){
         ClienteJpaController clienteJPA = new ClienteJpaController();
         List<datos.Cliente> clientes = clienteJPA.findClienteEntities();
@@ -309,4 +302,12 @@ public class Cliente implements Serializable {
     }
  return listaClientes;   
 }
+
+    public byte[] getHuellaDigital() {
+        return huellaDigital;
+    }
+
+    public void setHuellaDigital(byte[] huellaDigital) {
+        this.huellaDigital = huellaDigital;
+    }
 }

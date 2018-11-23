@@ -47,6 +47,10 @@ public class Prenda implements Serializable {
     @Basic(optional = false)
     @Column(name = "montoPrestamo")
     private double montoPrestamo;
+    @Column(name = "estadoEmpeno")
+    private int estadoEmpeno;
+    @Column(name = "comercializada")
+    private Short comercializada;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,10 +60,6 @@ public class Prenda implements Serializable {
     private Integer idprenda;
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "estadoEmpeno")
-    private int estadoEmpeno;
-    @Column(name = "comercializada")
-    private int comercializada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prendaIdprenda")
     private List<Articuloventa> articuloventaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prendaIdprenda")
@@ -78,7 +78,7 @@ public class Prenda implements Serializable {
         this.idprenda = idprenda;
     }
 
-    public Prenda(Integer idprenda, float montoValuo, float montoPrestamo) {
+    public Prenda(Integer idprenda, double montoValuo, double montoPrestamo) {
         this.idprenda = idprenda;
         this.montoValuo = montoValuo;
         this.montoPrestamo = montoPrestamo;
@@ -101,21 +101,6 @@ public class Prenda implements Serializable {
     }
 
 
-    public int getEstadoEmpeno() {
-        return estadoEmpeno;
-    }
-
-    public void setEstadoEmpeno(int estadoEmpeno) {
-        this.estadoEmpeno = estadoEmpeno;
-    }
-
-    public int getComercializada() {
-        return comercializada;
-    }
-
-    public void setComercializada(int comercializada) {
-        this.comercializada = comercializada;
-    }
 
     @XmlTransient
     public List<Articuloventa> getArticuloventaList() {
@@ -269,7 +254,16 @@ public class Prenda implements Serializable {
         prendaDatos.setTipoprendaIdtipoprenda(tipoPrenda);
         return prendaDatos;
     }
-
+    public static logica.Prenda clonar(datos.Prenda prendadatos) {
+        logica.Prenda prenda= new logica.Prenda();
+        prenda.setDescripcion(prendadatos.getDescripcion());
+        prenda.setEmpeno(datos.Empeno.clonarDatosALogica(prendadatos.getEmpenoIdempeno()));
+        prenda.setIdPrenda(prendadatos.getIdprenda());
+        prenda.setMontoPrestamo(prendadatos.getMontoPrestamo());
+        prenda.setMontoValuo(prendadatos.getMontoValuo());
+        prenda.setTipoPrenda(prendadatos.getTipoprendaIdtipoprenda().clonar());
+        return prenda;
+    }
 
     public double getMontoValuo() {
         return montoValuo;
@@ -287,14 +281,19 @@ public class Prenda implements Serializable {
         this.montoPrestamo = montoPrestamo;
     }
 
-    public static logica.Prenda clonar(datos.Prenda prendadatos) {
-        logica.Prenda prenda= new logica.Prenda();
-        prenda.setDescripcion(prendadatos.getDescripcion());
-        prenda.setEmpeno(datos.Empeno.clonarDatosALogica(prendadatos.getEmpenoIdempeno()));
-        prenda.setIdPrenda(prendadatos.getIdprenda());
-        prenda.setMontoPrestamo(prendadatos.getMontoPrestamo());
-        prenda.setMontoValuo(prendadatos.getMontoValuo());
-        prenda.setTipoPrenda(prendadatos.getTipoprendaIdtipoprenda().clonar());
-        return prenda;
+    public int getEstadoEmpeno() {
+        return estadoEmpeno;
+    }
+
+    public void setEstadoEmpeno(int estadoEmpeno) {
+        this.estadoEmpeno = estadoEmpeno;
+    }
+
+    public Short getComercializada() {
+        return comercializada;
+    }
+
+    public void setComercializada(Short comercializada) {
+        this.comercializada = comercializada;
     }
 }
