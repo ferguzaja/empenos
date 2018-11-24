@@ -66,8 +66,8 @@ public class mensajes {
             Stage planillaStage = new Stage();
             planillaStage.setScene(scene);
             parametrosInterfaz.put("Loader",loader);
-            parametrosInterfaz.put("plantilla", planillaStage);
-            parametrosInterfaz.put("scene",scene);
+            parametrosInterfaz.put("Stage", planillaStage);
+            parametrosInterfaz.put("Scene",scene);
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(mensajes.class.getName()).log(Level.SEVERE, null, ex);

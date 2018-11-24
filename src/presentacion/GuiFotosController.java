@@ -47,7 +47,7 @@ public class GuiFotosController implements Initializable {
         }
     }
     public void recibeLista(int idPrenda){
-        obsfotos = FXCollections.observableArrayList(datos.Fotoprenda.devuelveFotos(idPrenda));
+        obsfotos = FXCollections.observableArrayList(datos.Fotoprenda.devuelveFotos(idPrenda,true));
             listaFotos.setItems(obsfotos);
     }
     

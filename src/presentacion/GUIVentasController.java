@@ -215,7 +215,7 @@ public class GUIVentasController implements Initializable {
          logica.Venta venta = new logica.Venta();
         venta.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
         venta.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
-        venta.setGananciaTotal(Double.parseDouble(txtTotal.getText()));
+        venta.setGananciaTotal(datos.Articuloventa.regresaMonto(ListaCarrito));
         if(utilerias.validacion.seleccionado(tablaClientes)){
             venta.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         }

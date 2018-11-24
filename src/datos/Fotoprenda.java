@@ -165,6 +165,7 @@ public class Fotoprenda implements Serializable {
     public static List<datos.Fotoprenda> deLogicaADatos(List<logica.FotoPrenda> listaFotos){
         List<datos.Fotoprenda> listaEnviar = new ArrayList<>();
         for(int i=0; i<listaFotos.size(); i++){
+            System.out.println("entro2");
            Fotoprenda foto= new Fotoprenda();
            foto.setFechaHora(listaFotos.get(i).getFechaHora());
            foto.setPrendaIdprenda(datos.Prenda.deLogicaADatos(listaFotos.get(i).getPrenda()));
@@ -183,7 +184,7 @@ public class Fotoprenda implements Serializable {
         
         for(int i=0; i<lista.size(); i++){
             for(int x=0; x<lista.get(i).size(); x++){
-                try {
+                try {System.out.println("entro3");
                 FPJPA.create(lista.get(i).get(x));
             } catch (Exception ex) {
                 Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,14 +195,14 @@ public class Fotoprenda implements Serializable {
         }
     }
     
-    public static List<logica.FotoPrenda> devuelveFotos(int idPrenda){
+    public static List<logica.FotoPrenda> devuelveFotos(int idPrenda,boolean nuevo){
         List<logica.FotoPrenda> listaFotos= new ArrayList<>();
         FotoprendaJpaController fotoJPA = new FotoprendaJpaController();
         List<datos.Fotoprenda> fotos =fotoJPA.findFotoprendaEntities();
         int x;
         for(int i=0; i<fotos.size(); i++){
             if(fotos.get(i).getPrendaIdprenda().getIdprenda()==idPrenda){
-                FotoPrenda fotonueva = datosALogica(fotos.get(i));
+                FotoPrenda fotonueva = datosALogica(fotos.get(i),nuevo);
                 x=i+1;
                 fotonueva.setNombre("foto"+x);
                 listaFotos.add(fotonueva);
@@ -210,8 +211,11 @@ public class Fotoprenda implements Serializable {
         
         return listaFotos;
     }
-    public static logica.FotoPrenda datosALogica(datos.Fotoprenda foto){
+    public static logica.FotoPrenda datosALogica(datos.Fotoprenda foto,boolean nuevo){
         FotoPrenda fotoenviar = new FotoPrenda();
+        if(nuevo){     
+        fotoenviar.setIdFotoPrenda(foto.getIdfotoPrenda());
+        }
         fotoenviar.setFechaHora(foto.getFechaHora());
         fotoenviar.setPrenda(datos.Prenda.clonar(foto.getPrendaIdprenda()));
         fotoenviar.setFoto(devuelveImagen(foto.getFoto()));
@@ -225,5 +229,12 @@ public class Fotoprenda implements Serializable {
             Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);
         }
          return SwingFXUtils.toFXImage(img, null);
+    }
+    public static List<List<FotoPrenda>> devuelveArregloFotos(List<logica.Prenda> listaPrendas,boolean nuevo){
+        List<List<FotoPrenda>> arregloFotos = new ArrayList<>();
+        for(int i=0; i<listaPrendas.size(); i++){
+            arregloFotos.add(devuelveFotos(listaPrendas.get(i).getIdPrenda(),nuevo));
+        }
+        return arregloFotos;
     }
 }

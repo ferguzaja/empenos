@@ -87,7 +87,7 @@ public class GUIExtensionTiempoController implements Initializable {
     TFNoBolsa.setText(Integer.toString(empeno.getNumBolsa()));
         VariblesEmpeno var=datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno());
     TFInteresMensual.setText(String.valueOf(var.getIntereMensual()));
-    TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno()))));
+    TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(),true))));
     TFIva.setText(String.valueOf(var.getIva()));
     TFCat.setText(String.valueOf(var.getCat()));
     }

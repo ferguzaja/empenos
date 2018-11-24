@@ -117,12 +117,12 @@ public class GUIDetallesContratoController implements Initializable {
     TFNoBolsa.setText(Integer.toString(empeno.getNumBolsa()));
         VariblesEmpeno var=datos.Variblesempeno.obtenDatos(empeno.getIdEmpeno());
     TFInteresMensual.setText(String.valueOf(var.getIntereMensual()));
-    TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno()))));
+    TFMontoPrestado.setText(String.valueOf(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(),true))));
     TFIva.setText(String.valueOf(var.getIva()));
     TFCat.setText(String.valueOf(var.getCat()));
     }
     public void llenaPrendas(Empeno empeno){
-        listaPrendas=datos.Prenda.prendasPorContrato(empeno.getIdEmpeno());
+        listaPrendas=datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(),true);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrendas);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));

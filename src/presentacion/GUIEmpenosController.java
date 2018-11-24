@@ -104,8 +104,7 @@ public class GUIEmpenosController implements Initializable {
 
     private int clicEditar;
     private Map<String, Object> parametrosGlobales;
-    private GUIEmpenoController control;
-    private Stage stagemaster;
+    private Map<String, Object> parametrosInterfaz;
 
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
@@ -150,11 +149,11 @@ public class GUIEmpenosController implements Initializable {
             datos.Empeno.actualizarEmpeno(empeno);
             datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
             datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
-            asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno()));
+            asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno(),true));
             datos.Fotoprenda.guardarFotosPrendas(arregloDeFotos);
-            stagemaster.close();
-            control.navegarAdelante();
-            control.navegarAtras();
+            ((Stage)parametrosInterfaz.get("Stage")).close();
+            ((GUIEmpenoController)parametrosInterfaz.get("Controller")).navegarAdelante();
+            ((GUIEmpenoController)parametrosInterfaz.get("Controller")).navegarAtras();
         } else {
             utilerias.mensajes.mensage("Debe de Seleccionar un cliente y tener prendas para realizar un contrato");
         }
@@ -220,7 +219,12 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
-        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(datos.Cliente.buscaClientes(txtBuscar.getText()));
+        llenarTablaClientes(datos.Cliente.buscaClientes(txtBuscar.getText()));
+        
+    }
+    private void llenarTablaClientes(List<logica.Cliente> listaClientes){
+        
+        ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
         apPaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoMaterno"));
@@ -233,25 +237,43 @@ public class GUIEmpenosController implements Initializable {
         //en lista prenda se guardan las prendas de ahi jalala
         listaPrenda.add(prenda);
         arregloDeFotos.add(listaFotos);
+        llenarTablaPrenda();
+        
+    }
+    public void llenarTablaPrenda(){
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda, String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
         montoAvaluoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
         montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
-        //tablaPrenda.setEditable(true);
         tablaPrenda.setItems(obsPrenda);
-        //fotografia.setCellValueFactory(new PropertyValueFactory<Prenda,String>("fotografia"));
-    }
+       }
+    
 
-    public void recibeHashMap(Map<String, Object> parametros, Stage stage, GUIEmpenoController controller) {
+    public void recibeHashMap(Map<String, Object> parametros, Map<String, Object> parametrosInterfaz) {
         parametrosGlobales = parametros;
-        stagemaster = stage;
-        control = controller;
+        this.parametrosInterfaz=parametrosInterfaz;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         guiEmpenosControler = this;
     }
+
+    public void recibeReEmpeno(Map<String, Object> parametrosGlobales, Map<String, Object> parametrosInterfaz, Empeno selectedItem) {
+        this.parametrosGlobales = parametrosGlobales;
+        this.parametrosInterfaz = parametrosInterfaz;
+        llenarReEmpeno(selectedItem);
+    }
+    public void llenarReEmpeno(Empeno empeno){
+        listaPrenda=datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(),false);
+        arregloDeFotos=datos.Fotoprenda.devuelveArregloFotos(listaPrenda,false);
+        List<logica.Cliente> lista= new ArrayList<>();
+        lista.add(empeno.getCliente());
+        llenarTablaClientes(lista);
+        llenarTablaPrenda();
+  
+    }
+    
 
 }

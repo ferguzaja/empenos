@@ -151,5 +151,6 @@ public class Prenda {
     public String toString() {
         return "Prenda{" + "idPrenda=" + getIdPrenda() + ", descripcion=" + getDescripcion() + ", montoValuo=" + getMontoValuo() + ", montoPrestamo=" + getMontoPrestamo() + ", tipoPrenda=" + getTipoPrenda() + ", estadoEmpeno=" + isEstadoEmpeno() + ", comercializada=" + isComercializada() + '}';
     }
+
     
 }

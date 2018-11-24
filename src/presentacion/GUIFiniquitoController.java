@@ -71,7 +71,7 @@ public class GUIFiniquitoController implements Initializable {
         cambiar();
     }
     private void llenaTabla(int idEmpeno){
-        listaPrendas=datos.Prenda.prendasPorContrato(idEmpeno);
+        listaPrendas=datos.Prenda.prendasPorContrato(idEmpeno,true);
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrendas);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda,String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));

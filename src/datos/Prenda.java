@@ -161,7 +161,7 @@ public class Prenda implements Serializable {
         return "datos.Prenda[ idprenda=" + idprenda + " ]";
     }
 
-    public static List<logica.Prenda> prendasPorContrato(int noContrato) {
+    public static List<logica.Prenda> prendasPorContrato(int noContrato, boolean nuevo) {
         PrendaJpaController prendaJPA = new PrendaJpaController();
         List<datos.Prenda> prendas = prendaJPA.findPrendaEntities();
 
@@ -169,7 +169,9 @@ public class Prenda implements Serializable {
         for (int i = 0; i < prendas.size(); i++) {
             if (prendas.get(i).getEmpenoIdempeno().getIdempeno()==noContrato) {
                 logica.Prenda prenda = new logica.Prenda();
-                prenda.setIdPrenda(prendas.get(i).getIdprenda());
+                if(nuevo){
+                  prenda.setIdPrenda(prendas.get(i).getIdprenda());  
+                }
                 prenda.setDescripcion(prendas.get(i).getDescripcion());
                 prenda.setMontoPrestamo(prendas.get(i).getMontoPrestamo());
                 prenda.setMontoValuo(prendas.get(i).getMontoValuo());

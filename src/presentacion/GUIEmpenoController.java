@@ -9,6 +9,7 @@ import datos.EmpenoJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -58,7 +59,7 @@ public class GUIEmpenoController implements Initializable {
     private Button botonAdelante;
     @FXML
     private TableView<logica.Empeno> tablaEmpenos;
-
+    Map<String, Object> parametrosInterfaz = new HashMap<>();
     @FXML
     private TableColumn<Empeno, String> nombreClienteColumn;
 
@@ -237,28 +238,23 @@ public class GUIEmpenoController implements Initializable {
     }
     @FXML
     private void botonNuevoContrato(){
-        try {                                               
-            /*Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
-            panelPrincipal.getChildren().setAll(root);*/
-            //se agrega el .openStream
-            
-            FXMLLoader loader = new FXMLLoader();
-            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIEmpenos.fxml").openStream());
-            
-            //Instancia del controlador 2
-            GUIEmpenosController empenosController = (GUIEmpenosController) loader.getController();
-            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
-            //como parámetro una instancia de la GUIEmpenos y el objeto
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-            empenosController.recibeHashMap(parametrosGlobales,stage,this);
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
+        GUIEmpenosController empenosController = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+         parametrosInterfaz.put("Controller",empenosController);
+        empenosController.recibeHashMap(parametrosGlobales,parametrosInterfaz);
     }
+    
+    @FXML
+    private void botonReEmpeno(){
+        if(utilerias.validacion.seleccionado(tablaEmpenos)){
+            if(tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")){
+               parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
+               GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+                parametrosInterfaz.put("Controller",empenoscontroller);
+               empenoscontroller.recibeReEmpeno(parametrosGlobales,parametrosInterfaz,tablaEmpenos.getSelectionModel().getSelectedItem());
+            }
+        }else{}
+            }
 
     @FXML
     private boolean extensionTiempo() {

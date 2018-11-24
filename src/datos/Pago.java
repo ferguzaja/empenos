@@ -204,7 +204,7 @@ public class Pago implements Serializable {
         Pago pago = new Pago();
         Pago pago2 = new Pago();
         pago.setNoPeriodo(1);
-        pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(emp.getIdEmpeno())));
+        pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(emp.getIdEmpeno(),true)));
         pago.setInteres((var.getInteresMensual() * pago.getPrestamo()) / 200);
         pago.setIva(pago.getInteres() * var.getIva() / 200);
         pago.setRefrendo(pago.getIva() + pago.getInteres());
