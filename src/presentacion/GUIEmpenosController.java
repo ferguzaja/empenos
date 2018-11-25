@@ -149,11 +149,11 @@ public class GUIEmpenosController implements Initializable {
             datos.Empeno.actualizarEmpeno(empeno);
             datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
             datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
-            asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno(),true));
+            asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno(), true));
             datos.Fotoprenda.guardarFotosPrendas(arregloDeFotos);
-            ((Stage)parametrosInterfaz.get("Stage")).close();
-            ((GUIEmpenoController)parametrosInterfaz.get("Controller")).navegarAdelante();
-            ((GUIEmpenoController)parametrosInterfaz.get("Controller")).navegarAtras();
+            ((Stage) parametrosInterfaz.get("Stage")).close();
+            ((GUIEmpenoController) parametrosInterfaz.get("Controller")).navegarAdelante();
+            ((GUIEmpenoController) parametrosInterfaz.get("Controller")).navegarAtras();
         } else {
             utilerias.mensajes.mensage("Debe de Seleccionar un cliente y tener prendas para realizar un contrato");
         }
@@ -165,9 +165,10 @@ public class GUIEmpenosController implements Initializable {
         }
         return listaPrenda;
     }
-    private void asignaIdPrenda(List<logica.Prenda> prendas){
-        for(int i=0; i<prendas.size();i++){
-            for(int x=0; x<arregloDeFotos.get(i).size();x++){
+
+    private void asignaIdPrenda(List<logica.Prenda> prendas) {
+        for (int i = 0; i < prendas.size(); i++) {
+            for (int x = 0; x < arregloDeFotos.get(i).size(); x++) {
                 arregloDeFotos.get(i).get(x).setPrenda(prendas.get(i));
             }
         }
@@ -220,10 +221,11 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonBuscarCliente(ActionEvent event) {
         llenarTablaClientes(datos.Cliente.buscaClientes(txtBuscar.getText()));
-        
+
     }
-    private void llenarTablaClientes(List<logica.Cliente> listaClientes){
-        
+
+    private void llenarTablaClientes(List<logica.Cliente> listaClientes) {
+
         ObservableList<logica.Cliente> obsClientes = FXCollections.observableArrayList(listaClientes);
         nombreColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("nombre"));
         apMaternoColumn.setCellValueFactory(new PropertyValueFactory<Cliente, String>("apellidoPaterno"));
@@ -238,21 +240,21 @@ public class GUIEmpenosController implements Initializable {
         listaPrenda.add(prenda);
         arregloDeFotos.add(listaFotos);
         llenarTablaPrenda();
-        
+
     }
-    public void llenarTablaPrenda(){
+
+    public void llenarTablaPrenda() {
         ObservableList<logica.Prenda> obsPrenda = FXCollections.observableArrayList(listaPrenda);
         tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<Prenda, String>("tipoPrenda"));
         descripcionColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("descripcion"));
         montoAvaluoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoValuo"));
         montoPrestamoColumn.setCellValueFactory(new PropertyValueFactory<Prenda, String>("montoPrestamo"));
         tablaPrenda.setItems(obsPrenda);
-       }
-    
+    }
 
     public void recibeHashMap(Map<String, Object> parametros, Map<String, Object> parametrosInterfaz) {
         parametrosGlobales = parametros;
-        this.parametrosInterfaz=parametrosInterfaz;
+        this.parametrosInterfaz = parametrosInterfaz;
     }
 
     @Override
@@ -265,15 +267,15 @@ public class GUIEmpenosController implements Initializable {
         this.parametrosInterfaz = parametrosInterfaz;
         llenarReEmpeno(selectedItem);
     }
-    public void llenarReEmpeno(Empeno empeno){
-        listaPrenda=datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(),false);
-        arregloDeFotos=datos.Fotoprenda.devuelveArregloFotos(listaPrenda,false);
-        List<logica.Cliente> lista= new ArrayList<>();
+
+    public void llenarReEmpeno(Empeno empeno) {
+        listaPrenda = datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(), false);
+        arregloDeFotos = datos.Fotoprenda.devuelveArregloFotos(listaPrenda, false);
+        List<logica.Cliente> lista = new ArrayList<>();
         lista.add(empeno.getCliente());
         llenarTablaClientes(lista);
         llenarTablaPrenda();
-  
+
     }
-    
 
 }

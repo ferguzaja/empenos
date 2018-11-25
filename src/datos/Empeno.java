@@ -29,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import utilerias.fechas;
 
 /**
  *
@@ -180,7 +181,23 @@ public class Empeno implements Serializable {
     public void setNoBolsa(Integer noBolsa) {
         this.noBolsa = noBolsa;
     }
+    
+    public Float getMontoRecibido() {
+        return montoRecibido;
+    }
 
+    public void setMontoRecibido(Float montoRecibido) {
+        this.montoRecibido = montoRecibido;
+    }
+
+    @XmlTransient
+    public List<Prenda> getPrendaList() {
+        return prendaList;
+    }
+
+    public void setPrendaList(List<Prenda> prendaList) {
+        this.prendaList = prendaList;
+    }
 
     public Empleado getEmpleadoidEmpleado() {
         return empleadoidEmpleado;
@@ -302,7 +319,43 @@ public class Empeno implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    public static void refrendarContrato(logica.Empeno emp){
+        try {            
+            EmpenoJpaController empenoJPA = new EmpenoJpaController();
+            datos.Empeno empeno = clonar(emp);
+            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));
+            empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
+            empenoJPA.edit(empeno);            
+            /////Crear el nuevo empeno
+            Date date = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+            empeno.setFechaInicioEmpeno(date);
+            empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
+            empeno.setEstatus("activo");
+            float monto = 0;
+            empeno.setMontoRecibido(monto);
+            empeno.setFechaFinalizacion(null);            
+            empenoJPA.create(empeno);
+            ///Guardar el nuevo número de bolsa
+            int idEmpenoNuevo = datos.Empeno.recuperaID().getIdEmpeno();
+            empeno.setNoBolsa(idEmpenoNuevo);
+            empenoJPA.edit(empeno);            
+            ///cambiar el idempeno a las prendas
+            PrendaJpaController prendaJPA = new PrendaJpaController();            
+            List<datos.Prenda> prendasContrato = datos.Prenda.recuperarPrendas(emp.getIdEmpeno());
+            Empeno empe = empenoJPA.findEmpeno(idEmpenoNuevo);
+            for(int i = 0; i < prendasContrato.size(); i++){                
+                prendasContrato.get(i).setEmpenoIdempeno(empe);
+                prendaJPA.edit(prendasContrato.get(i));                
+            }
+            //Guardar el pago
+            
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static Empeno clonar(logica.Empeno empeno) {
@@ -352,9 +405,7 @@ public class Empeno implements Serializable {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
+        }                
     }
 
     public static logica.Empeno clonarDatosALogica(datos.Empeno empeno) {
@@ -369,22 +420,5 @@ public class Empeno implements Serializable {
         emp.setEstatus(empeno.getEstatus());
         emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empeno.getEmpleadoidEmpleado()));
         return emp;
-    }
-
-    public Float getMontoRecibido() {
-        return montoRecibido;
-    }
-
-    public void setMontoRecibido(Float montoRecibido) {
-        this.montoRecibido = montoRecibido;
-    }
-
-    @XmlTransient
-    public List<Prenda> getPrendaList() {
-        return prendaList;
-    }
-
-    public void setPrendaList(List<Prenda> prendaList) {
-        this.prendaList = prendaList;
-    }
+    }    
 }

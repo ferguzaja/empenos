@@ -172,14 +172,14 @@ public class Pago implements Serializable {
     public String toString() {
         return "datos.Pago[ idpago=" + idpago + " ]";
     }
-    
-    public static List<logica.Pago> regresaPagos(int empeno){
+
+    public static List<logica.Pago> regresaPagos(int empeno) {
         PagoJpaController pagoJPA = new PagoJpaController();
         List<datos.Pago> pagos = pagoJPA.findPagoEntities();
-         List<logica.Pago> pago = new ArrayList<>();
+        List<logica.Pago> pago = new ArrayList<>();
         for (int i = 0; i < pagos.size(); i++) {
-            if (pagos.get(i).getEmpenoIdempeno().getIdempeno()==empeno) {
-                logica.Pago pagar= new logica.Pago();
+            if (pagos.get(i).getEmpenoIdempeno().getIdempeno() == empeno) {
+                logica.Pago pagar = new logica.Pago();
                 pagar.setDesempeño(pagos.get(i).getDesempeno());
                 pagar.setFecha(pagos.get(i).getFechaPeriodo());
                 pagar.setInteres(pagos.get(i).getInteres());
@@ -189,59 +189,86 @@ public class Pago implements Serializable {
                 pagar.setRefrendo(pagos.get(i).getRefrendo());
                 pago.add(pagar);
             }
-                
-            }
+
+        }
         return pago;
     }
-    public static void guardarPago(List<datos.Pago> listaPagos){
+
+    public static void guardarPago(List<datos.Pago> listaPagos) {
         PagoJpaController pagos = new PagoJpaController();
-        for(int i=0; i<listaPagos.size(); i++){
+        for (int i = 0; i < listaPagos.size(); i++) {
             pagos.create(listaPagos.get(i));
         }
     }
-    public static List<datos.Pago> regresaLista(Variblesempeno var, logica.Empeno emp){
+
+    public static List<datos.Pago> regresaLista(Variblesempeno var, logica.Empeno emp) {
         List<datos.Pago> pagos = new ArrayList<>();
         Pago pago = new Pago();
         Pago pago2 = new Pago();
         pago.setNoPeriodo(1);
-        pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(emp.getIdEmpeno(),true)));
+        pago.setPrestamo(datos.Prenda.montoPagar(datos.Prenda.prendasPorContrato(emp.getIdEmpeno(), true)));
         pago.setInteres((var.getInteresMensual() * pago.getPrestamo()) / 200);
         pago.setIva(pago.getInteres() * var.getIva() / 200);
         pago.setRefrendo(pago.getIva() + pago.getInteres());
         pago.setDesempeno(pago.refrendo + pago.prestamo);
         pago.setEmpenoIdempeno(datos.Empeno.clonar(emp));
-        pago.setFechaPeriodo(utilerias.fechas.aumentaDias(emp.getFechaInicio(),15));
+        pago.setFechaPeriodo(utilerias.fechas.aumentaDias(emp.getFechaInicio(), 15));
 
         pago2.noPeriodo = 2;
-        pago2.prestamo=pago.prestamo;
+        pago2.prestamo = pago.prestamo;
         pago2.interes = pago.interes * 2;
         pago2.iva = pago.iva * 2;
         pago2.refrendo = pago.refrendo * 2;
         pago2.desempeno = pago2.refrendo + pago.prestamo;
-        pago2.empenoIdempeno=datos.Empeno.clonar(emp);
-        pago2.fechaPeriodo=utilerias.fechas.aumentaDias(emp.getFechaInicio(),30);           
+        pago2.empenoIdempeno = datos.Empeno.clonar(emp);
+        pago2.fechaPeriodo = utilerias.fechas.aumentaDias(emp.getFechaInicio(), 30);
         pagos.add(pago);
         pagos.add(pago2);
         return pagos;
     }
-    public static double cambiarDias(logica.Empeno empeno){
-        int dias=utilerias.fechas.diasDiferencia(empeno.getFechaInicio());
-        if(dias>30){
-            dias=30;
+
+    public static double cambiarDias(logica.Empeno empeno) {
+        int dias = utilerias.fechas.diasDiferencia(empeno.getFechaInicio());
+        if (dias > 30) {
+            dias = 30;
         }
-        List<logica.Pago> pago =regresaPagos(empeno.getIdEmpeno());
-        double monto=pago.get(1).getRefrendo();
-        return((monto/30)*dias)+pago.get(1).getPrestamo();
+        List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
+        double monto = pago.get(1).getRefrendo();
+        return ((monto / 30) * dias) + pago.get(1).getPrestamo();
     }
-    public static double montoPorPeriodo(logica.Empeno empeno){
-         double monto=0;
-         List<logica.Pago> pago =regresaPagos(empeno.getIdEmpeno());
-         Date diaHoy=utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
-         if(pago.get(0).getFecha().after(diaHoy)){
-             monto=pago.get(0).getDesempeño();
-         }else{
-             monto=pago.get(1).getDesempeño();
-         }
-         return monto;
+
+    public static double montoPorPeriodo(logica.Empeno empeno) {
+        double monto = 0;
+        List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
+        Date diaHoy = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+        if (pago.get(0).getFecha().after(diaHoy)) {
+            monto = pago.get(0).getDesempeño();
+        } else {
+            monto = pago.get(1).getDesempeño();
+        }
+        return monto;
+    }
+      
+
+    public static double montoPorPeriodoRefrendo(logica.Empeno empeno) {
+        double monto = 0;
+        List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
+        Date diaHoy = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+        if (pago.get(0).getFecha().after(diaHoy)) {
+            monto = pago.get(0).getRefrendo();
+        } else {
+            monto = pago.get(1).getRefrendo();
+        }
+        return monto;
+    }
+    
+    public static double cambiarDiasRefrendo(logica.Empeno empeno) {
+        int dias = utilerias.fechas.diasDiferencia(empeno.getFechaInicio());
+        if (dias > 30) {
+            dias = 30;
+        }
+        List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
+        double monto = pago.get(1).getRefrendo();
+        return ((monto / 30) * dias);
     }
 }

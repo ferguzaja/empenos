@@ -100,8 +100,6 @@ public class Prenda implements Serializable {
         this.descripcion = descripcion;
     }
 
-
-
     @XmlTransient
     public List<Articuloventa> getArticuloventaList() {
         return articuloventaList;
@@ -167,24 +165,37 @@ public class Prenda implements Serializable {
 
         List<logica.Prenda> listaPrendas = new ArrayList<>();
         for (int i = 0; i < prendas.size(); i++) {
-            if (prendas.get(i).getEmpenoIdempeno().getIdempeno()==noContrato) {
+            if (prendas.get(i).getEmpenoIdempeno().getIdempeno() == noContrato) {
                 logica.Prenda prenda = new logica.Prenda();
-                if(nuevo){
-                  prenda.setIdPrenda(prendas.get(i).getIdprenda());  
+                if (nuevo) {
+                    prenda.setIdPrenda(prendas.get(i).getIdprenda());
                 }
                 prenda.setDescripcion(prendas.get(i).getDescripcion());
                 prenda.setMontoPrestamo(prendas.get(i).getMontoPrestamo());
                 prenda.setMontoValuo(prendas.get(i).getMontoValuo());
                 prenda.setTipoPrenda(prendas.get(i).getTipoprendaIdtipoprenda().clonar());
                 prenda.setEmpeno(datos.Empeno.clonarDatosALogica(prendas.get(i).getEmpenoIdempeno()));
-                
+
                 listaPrendas.add(prenda);
             }
         }
         return listaPrendas;
     }
     
-    public static boolean guardarPrendas(List<logica.Prenda> prendas){
+    public static List<datos.Prenda> recuperarPrendas(int noContrato){
+        PrendaJpaController prendaJPA = new PrendaJpaController();
+        List<datos.Prenda> prendas = prendaJPA.findPrendaEntities();
+        List<datos.Prenda> prendasContrato = new ArrayList<>();       
+        for(int i = 0; i < prendas.size(); i++){
+            if(prendas.get(i).getEmpenoIdempeno().getIdempeno().equals(noContrato)){
+                prendasContrato.add(prendas.get(i));
+
+            }                
+        }
+        return prendasContrato;
+    }
+
+    public static boolean guardarPrendas(List<logica.Prenda> prendas) {
         boolean guardar = true;
         try {
             PrendaJpaController prendaJPA = new PrendaJpaController();
@@ -196,22 +207,24 @@ public class Prenda implements Serializable {
                 prenda.setEmpenoIdempeno(datos.Empeno.clonar(prendas.get(i).getEmpeno()));
                 prenda.setTipoprendaIdtipoprenda(datos.Tipoprenda.recuperarTipoPrenda(prendas.get(i).getTipoPrenda().getIdTipoPrenda()));
                 prendaJPA.create(prenda);
-            }            
+            }
         } catch (Exception e) {
             guardar = false;
             e.printStackTrace();
         }
         return guardar;
     }
-    public static double montoPagar(List<logica.Prenda> listaPrendas){
-        double monto=0;
-        for(int i=0; i<listaPrendas.size();i++){
-            monto+=listaPrendas.get(i).getMontoPrestamo();
+
+    public static double montoPagar(List<logica.Prenda> listaPrendas) {
+        double monto = 0;
+        for (int i = 0; i < listaPrendas.size(); i++) {
+            monto += listaPrendas.get(i).getMontoPrestamo();
         }
-        
+
         return monto;
     }
-    public static void cambiarPrendasFiniquitadas(List<logica.Prenda> prendas){
+
+    public static void cambiarPrendasFiniquitadas(List<logica.Prenda> prendas) {
         try {
             PrendaJpaController prendaJPA = new PrendaJpaController();
             for (int i = 0; i < prendas.size(); i++) {
@@ -219,11 +232,12 @@ public class Prenda implements Serializable {
                 prenda.setEstadoEmpeno(1);//como lo mando? 
                 prendaJPA.edit(prenda);
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
-    public static void cambiarPrendasComercializadas(List<logica.Prenda> prendas){
+
+    public static void cambiarPrendasComercializadas(List<logica.Prenda> prendas) {
         try {
             PrendaJpaController prendaJPA = new PrendaJpaController();
             for (int i = 0; i < prendas.size(); i++) {
@@ -231,21 +245,23 @@ public class Prenda implements Serializable {
                 prenda.setEstadoEmpeno(1);
                 prendaJPA.edit(prenda);
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
-    public static void cambiarPrendasRefrendadas(List<logica.Prenda> prendas){
+
+    public static void cambiarPrendasRefrendadas(List<logica.Prenda> prendas) {
         try {
             PrendaJpaController prendaJPA = new PrendaJpaController();
             for (int i = 0; i < prendas.size(); i++) {
                 datos.Prenda prenda = deLogicaADatos(prendas.get(i));
                 prendaJPA.edit(prenda);
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
+
     public static Prenda deLogicaADatos(logica.Prenda prenda) {
         datos.Prenda prendaDatos = new Prenda();
         prendaDatos.setIdprenda(prenda.getIdPrenda());
@@ -256,8 +272,9 @@ public class Prenda implements Serializable {
         prendaDatos.setTipoprendaIdtipoprenda(tipoPrenda);
         return prendaDatos;
     }
+
     public static logica.Prenda clonar(datos.Prenda prendadatos) {
-        logica.Prenda prenda= new logica.Prenda();
+        logica.Prenda prenda = new logica.Prenda();
         prenda.setDescripcion(prendadatos.getDescripcion());
         prenda.setEmpeno(datos.Empeno.clonarDatosALogica(prendadatos.getEmpenoIdempeno()));
         prenda.setIdPrenda(prendadatos.getIdprenda());

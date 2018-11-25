@@ -169,6 +169,7 @@ public class GUIEmpenoController implements Initializable {
 
     @FXML
     public void botonFiniquitar() {
+        int clicFuncion = 2;
         if (utilerias.validacion.seleccionado(tablaEmpenos)) {
             try {
                 FXMLLoader loader = new FXMLLoader();
@@ -177,7 +178,7 @@ public class GUIEmpenoController implements Initializable {
                 Stage planillaStage = new Stage();
                 planillaStage.setScene(scene);
                 GUIFiniquitoController finiquitarController = (GUIFiniquitoController) loader.getController();
-                finiquitarController.recibeParametros(planillaStage, tablaEmpenos.getSelectionModel().getSelectedItem());
+                finiquitarController.recibeParametros(planillaStage, tablaEmpenos.getSelectionModel().getSelectedItem(), clicFuncion);
                 planillaStage.show();
             } catch (IOException ex) {
                 Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,7 +191,7 @@ public class GUIEmpenoController implements Initializable {
     
     @FXML
     public void botonRefrendo(){
-        if(utilerias.validacion.seleccionado(tablaEmpenos)){
+        /*if(utilerias.validacion.seleccionado(tablaEmpenos)){
             try {
            FXMLLoader loader= new FXMLLoader();
             AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIRefrendo.fxml").openStream());
@@ -206,7 +207,26 @@ public class GUIEmpenoController implements Initializable {
             
         }else{
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
-        }}   
+        }*/
+        int clicFuncion = 1;
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIFiniquito.fxml").openStream());
+                Scene scene = new Scene(root);
+                Stage planillaStage = new Stage();
+                planillaStage.setScene(scene);
+                GUIFiniquitoController finiquitarController = (GUIFiniquitoController) loader.getController();
+                finiquitarController.recibeParametros(planillaStage, tablaEmpenos.getSelectionModel().getSelectedItem(), clicFuncion);
+                planillaStage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            utilerias.mensajes.mensage("favor de seleccionar un contrato");
+        }
+    }   
 
 
     @FXML

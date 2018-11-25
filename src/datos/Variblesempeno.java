@@ -176,6 +176,7 @@ public class Variblesempeno implements Serializable {
         VariblesempenoJpaController var = new VariblesempenoJpaController();
         var.create(variables);
     }
+    
     public static Variblesempeno buscarVariables(logica.Empeno empeno){
         VariblesempenoJpaController var = new VariblesempenoJpaController();
         List<Variblesempeno>variables=var.findVariblesempenoEntities();
