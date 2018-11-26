@@ -77,6 +77,7 @@ public class GUIEmpenoController implements Initializable {
     @FXML
     private TableColumn<Empeno, String> statusColumn;
     Map<String, Object> parametrosGlobales;
+    private GUIEmpenoController control =this;
 
     public void buscarEmpenos(ActionEvent event) {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
@@ -260,7 +261,7 @@ public class GUIEmpenoController implements Initializable {
     private void botonNuevoContrato(){
         parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
         GUIEmpenosController empenosController = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-         parametrosInterfaz.put("Controller",empenosController);
+         parametrosInterfaz.put("Controller",control);
         empenosController.recibeHashMap(parametrosGlobales,parametrosInterfaz);
     }
     
@@ -270,7 +271,7 @@ public class GUIEmpenoController implements Initializable {
             if(tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")){
                parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
                GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-                parametrosInterfaz.put("Controller",empenoscontroller);
+                parametrosInterfaz.put("Controller",control);
                empenoscontroller.recibeReEmpeno(parametrosGlobales,parametrosInterfaz,tablaEmpenos.getSelectionModel().getSelectedItem());
             }
         }else{}
