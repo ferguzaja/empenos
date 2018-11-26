@@ -8,7 +8,10 @@ package presentacion;
 import datos.EmpenoJpaController;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +61,8 @@ public class GUIEmpenoController implements Initializable {
     @FXML
     private Button botonAdelante;
     @FXML
+    private Button botonContratoVencido;
+    @FXML
     private TableView<logica.Empeno> tablaEmpenos;
     Map<String, Object> parametrosInterfaz = new HashMap<>();
     @FXML
@@ -103,8 +108,8 @@ public class GUIEmpenoController implements Initializable {
         }
         llenarTabla(listaEmpenos);
     }
-    
-    public void llenarTabla(List<logica.Empeno> listaEmpenos){
+
+    public void llenarTabla(List<logica.Empeno> listaEmpenos) {
         ObservableList<logica.Empeno> obsempenos = FXCollections.observableArrayList(listaEmpenos);
         nombreClienteColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("cliente"));
         fechaInicioColumn.setCellValueFactory(new PropertyValueFactory<Empeno, String>("txtfechaInicio"));
@@ -121,7 +126,7 @@ public class GUIEmpenoController implements Initializable {
     private int rangoNavegacion = 3;
 
     @FXML
-    public void navegarAtras() {        
+    public void navegarAtras() {
         navegacion = navegacion - (rangoNavegacion);
         auxNavegacion = navegacion - (rangoNavegacion);
         if (auxNavegacion == 1 || navegacion == 1) {
@@ -141,7 +146,7 @@ public class GUIEmpenoController implements Initializable {
         }
         List<logica.Empeno> empenos = datos.Empeno.empenosNavegacion(auxNavegacion, navegacion);
         llenarTabla(empenos);
-        if(empenos.contains(null)){
+        if (empenos.contains(null)) {
             botonAdelante.setDisable(true);
         }
     }
@@ -188,26 +193,9 @@ public class GUIEmpenoController implements Initializable {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
     }
-    
+
     @FXML
-    public void botonRefrendo(){
-        /*if(utilerias.validacion.seleccionado(tablaEmpenos)){
-            try {
-           FXMLLoader loader= new FXMLLoader();
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("GUIRefrendo.fxml").openStream());
-            Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);
-            GUIRefrendoController refrendoController=(GUIRefrendoController)loader.getController();
-            refrendoController.recibeParametros(planillaStage,tablaEmpenos.getSelectionModel().getSelectedItem(),this);
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        }else{
-            utilerias.mensajes.mensage("favor de seleccionar un contrato");
-        }*/
+    public void botonRefrendo() {
         int clicFuncion = 1;
         if (utilerias.validacion.seleccionado(tablaEmpenos)) {
             try {
@@ -226,8 +214,7 @@ public class GUIEmpenoController implements Initializable {
         } else {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
-    }   
-
+    }
 
     @FXML
     private void botonExtension() {
@@ -243,7 +230,7 @@ public class GUIEmpenoController implements Initializable {
                     Stage planillaStage = new Stage();
                     planillaStage.setScene(scene);
                     GUIExtensionTiempoController extensionController = (GUIExtensionTiempoController) loader.getController();
-                    extensionController.recibeStage(planillaStage, this,tablaEmpenos.getSelectionModel().getSelectedItem());
+                    extensionController.recibeStage(planillaStage, this, tablaEmpenos.getSelectionModel().getSelectedItem());
                     planillaStage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(GUIEmpenoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,25 +243,37 @@ public class GUIEmpenoController implements Initializable {
             utilerias.mensajes.mensage("favor de seleccionar un contrato");
         }
     }
+
     @FXML
-    private void botonNuevoContrato(){
-        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
+    private void botonNuevoContrato() {
+        parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
         GUIEmpenosController empenosController = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-         parametrosInterfaz.put("Controller",empenosController);
-        empenosController.recibeHashMap(parametrosGlobales,parametrosInterfaz);
+        parametrosInterfaz.put("Controller", empenosController);
+        empenosController.recibeHashMap(parametrosGlobales, parametrosInterfaz);
+    }
+
+    @FXML
+    private void botonReEmpeno() {
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
+            if (tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")) {
+                parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
+                GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+                parametrosInterfaz.put("Controller", empenoscontroller);
+                empenoscontroller.recibeReEmpeno(parametrosGlobales, parametrosInterfaz, tablaEmpenos.getSelectionModel().getSelectedItem());
+            }
+        } else {
+        }
     }
     
     @FXML
-    private void botonReEmpeno(){
-        if(utilerias.validacion.seleccionado(tablaEmpenos)){
-            if(tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")){
-               parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
-               GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-                parametrosInterfaz.put("Controller",empenoscontroller);
-               empenoscontroller.recibeReEmpeno(parametrosGlobales,parametrosInterfaz,tablaEmpenos.getSelectionModel().getSelectedItem());
-            }
-        }else{}
-            }
+    public void verContratosVencidos(){
+        List<Empeno> lista = datos.Empeno.recuperarContratosVencidos();
+        if(!lista.isEmpty()){
+            llenarTabla(lista);
+        }else{
+            utilerias.mensajes.mensage("No hay contratos vencidos");
+        }        
+    }
 
     @FXML
     private boolean extensionTiempo() {

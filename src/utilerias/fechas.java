@@ -14,8 +14,8 @@ import java.util.Date;
  * @author ferguzaja
  */
 public class fechas {
-    
-    public static Date aumentaDias(Date fechaRecibida, int dias){
+
+    public static Date aumentaDias(Date fechaRecibida, int dias) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(fechaRecibida.getTime());
         cal.add(Calendar.DATE, dias);
@@ -24,39 +24,43 @@ public class fechas {
         Date dateFinal = java.sql.Date.valueOf(fechaFinal);
         return dateFinal;
     }
-    public static Date Fecha(long milisegundos){
+
+    public static Date Fecha(long milisegundos) {
         Date fecha = new Date(milisegundos);
         return fecha;
     }
-    	
-    public static String convertirFechaString(Date date){
-	
-   return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-   
+
+    public static String convertirFechaString(Date date) {
+
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+
     }
 
-
-    public static Long regresaMilisegundos(){
-        Calendar cal= Calendar.getInstance();
+    public static Long regresaMilisegundos() {
+        Calendar cal = Calendar.getInstance();
         return cal.getTimeInMillis();
     }
-    public static String[] separaString(String fecha){
-    return fecha.split("-");
-}
-    public static String regresaFecha(String[] fechaSpli){
-        String[] aux=fechaSpli[2].split(" ");
-        return fechaSpli[0]+"-"+fechaSpli[1]+"-"+aux[0];
+
+    public static String[] separaString(String fecha) {
+        return fecha.split("-");
     }
-    public static Date stringADate(String fecha){
-        String[] aux=separaString(fecha);
-       
-        Date dateFinal = java.sql.Date.valueOf( regresaFecha(aux)
+
+    public static String regresaFecha(String[] fechaSpli) {
+        String[] aux = fechaSpli[2].split(" ");
+        return fechaSpli[0] + "-" + fechaSpli[1] + "-" + aux[0];
+    }
+
+    public static Date stringADate(String fecha) {
+        String[] aux = separaString(fecha);
+
+        Date dateFinal = java.sql.Date.valueOf(regresaFecha(aux)
         );
         return dateFinal;
     }
-    public static int diasDiferencia(Date fecha){
-        int dias= (int) (regresaMilisegundos()-fecha.getTime())/86400000;
-        
+
+    public static int diasDiferencia(Date fecha) {
+        int dias = (int) (regresaMilisegundos() - fecha.getTime()) / 86400000;
+
         return dias;
     }
 }

@@ -7,7 +7,9 @@ package datos;
 
 import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -181,7 +183,7 @@ public class Empeno implements Serializable {
     public void setNoBolsa(Integer noBolsa) {
         this.noBolsa = noBolsa;
     }
-    
+
     public Float getMontoRecibido() {
         return montoRecibido;
     }
@@ -320,14 +322,14 @@ public class Empeno implements Serializable {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void refrendarContrato(logica.Empeno emp){
-        try {            
+
+    public static void refrendarContrato(logica.Empeno emp) {
+        try {
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             datos.Empeno empeno = clonar(emp);
             empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
-            empenoJPA.edit(empeno);            
+            empenoJPA.edit(empeno);
             /////Crear el nuevo empeno
             Date date = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
             empeno.setFechaInicioEmpeno(date);
@@ -335,29 +337,34 @@ public class Empeno implements Serializable {
             empeno.setEstatus("activo");
             float monto = 0;
             empeno.setMontoRecibido(monto);
-            empeno.setFechaFinalizacion(null);            
+            empeno.setFechaFinalizacion(null);
             empenoJPA.create(empeno);
             ///Guardar el nuevo número de bolsa
             int idEmpenoNuevo = datos.Empeno.recuperaID().getIdEmpeno();
             empeno.setNoBolsa(idEmpenoNuevo);
-            empenoJPA.edit(empeno);            
+            empenoJPA.edit(empeno);
             ///cambiar el idempeno a las prendas
-            PrendaJpaController prendaJPA = new PrendaJpaController();            
+            PrendaJpaController prendaJPA = new PrendaJpaController();
             List<datos.Prenda> prendasContrato = datos.Prenda.recuperarPrendas(emp.getIdEmpeno());
             Empeno empe = empenoJPA.findEmpeno(idEmpenoNuevo);
-            for(int i = 0; i < prendasContrato.size(); i++){                
+            for (int i = 0; i < prendasContrato.size(); i++) {
                 prendasContrato.get(i).setEmpenoIdempeno(empe);
-                prendaJPA.edit(prendasContrato.get(i));                
+                prendaJPA.edit(prendasContrato.get(i));
             }
-            //recuperar varialbles empeno original
-            Variblesempeno variEmpe = new Variblesempeno();
-            variEmpe = datos.Variblesempeno.buscarVariables(emp);
-            variEmpe.setEmpenoIdempeno(empeno);
-            //actualizar variables empeno
-            VariblesempenoJpaController variEmpenoJPA = new VariblesempenoJpaController();
-            variEmpenoJPA.edit(variEmpe);
+            //recuperar varialbles
+            Variables variables = datos.Variables.traerVariables();
+            //creaar variables empeno
+            VariblesempenoJpaController variblesJPA = new VariblesempenoJpaController();
+            Variblesempeno variablesEmpeno = new Variblesempeno();
+            variablesEmpeno.setEmpenoIdempeno(empeno);
+            variablesEmpeno.setCat(variables.getCat());
+            variablesEmpeno.setIva(variables.getIva());
+            variablesEmpeno.setInteresMensual(variables.getInteresMensual());
+            variablesEmpeno.setPorcentajeMutuo(variables.getPorcentajeMutuo());
+            variablesEmpeno.setPorcentajeComercializacion(variables.getPorcentajeComercializacion());
+            variblesJPA.create(variablesEmpeno);
             //Guardar el pago
-            datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
+            datos.Pago.guardarPago(datos.Pago.regresaListaPagos(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -385,7 +392,7 @@ public class Empeno implements Serializable {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         List<datos.Empeno> empenos = empenoJPA.findEmpenoEntities();
         logica.Empeno empeno = new logica.Empeno();
-        empeno=clonarDatosALogica(empenos.get(empenos.size() - 1));
+        empeno = clonarDatosALogica(empenos.get(empenos.size() - 1));
         return empeno;
     }
 
@@ -397,14 +404,15 @@ public class Empeno implements Serializable {
             emp = empenoJPA.findEmpeno(i);
             if (emp != null) {
                 empenos.add(clonarDatosALogica(emp));
-            }else{
+            } else {
                 empenos.add(null);
                 break;
             }
         }
         return empenos;
     }
-    public static void ExtenderDias(logica.Empeno empeno){
+
+    public static void ExtenderDias(logica.Empeno empeno) {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
         try {
             empenoJPA.edit(clonar(empeno));
@@ -412,7 +420,7 @@ public class Empeno implements Serializable {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
-        }                
+        }
     }
 
     public static logica.Empeno clonarDatosALogica(datos.Empeno empeno) {
@@ -427,5 +435,31 @@ public class Empeno implements Serializable {
         emp.setEstatus(empeno.getEstatus());
         emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empeno.getEmpleadoidEmpleado()));
         return emp;
-    }    
+    }
+
+    public static List<logica.Empeno> recuperarContratosVencidos() {
+        EmpenoJpaController empenosJPA = new EmpenoJpaController();
+        List<logica.Empeno> empenosVencidos = new ArrayList<>();
+        List<datos.Empeno> empenos = empenosJPA.findEmpenoEntities();
+        //Fecha del sistema
+        Calendar cal = Calendar.getInstance();
+        int mes = cal.get(Calendar.MONTH) + 1;
+        String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);
+        Date date = java.sql.Date.valueOf(fecha);
+
+        for (int i = 0; i < empenos.size(); i++) {
+            if (!empenos.get(i).getFechaFinEmpeno().after(date)) {
+                logica.Empeno emp = new logica.Empeno();
+                emp.setIdEmpeno(empenos.get(i).getIdempeno());
+                emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
+                emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
+                emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
+                emp.setFechaExtencion(empenos.get(i).getFechaExtencion());                
+                emp.setEstatus(empenos.get(i).getEstatus());
+                emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));
+                empenosVencidos.add(emp);
+            }
+        }
+        return empenosVencidos;
+    }
 }
