@@ -9,7 +9,10 @@ import datos.Cliente;
 import logica.Prenda;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +151,7 @@ public class GUIEmpenosController implements Initializable {
             empeno.setNumBolsa(datos.Empeno.recuperaID().getIdEmpeno());
             datos.Empeno.actualizarEmpeno(empeno);
             datos.Variblesempeno.guardar(datos.Variblesempeno.convertir(datos.Variables.traerVariables(), datos.Empeno.recuperaID()));
-            datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
+            datos.Pago.guardarPago(datos.Pago.regresaListaPagos(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
             asignaIdPrenda(datos.Prenda.prendasPorContrato(datos.Empeno.recuperaID().getIdEmpeno(), true));
             datos.Fotoprenda.guardarFotosPrendas(arregloDeFotos);
             ((Stage) parametrosInterfaz.get("Stage")).close();
@@ -276,6 +279,5 @@ public class GUIEmpenosController implements Initializable {
         llenarTablaClientes(lista);
         llenarTablaPrenda();
 
-    }
-
+    }        
 }

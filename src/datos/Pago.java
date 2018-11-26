@@ -201,7 +201,7 @@ public class Pago implements Serializable {
         }
     }
 
-    public static List<datos.Pago> regresaLista(Variblesempeno var, logica.Empeno emp) {
+    public static List<datos.Pago> regresaListaPagos(Variblesempeno var, logica.Empeno emp) {
         List<datos.Pago> pagos = new ArrayList<>();
         Pago pago = new Pago();
         Pago pago2 = new Pago();
