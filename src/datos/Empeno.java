@@ -349,8 +349,15 @@ public class Empeno implements Serializable {
                 prendasContrato.get(i).setEmpenoIdempeno(empe);
                 prendaJPA.edit(prendasContrato.get(i));                
             }
+            //recuperar varialbles empeno original
+            Variblesempeno variEmpe = new Variblesempeno();
+            variEmpe = datos.Variblesempeno.buscarVariables(emp);
+            variEmpe.setEmpenoIdempeno(empeno);
+            //actualizar variables empeno
+            VariblesempenoJpaController variEmpenoJPA = new VariblesempenoJpaController();
+            variEmpenoJPA.edit(variEmpe);
             //Guardar el pago
-            
+            datos.Pago.guardarPago(datos.Pago.regresaLista(datos.Variblesempeno.buscarVariables(datos.Empeno.recuperaID()), datos.Empeno.recuperaID()));
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Empeno.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
