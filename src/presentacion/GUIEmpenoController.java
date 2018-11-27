@@ -8,10 +8,7 @@ package presentacion;
 import datos.EmpenoJpaController;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +121,7 @@ public class GUIEmpenoController implements Initializable {
     private int auxNavegacion = 0;
     private int navegacion = 1;
     //rango navegacion define cuantos registros se muestran en la tabla
-    private int rangoNavegacion = 3;
+    private int rangoNavegacion = 5;
 
     @FXML
     public void navegarAtras() {

@@ -338,6 +338,7 @@ public class Empeno implements Serializable {
             float monto = 0;
             empeno.setMontoRecibido(monto);
             empeno.setFechaFinalizacion(null);
+            //empeno.setExtencionTiempo(0);
             empenoJPA.create(empeno);
             ///Guardar el nuevo número de bolsa
             int idEmpenoNuevo = datos.Empeno.recuperaID().getIdEmpeno();
@@ -447,18 +448,36 @@ public class Empeno implements Serializable {
         String fecha = cal.get(cal.YEAR) + "-" + mes + "-" + cal.get(cal.DATE);
         Date date = java.sql.Date.valueOf(fecha);
 
-        for (int i = 0; i < empenos.size(); i++) {
-            if (!empenos.get(i).getFechaFinEmpeno().after(date)) {
-                logica.Empeno emp = new logica.Empeno();
-                emp.setIdEmpeno(empenos.get(i).getIdempeno());
-                emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
-                emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
-                emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
-                emp.setFechaExtencion(empenos.get(i).getFechaExtencion());                
-                emp.setEstatus(empenos.get(i).getEstatus());
-                emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));
-                empenosVencidos.add(emp);
-            }
+        for (int i = 0; i < empenos.size(); i++) {            
+            if (empenos.get(i).getExtencionTiempo().equals(0)) {
+                if(!empenos.get(i).getFechaFinEmpeno().after(date)){
+                    logica.Empeno emp = new logica.Empeno();
+                    emp.setIdEmpeno(empenos.get(i).getIdempeno());
+                    emp.setNumBolsa(empenos.get(i).getNoBolsa());
+                    emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
+                    emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
+                    emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
+                    emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
+                    emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
+                    emp.setEstatus(empenos.get(i).getEstatus());
+                    emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));
+                    empenosVencidos.add(emp);
+                }                               
+            }else{
+                if(!empenos.get(i).getFechaExtencion().after(date)){
+                    logica.Empeno emp = new logica.Empeno();
+                    emp.setIdEmpeno(empenos.get(i).getIdempeno());
+                    emp.setNumBolsa(empenos.get(i).getNoBolsa());
+                    emp.setNumExtencionTiempo(empenos.get(i).getExtencionTiempo());
+                    emp.setCliente(empenos.get(i).getClienteIdcliente().clonar());
+                    emp.setFechaInicio(empenos.get(i).getFechaInicioEmpeno());
+                    emp.setFechaFinEmpeno(empenos.get(i).getFechaFinEmpeno());
+                    emp.setFechaExtencion(empenos.get(i).getFechaExtencion());
+                    emp.setEstatus(empenos.get(i).getEstatus());
+                    emp.setIdEmpleado(datos.Empleado.datosALogicaClonar(empenos.get(i).getEmpleadoidEmpleado()));
+                    empenosVencidos.add(emp);
+                }
+            }        
         }
         return empenosVencidos;
     }
