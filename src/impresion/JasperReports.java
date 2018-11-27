@@ -5,7 +5,7 @@
  */
 package impresion;
 
-import db.Connect;
+//import db.Connect;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,10 +67,10 @@ public class JasperReports {
         JasperPrint result = null;
         try {
             String jasper = basepath + reporte + ".jrxml";
-            Connect conn = new Connect(Connect.MSSQLSERVER, ds[0], Integer.parseInt(ds[1]), ds[2], ds[3], ds[4]);
+            //Connect conn = new Connect(Connect.MSSQLSERVER, ds[0], Integer.parseInt(ds[1]), ds[2], ds[3], ds[4]);
             JasperReport report = JasperCompileManager.compileReport(jasper);
-            result = JasperFillManager.fillReport(report, param, conn.connection());
-            conn.close();
+            //result = JasperFillManager.fillReport(report, param, conn.connection());
+            //conn.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

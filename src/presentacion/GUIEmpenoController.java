@@ -249,17 +249,13 @@ public class GUIEmpenoController implements Initializable {
     private void botonNuevoContrato() {
         parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
         GUIEmpenosController empenosController = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-<<<<<<< HEAD
          parametrosInterfaz.put("Controller",control);
         empenosController.recibeHashMap(parametrosGlobales,parametrosInterfaz);
-=======
         parametrosInterfaz.put("Controller", empenosController);
         empenosController.recibeHashMap(parametrosGlobales, parametrosInterfaz);
->>>>>>> f7299e285862ab78dc10740d738af41585cbc5fa
     }
 
     @FXML
-<<<<<<< HEAD
     private void botonReEmpeno(){
         if(utilerias.validacion.seleccionado(tablaEmpenos)){
             if(tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")){
@@ -268,16 +264,13 @@ public class GUIEmpenoController implements Initializable {
                 parametrosInterfaz.put("Controller",control);
                empenoscontroller.recibeReEmpeno(parametrosGlobales,parametrosInterfaz,tablaEmpenos.getSelectionModel().getSelectedItem());
             }
-        }else{}
-=======
-    private void botonReEmpeno() {
+        }else{}    
         if (utilerias.validacion.seleccionado(tablaEmpenos)) {
             if (tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")) {
                 parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
                 GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
                 parametrosInterfaz.put("Controller", empenoscontroller);
                 empenoscontroller.recibeReEmpeno(parametrosGlobales, parametrosInterfaz, tablaEmpenos.getSelectionModel().getSelectedItem());
->>>>>>> f7299e285862ab78dc10740d738af41585cbc5fa
             }
         } else {
         }
