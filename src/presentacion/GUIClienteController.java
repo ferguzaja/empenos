@@ -5,6 +5,7 @@
  */
 package presentacion;
 
+import com.github.sarxos.webcam.Webcam;
 import datos.CiudadJpaController;
 import datos.Cliente;
 import datos.ClienteJpaController;
@@ -14,6 +15,8 @@ import datos.PaisJpaController;
 import datos.Tipoidentificacion;
 import datos.TipoidentificacionJpaController;
 import datos.exceptions.NonexistentEntityException;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -24,6 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +36,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.Ciudad;
@@ -89,6 +96,9 @@ public class GUIClienteController implements Initializable {
     @FXML
     private DatePicker fechaNacimiento;
 
+    @FXML
+    private ImageView imagenCliente;
+
     GUIEmpenosController guiEmpenosControlerEnGUICliente;
     Stage stagemaster;
 
@@ -101,6 +111,14 @@ public class GUIClienteController implements Initializable {
         llenarComboOcupacion();
         llenarComboPais();
     }
+    
+    public void capturarFoto() {               
+        
+    }
+    
+
+    
+    
 
     public void llenarComboIdentificacion() {
         TipoidentificacionJpaController tiposIdenJPA = new TipoidentificacionJpaController();
@@ -251,11 +269,11 @@ public class GUIClienteController implements Initializable {
         cliente.setTipoidentificacionIdtipoidentificacion(tipoIden);
         return cliente;
     }
-    
-    public void recibeStage(Stage stage){
+
+    public void recibeStage(Stage stage) {
         stagemaster = stage;
     }
-    
+
     public boolean validarCamposVacios() {
         boolean bandera = true;
         if (nombre.getText().isEmpty() || apellidoM.getText().isEmpty()
@@ -274,7 +292,7 @@ public class GUIClienteController implements Initializable {
     }
 
     public void recibeParametros(GUIEmpenosController controlador,
-            logica.Cliente cliente, int clicEditar,Stage stage) {
+            logica.Cliente cliente, int clicEditar, Stage stage) {
         clicEdit = clicEditar;
         idCliente = cliente.getIdCliente();
         guiEmpenosControlerEnGUICliente = controlador;
@@ -313,7 +331,7 @@ public class GUIClienteController implements Initializable {
         llenarComboCiudad(estado.getIdEstado());
         Ciudad ciudad = new Ciudad(cliente.getCiudad().getIdCiudad(), cliente.getCiudad().getNombre());
         comboCiudad.getSelectionModel().select(ciudad);
-        stagemaster=stage;
+        stagemaster = stage;
     }
 
     @FXML

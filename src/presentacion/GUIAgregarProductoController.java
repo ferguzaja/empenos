@@ -26,7 +26,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logica.FotoPrenda;
@@ -65,106 +64,112 @@ public class GUIAgregarProductoController implements Initializable {
     private ObservableList<FotoPrenda> obsfotos;
     private GUIEmpenosController controlador;
     private Stage planillaStage;
-    private List<FotoPrenda> listaFotos=new ArrayList<>();
+    private List<FotoPrenda> listaFotos = new ArrayList<>();
     @FXML
     private Button mostrarButton;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboTipoPrenda();
         // TODO
     }
+
     @FXML
-    private void asignaPrestamo(){
-        if(montoValuo.getText()!=null&&!montoValuo.getText().isEmpty()){
-             montoPrestamo.setText(String.valueOf(Integer.valueOf(montoValuo.getText())*2));
-             //agregar para mutiplicar por las variables de prestamo y validacion numero
-             
+    private void asignaPrestamo() {
+        if (montoValuo.getText() != null && !montoValuo.getText().isEmpty()) {
+            montoPrestamo.setText(String.valueOf(Integer.valueOf(montoValuo.getText()) * 2));
+            //agregar para mutiplicar por las variables de prestamo y validacion numero
+
         }
-       
+
     }
-    private boolean validarCamposVacios(){
-        boolean correcto=true;
-        if(descripcion.getText().isEmpty()||"".equals(descripcion.getText())){
-           correcto=false;
+
+    private boolean validarCamposVacios() {
+        boolean correcto = true;
+        if (descripcion.getText().isEmpty() || "".equals(descripcion.getText())) {
+            correcto = false;
         }
-        if(montoValuo.getText().isEmpty()||"".equals(montoValuo.getText())){
-            correcto=false;
+        if (montoValuo.getText().isEmpty() || "".equals(montoValuo.getText())) {
+            correcto = false;
         }
-        if(montoPrestamo.getText().isEmpty()||"".equals(montoPrestamo.getText())){
-           correcto=false;
+        if (montoPrestamo.getText().isEmpty() || "".equals(montoPrestamo.getText())) {
+            correcto = false;
         }
         return correcto;
     }
-    
+
     @FXML
     private void botonGuardar(ActionEvent event) throws Exception {
-    if(!validarCamposVacios()||(listaFotos.isEmpty())){
-        utilerias.mensajes.mensage("Favor de no dejar Campos Vacios o sin agregar Fotos");
-    }else{
-        Prenda prenda = new Prenda(descripcion.getText(),Double.parseDouble(montoValuo.getText()),Double.parseDouble(montoPrestamo.getText()),tipoPrenda.getValue());
-        controlador.agregarPrenda(prenda,listaFotos);
-        planillaStage.close();
+        if (!validarCamposVacios() || (listaFotos.isEmpty())) {
+            utilerias.mensajes.mensage("Favor de no dejar Campos Vacios o sin agregar Fotos");
+        } else {
+            Prenda prenda = new Prenda(descripcion.getText(), Double.parseDouble(montoValuo.getText()), Double.parseDouble(montoPrestamo.getText()), tipoPrenda.getValue());
+            controlador.agregarPrenda(prenda, listaFotos);
+            planillaStage.close();
         }
     }
-    private void botontCancelar(ActionEvent event){
+
+    private void botontCancelar(ActionEvent event) {
         planillaStage.close();
     }
-    public void recibeVariable(GUIEmpenosController controlador,Stage planillaStage){
-        this.controlador=controlador;
-        this.planillaStage=planillaStage;
+
+    public void recibeVariable(GUIEmpenosController controlador, Stage planillaStage) {
+        this.controlador = controlador;
+        this.planillaStage = planillaStage;
     }
+
     public void llenarComboTipoPrenda() {
-         TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();
+        TipoprendaJpaController tipoPrendaJPA = new TipoprendaJpaController();
         List<datos.Tipoprenda> prendas = tipoPrendaJPA.findTipoprendaEntities();
         List<logica.TipoPrenda> listaPrendas = new ArrayList<>();
         for (int i = 0; i < prendas.size(); i++) {
             TipoPrenda prenda = new TipoPrenda(prendas.get(i).getIdtipoprenda(), prendas.get(i).getNombre());
             listaPrendas.add(prenda);
         }
-        obsPrendas= FXCollections.observableArrayList(listaPrendas);
+        obsPrendas = FXCollections.observableArrayList(listaPrendas);
         tipoPrenda.setItems(obsPrendas);
     }
+
     @FXML
-    private void botonTomarFoto(){
+    private void botonTomarFoto() {
         try {
-            FXMLLoader loader= new FXMLLoader();
-            
+            FXMLLoader loader = new FXMLLoader();
+
             //agregamos el openStream (no se para que)
-            AnchorPane root =(AnchorPane)loader.load(getClass().getResource("TakePicture.fxml").openStream());
+            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("TakePicture.fxml").openStream());
             //ahora creo una instancia del controlador del form que voy a abrir casteando
             Scene scene = new Scene(root);
-            Stage planillaStage=new Stage();
-            planillaStage.setScene(scene);           
-            TakePictureController takePictureController=(TakePictureController)loader.getController();
-            takePictureController.recibeStage(planillaStage,this,listaFotos.size());
+            Stage planillaStage = new Stage();
+            planillaStage.setScene(scene);
+            TakePictureController takePictureController = (TakePictureController) loader.getController();
+            takePictureController.recibeStage(planillaStage, this, listaFotos.size());
             planillaStage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-        
-    
-}
-    public void actualizaLista(){
+
+    }
+
+    public void actualizaLista() {
         lista.setItems(obsfotos);
     }
-    public void seleccionaImagen(ActionEvent event){
+
+    public void seleccionaImagen(ActionEvent event) {
         imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
-                }
+    }
 
     public void recibeImagen(FotoPrenda foto) {
         listaFotos.add(foto);
-        obsfotos=FXCollections.observableArrayList(listaFotos);
-        actualizaLista();   
-        }       
+        obsfotos = FXCollections.observableArrayList(listaFotos);
+        actualizaLista();
+    }
 
     @FXML
     private void seleccionaImagen() {
-         if (lista.getSelectionModel().isEmpty()) {
+        if (lista.getSelectionModel().isEmpty()) {
             utilerias.mensajes.mensage("favor de seleccionar un Articulo de venta para ver las fotos");
         } else {
             imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
         }
     }
-    }
+}
