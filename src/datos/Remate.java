@@ -50,7 +50,7 @@ public class Remate implements Serializable {
     private Date fechaHora;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "perdida")
-    private Float perdida;
+    private double perdida;
     @ManyToMany(mappedBy = "remateList")
     private List<Articuloventa> articuloventaList;
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente")
@@ -83,11 +83,11 @@ public class Remate implements Serializable {
         this.fechaHora = fechaHora;
     }
 
-    public Float getPerdida() {
+    public double getPerdida() {
         return perdida;
     }
 
-    public void setPerdida(Float perdida) {
+    public void setPerdida(double perdida) {
         this.perdida = perdida;
     }
 
@@ -140,5 +140,18 @@ public class Remate implements Serializable {
     public String toString() {
         return "datos.Remate[ idremate=" + idremate + " ]";
     }
-    
+    public static datos.Remate deLogicaADatos(logica.Remate remate){
+        datos.Remate nuevoRemate = new Remate();
+        nuevoRemate.setEmpleadoIdempleado(datos.Empleado.recuperarEmpleado(remate.getEmpleado().getIdEmpleado()));
+        if(remate.getCliente()!=null){
+            nuevoRemate.setClienteIdcliente(datos.Cliente.recuperarCliente(remate.getCliente().getIdCliente()));
+        }
+        nuevoRemate.setFechaHora(remate.getFechaHora());
+        nuevoRemate.setPerdida(remate.getPerdidaTotal());
+        return nuevoRemate;
+    }
+     public static void guardarRemate(logica.Remate regresaRemate) {
+         RemateJpaController remateJPA=new RemateJpaController();
+         remateJPA.create(deLogicaADatos(regresaRemate));
+     }
 }

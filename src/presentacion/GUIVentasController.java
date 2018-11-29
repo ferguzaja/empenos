@@ -6,7 +6,6 @@
 package presentacion;
 
 import datos.Cliente;
-import datos.Venta;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +89,6 @@ public class GUIVentasController implements Initializable {
     @FXML
     public void botonMostrar() {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
-            System.out.println("entro");
             parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
             GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
             fotosController.recibeLista(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
@@ -116,7 +114,6 @@ public class GUIVentasController implements Initializable {
 
     @FXML
     public void llenarTablaCarrito() {
-        //metodo generico para llenar tablas recibe un objeto que iria dentro del obs la lista de objetos y un String[] para las columnas y otro para las columnas objeto
         ObservableList<logica.ArticuloVenta> obsArticulos = FXCollections.observableArrayList(ListaCarrito);
         tipoArticuloCarrito.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));
         descripcionCarrito.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));
@@ -154,22 +151,30 @@ public class GUIVentasController implements Initializable {
         }
         return listaSalida;
     }
-
     @FXML
-    public void agregarCarrito() {
+    public void ventaORemate(){
+        if(((int)parametrosGlobales.get("Venta")==0)){
+            agregarVenta();
+        }else{
+            agregarRemate();
+        }
+    }
+    public void agregarVenta() {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
             if (utilerias.mensajes.mensajeCarrito(tablaArticulos.getSelectionModel().getSelectedItem())) {
-                ListaCarrito.add(tablaArticulos.getSelectionModel().getSelectedItem());
-                tablaArticulos.getItems().remove(tablaArticulos.getSelectionModel().getSelectedIndex());
-                tablaArticulos.refresh();
-                llenarTablaCarrito();
-                sumarTotal();
+                agregarCarrito();
             }
         } else {
             utilerias.mensajes.mensage("favor de seleccionar un articulo para agregar a su carrito");
         }
     }
-
+    public void agregarCarrito(){
+        ListaCarrito.add(tablaArticulos.getSelectionModel().getSelectedItem());
+        tablaArticulos.getItems().remove(tablaArticulos.getSelectionModel().getSelectedIndex());
+        tablaArticulos.refresh();
+        llenarTablaCarrito();
+         sumarTotal();
+    }
     @FXML
     public void eliminarCarrito() {
         if (utilerias.validacion.seleccionado(tablaCarrito)) {
@@ -210,6 +215,14 @@ public class GUIVentasController implements Initializable {
         }
        
     }
+    @FXML
+    public void seleccionaVentaRemate(){
+         if(((int)parametrosGlobales.get("Venta")==0)){
+             generaVenta();
+         }else{
+             generaRemate();
+         }
+    }
     
     public logica.Venta regresaVenta(){
          logica.Venta venta = new logica.Venta();
@@ -220,5 +233,37 @@ public class GUIVentasController implements Initializable {
             venta.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
         }
         return venta;
+    }
+    public logica.Remate regresaRemate(){
+         logica.Remate remate= new logica.Remate();
+        remate.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        remate.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
+        remate.setPerdidaTotal(datos.Articuloventa.regresaMonto(ListaCarrito));
+        if(utilerias.validacion.seleccionado(tablaClientes)){
+            remate.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+        }
+        return remate;
+    }
+
+    private void agregarRemate() {
+        if (utilerias.validacion.seleccionado(tablaArticulos)) {
+            double nuevoPrecio=utilerias.mensajes.remate(tablaArticulos.getSelectionModel().getSelectedItem());
+            if(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getMontoPrestamo()>=nuevoPrecio){
+                utilerias.mensajes.mensage("la prenda no puede precio");
+            }else{
+                tablaArticulos.getSelectionModel().getSelectedItem().setPrecioVenta(nuevoPrecio);
+                agregarCarrito();
+            }
+        }
+    }
+
+    private void generaRemate() {
+         if(utilerias.validacion.seleccionado(tablaClientes)){
+            if(utilerias.mensajes.mensageConfirmacion("Remate Sin Cliente", "Desea guardar el Remate como publico general")){
+               datos.Remate.guardarRemate(regresaRemate());
+            }   
+    }else{
+            datos.Remate.guardarRemate(regresaRemate());
+        }
     }
 }

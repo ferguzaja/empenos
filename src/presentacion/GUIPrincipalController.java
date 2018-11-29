@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,25 +68,39 @@ public class GUIPrincipalController implements Initializable {
             ex.printStackTrace();
         }
     }
-    @FXML
+        @FXML
     private void menuVentas(ActionEvent event) {
-        try {                                               
-            /*Parent root = FXMLLoader.load(getClass().getResource("GUIEmpenos.fxml"));            
-            panelPrincipal.getChildren().setAll(root);*/
-            //se agrega el .openStream          
-            FXMLLoader loader = new FXMLLoader();
-            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIVentas.fxml").openStream());      
-            //Instancia del controlador 2
+        FXMLLoader loader = new FXMLLoader();
+        AnchorPane root;
+        try {
+            root = (AnchorPane) loader.load(getClass().getResource("GUIVentas.fxml").openStream());
             GUIVentasController ventasController = (GUIVentasController) loader.getController();
-            //Ya con la instancia de arriba se puede llamar el método que está en la GUICliente... Lo que hace es pasar
-            //como parámetro una instancia de la GUIEmpenos y el objeto
+            parametrosGlobales.put("Venta", 0);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.setScene(scene);            
+            stage.setScene(scene);
             ventasController.recibeHashMap(parametrosGlobales);
-            panelPrincipal.getChildren().setAll(root);   
+            panelPrincipal.getChildren().setAll(root);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(GUIPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void menuRemate() {
+        FXMLLoader loader = new FXMLLoader();
+        AnchorPane root;
+        try {
+            root = (AnchorPane) loader.load(getClass().getResource("GUIVentas.fxml").openStream());
+            GUIVentasController ventasController = (GUIVentasController) loader.getController();
+            parametrosGlobales.put("Venta", 1);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            ventasController.recibeHashMap(parametrosGlobales);
+            panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            Logger.getLogger(GUIPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
             

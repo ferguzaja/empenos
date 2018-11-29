@@ -19,11 +19,11 @@
             <TableColumn fx:id="precioColumn" prefWidth="101.0" text="Precio " />
         </columns>
       </TableView>
-      <Button fx:id="agregarAlCarritoButton" layoutX="21.0" layoutY="522.0" mnemonicParsing="false" onAction="#agregarCarrito" text="Agregar Al Carrito" />
+      <Button fx:id="agregarAlCarritoButton" layoutX="21.0" layoutY="522.0" mnemonicParsing="false" onAction="#ventaORemate" text="Agregar Al Carrito" />
       <TextField fx:id="TFBuscarArticulos" layoutX="69.0" layoutY="182.0" prefHeight="25.0" prefWidth="203.0" />
       <Label layoutX="17.0" layoutY="186.0" text="Articulos:" />
       <Button fx:id="buscarArticulosButton" layoutX="293.0" layoutY="182.0" mnemonicParsing="false" onAction="#llenarTablaArticulos" text="Buscar" />
-      <Button fx:id="comprarButton" layoutX="798.0" layoutY="27.0" mnemonicParsing="false" onAction="#generaVenta" style="-fx-background-image: ..\icons\carrito.png;" text="Comprar" />
+      <Button fx:id="comprarButton" layoutX="798.0" layoutY="27.0" mnemonicParsing="false" onAction="#seleccionaVentaRemate" style="-fx-background-image: ..\icons\carrito.png;" text="Comprar" />
       <Button fx:id="mostrarButton" layoutX="401.0" layoutY="265.0" mnemonicParsing="false" onAction="#botonMostrar" text="mostrar Fotos" />
       <TableView fx:id="tablaClientes" layoutX="21.0" layoutY="69.0" prefHeight="104.0" prefWidth="840.0">
          <columns>

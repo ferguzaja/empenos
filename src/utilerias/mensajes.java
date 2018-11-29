@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -73,5 +74,17 @@ public class mensajes {
             Logger.getLogger(mensajes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return parametrosInterfaz;
+    }
+       public static double remate(ArticuloVenta art){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("El articulo: "+art.getDescripcion()+" tiene un costo de: "+art.getPrecioVenta()+"¿Desea Agregarlo?");
+        dialog.setContentText("Precio de remate");
+        Optional<String> result = dialog.showAndWait();
+        double nuevoPrecio=art.getPrecioVenta();
+        if(result.isPresent()){
+            nuevoPrecio=Double.parseDouble(result.get());
+        }
+        return nuevoPrecio;
     }
 }
