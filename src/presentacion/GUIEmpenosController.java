@@ -48,8 +48,6 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private Button botonEditarCliente;
 
-    @FXML
-    private Button botonAgregarContrato;
 
     @FXML
     private TextField txtBuscar;
@@ -87,16 +85,10 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private TableColumn<Prenda, String> montoPrestamoColumn;
 
-    @FXML
-    private TableColumn<Prenda, String> fotografia;
-
-    @FXML
-    private TableColumn<Button, Button> eliminar;
 
     @FXML
     private Button agregarPrenda;
 
-    @FXML
     private List<logica.Prenda> listaPrenda = new ArrayList<>();
     private List<List<FotoPrenda>> arregloDeFotos = new ArrayList<>();
 
@@ -105,7 +97,16 @@ public class GUIEmpenosController implements Initializable {
     private int clicEditar;
     private Map<String, Object> parametrosGlobales;
     private Map<String, Object> parametrosInterfaz;
-
+    @FXML
+    private Button botonBuscar;
+    @FXML
+    private Button botonGuardarContrato;
+    @FXML
+    private Button editarPrendaButton;
+    @FXML
+    private Button eliminarPrendaButton;
+    @FXML
+    private Button mostrarFotosButton;
     @FXML
     private void botonNuevoCliente(ActionEvent event) {
         try {
@@ -202,19 +203,25 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonAgregarPrenda(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            //agregamos el openStream (no se para que)
-            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("GUIAgregarProducto.fxml").openStream());
-            //ahora creo una instancia del controlador del form que voy a abrir casteando
-            Scene scene = new Scene(root);
-            Stage planillaStage = new Stage();
-            planillaStage.setScene(scene);
-            GUIAgregarProductoController productosController = (GUIAgregarProductoController) loader.getController();
-            productosController.recibeVariable(this, planillaStage);
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIAgregarProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
+        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
+        parametrosInterfaz.put("Empenos",guiEmpenosControler);
+        parametrosInterfaz.put("Prenda",0);
+        productosController.recibeHasgMap(parametrosInterfaz);
+    }
+    @FXML
+    private void botonEditarPrenda(ActionEvent event) {
+        if(utilerias.validacion.seleccionado(tablaPrenda)){
+        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
+        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
+        parametrosInterfaz.put("Empenos",guiEmpenosControler);
+        parametrosInterfaz.put("Prenda",1);
+        parametrosInterfaz.put("Editar", tablaPrenda.getSelectionModel().getSelectedItem());
+        parametrosInterfaz.put("posicion",tablaPrenda.getSelectionModel().getSelectedIndex());
+        parametrosInterfaz.put("ListaFotos", arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
+        productosController.recibeHasgMap(parametrosInterfaz);
+        }else{
+            utilerias.mensajes.mensage("favor de seleccionar una Prenda para editar");
         }
     }
 
@@ -275,6 +282,32 @@ public class GUIEmpenosController implements Initializable {
         lista.add(empeno.getCliente());
         llenarTablaClientes(lista);
         llenarTablaPrenda();
+    }  
+    public void editarPrenda(Prenda prenda, List<FotoPrenda> listaFotos, int numero) {
+        listaPrenda.set(numero, prenda);
+        arregloDeFotos.set(numero, listaFotos);
+        tablaPrenda.getItems().remove(0, listaPrenda.size());
+        llenarTablaPrenda();
+    }
+    @FXML
+    public void eliminaPrenda(){
+        if(utilerias.validacion.seleccionado(tablaPrenda)){
+            listaPrenda.remove(tablaPrenda.getSelectionModel().getSelectedIndex());
+            tablaPrenda.getItems().remove(tablaPrenda.getSelectionModel().getSelectedIndex());
+            arregloDeFotos.remove(tablaPrenda.getSelectionModel().getSelectedIndex());
+        }else{
+            utilerias.mensajes.mensage("Favor de seleccionar una prenda para eliminar");
+        }
+    }
+     @FXML
+    public void botonMostrar() {
+        if (utilerias.validacion.seleccionado(tablaPrenda)) {
+            parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
+            GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+            fotosController.recibeLista(arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
+        }else{
+            utilerias.mensajes.mensage("Favor de seleccionar una prenda para ver las fotos");
+        }
 
-    }        
+    }
 }

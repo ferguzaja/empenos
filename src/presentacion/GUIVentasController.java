@@ -91,7 +91,7 @@ public class GUIVentasController implements Initializable {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
             parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
             GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-            fotosController.recibeLista(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
+            fotosController.recibeIdPrenda(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
 
         }
 

@@ -7,10 +7,10 @@ package presentacion;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -27,7 +27,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logica.FotoPrenda;
 
@@ -58,10 +57,8 @@ public class TakePictureController implements Initializable {
     private BufferedImage grabbedImage;
     @FXML
     private ImageView imgWebCamCapturedImage;
-    private Stage stage;
-    private GUIAgregarProductoController controller;
     ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
-    private int array;
+    private Map<String, Object> parametrosFoto;
 
     private void cargarWebcams() {
         List<Webcam> list = Webcam.getWebcams();
@@ -165,12 +162,12 @@ public class TakePictureController implements Initializable {
     @FXML
     private void guardar() {
         FotoPrenda foto = new FotoPrenda();
-        foto.setNombre("Foto " + (array + 1));
+        foto.setNombre("Foto " + (((int)parametrosFoto.get("size")) + 1));
         foto.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
         foto.setFoto(imgWebCamCapturedImage.getImage());
-        controller.recibeImagen(foto);
+        ((GUIAgregarProductoController)parametrosFoto.get("Control")).recibeImagen(foto);
         webCam.close();
-        stage.close();
+        ((Stage)parametrosFoto.get("Stage")).close();
     }
 
     @Override
@@ -180,10 +177,8 @@ public class TakePictureController implements Initializable {
         startWebCamStream();
     }
 
-    void recibeStage(Stage planillaStage, GUIAgregarProductoController aThis, int tamañoArray) {
-        stage = planillaStage;
-        controller = aThis;
-        array = tamañoArray;
+    void recibeHashMap(Map<String, Object> parametrosFoto) {
+        this.parametrosFoto=parametrosFoto;
     }
 
 }

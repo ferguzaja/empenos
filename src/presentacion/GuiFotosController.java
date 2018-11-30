@@ -6,6 +6,7 @@
 package presentacion;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,9 +47,12 @@ public class GuiFotosController implements Initializable {
             fotomuestra.setImage(listaFotos.getSelectionModel().getSelectedItem().getFoto());
         }
     }
-    public void recibeLista(int idPrenda){
+    public void recibeIdPrenda(int idPrenda){
         obsfotos = FXCollections.observableArrayList(datos.Fotoprenda.devuelveFotos(idPrenda,true));
             listaFotos.setItems(obsfotos);
     }
-    
+    public void recibeLista(List<FotoPrenda> lista){
+        obsfotos = FXCollections.observableArrayList(lista);
+            listaFotos.setItems(obsfotos);
+    }
 }

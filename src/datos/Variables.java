@@ -135,4 +135,9 @@ public class Variables implements Serializable {
         VariablesJpaController var = new VariablesJpaController();
       return var.findVariables(1);
     }
+    public static double calcula(double montoValuo) {
+        VariablesJpaController var = new VariablesJpaController();
+        Variables variable=var.findVariables(1);
+        return montoValuo*(variable.getPorcentajeMutuo()/100);
+    }
 }

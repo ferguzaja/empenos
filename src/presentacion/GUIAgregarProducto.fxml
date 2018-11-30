@@ -30,5 +30,6 @@
          </children>
       </Pane>
       <Button fx:id="mostrarButton" layoutX="417.0" layoutY="271.0" mnemonicParsing="false" onAction="#seleccionaImagen" text="mostrar" />
+      <Button fx:id="eliminarButton" layoutX="332.0" layoutY="271.0" mnemonicParsing="false" onAction="#eliminarImagen" text="Eliminar" />
    </children>
 </AnchorPane>

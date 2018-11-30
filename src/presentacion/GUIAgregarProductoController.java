@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,22 +63,25 @@ public class GUIAgregarProductoController implements Initializable {
     @FXML
     private ListView<FotoPrenda> lista;
     private ObservableList<FotoPrenda> obsfotos;
-    private GUIEmpenosController controlador;
-    private Stage planillaStage;
     private List<FotoPrenda> listaFotos = new ArrayList<>();
     @FXML
     private Button mostrarButton;
-
+    @FXML
+    private Button eliminarButton;
+    private Map<String, Object> parametrosInterfaz;
+    private GUIAgregarProductoController control;
+    private Prenda prenda= new Prenda();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarComboTipoPrenda();
+        control=this;
         // TODO
     }
 
     @FXML
     private void asignaPrestamo() {
         if (montoValuo.getText() != null && !montoValuo.getText().isEmpty()) {
-            montoPrestamo.setText(String.valueOf(Integer.valueOf(montoValuo.getText()) * 2));
+            montoPrestamo.setText(String.valueOf(calculaMonto(Double.valueOf(montoValuo.getText()))));
             //agregar para mutiplicar por las variables de prestamo y validacion numero
 
         }
@@ -100,22 +104,55 @@ public class GUIAgregarProductoController implements Initializable {
 
     @FXML
     private void botonGuardar(ActionEvent event) throws Exception {
+        
         if (!validarCamposVacios() || (listaFotos.isEmpty())) {
             utilerias.mensajes.mensage("Favor de no dejar Campos Vacios o sin agregar Fotos");
         } else {
-            Prenda prenda = new Prenda(descripcion.getText(), Double.parseDouble(montoValuo.getText()), Double.parseDouble(montoPrestamo.getText()), tipoPrenda.getValue());
-            controlador.agregarPrenda(prenda, listaFotos);
-            planillaStage.close();
+            if(((int)parametrosInterfaz.get("Prenda"))==1){
+                editar(getPrenda());
+            }else{
+                guardar(getPrenda());
+            }
         }
     }
-
+    public double calculaMonto(double montoValuo){
+        return datos.Variables.calcula(montoValuo);
+    }
+    public void guardar(Prenda prenda){
+        ((GUIEmpenosController)parametrosInterfaz.get("Empenos")).agregarPrenda(prenda, listaFotos);
+        ((Stage)parametrosInterfaz.get("Stage")).close();
+    }
+    public void editar(Prenda prenda){
+        ((GUIEmpenosController)parametrosInterfaz.get("Empenos")).editarPrenda(prenda, listaFotos,((int)parametrosInterfaz.get("posicion")));
+        ((Stage)parametrosInterfaz.get("Stage")).close();
+    }
+    public Prenda getPrenda(){
+        prenda.setDescripcion(descripcion.getText());
+        prenda.setMontoValuo(Double.parseDouble(montoValuo.getText()));
+        prenda.setMontoPrestamo(Double.parseDouble(montoPrestamo.getText()));
+        prenda.setTipoPrenda(tipoPrenda.getValue());
+        return prenda;
+    }
+    public void setPrenda(Prenda prenda){
+        descripcion.setText(prenda.getDescripcion());
+        montoValuo.setText(""+prenda.getMontoValuo());
+        obsfotos=FXCollections.observableArrayList(listaFotos);
+        lista.setItems(obsfotos);
+        tipoPrenda.getSelectionModel().select(prenda.getTipoPrenda());
+                
+        
+    }
     private void botontCancelar(ActionEvent event) {
-        planillaStage.close();
+        ((Stage)parametrosInterfaz.get("Stage")).close();
     }
 
-    public void recibeVariable(GUIEmpenosController controlador, Stage planillaStage) {
-        this.controlador = controlador;
-        this.planillaStage = planillaStage;
+    public void recibeHasgMap(Map<String, Object> parametrosInterfaz) {
+        this.parametrosInterfaz=parametrosInterfaz;
+        if(((int)parametrosInterfaz.get("Prenda"))==1){
+            listaFotos=((List<FotoPrenda>)parametrosInterfaz.get("ListaFotos"));
+            prenda=((Prenda)parametrosInterfaz.get("Editar"));
+            setPrenda(prenda);
+        }
     }
 
     public void llenarComboTipoPrenda() {
@@ -132,21 +169,12 @@ public class GUIAgregarProductoController implements Initializable {
 
     @FXML
     private void botonTomarFoto() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-
-            //agregamos el openStream (no se para que)
-            AnchorPane root = (AnchorPane) loader.load(getClass().getResource("TakePicture.fxml").openStream());
-            //ahora creo una instancia del controlador del form que voy a abrir casteando
-            Scene scene = new Scene(root);
-            Stage planillaStage = new Stage();
-            planillaStage.setScene(scene);
-            TakePictureController takePictureController = (TakePictureController) loader.getController();
-            takePictureController.recibeStage(planillaStage, this, listaFotos.size());
-            planillaStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(GUIAdministrarEmpleadosController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Map<String, Object> parametrosFoto;
+        parametrosFoto=utilerias.mensajes.nuevaInterfaz("TakePicture.fxml", this);
+        TakePictureController takePictureController = (TakePictureController)((FXMLLoader)parametrosFoto.get("Loader")).getController();
+        parametrosFoto.put("size", listaFotos.size());
+        parametrosFoto.put("Control", control);
+        takePictureController.recibeHashMap(parametrosFoto);
 
     }
 
@@ -154,6 +182,7 @@ public class GUIAgregarProductoController implements Initializable {
         lista.setItems(obsfotos);
     }
 
+    @FXML
     public void seleccionaImagen(ActionEvent event) {
         imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
     }
@@ -170,6 +199,15 @@ public class GUIAgregarProductoController implements Initializable {
             utilerias.mensajes.mensage("favor de seleccionar un Articulo de venta para ver las fotos");
         } else {
             imagen.setImage(lista.getSelectionModel().getSelectedItem().getFoto());
+        }
+    }
+    @FXML
+    private void eliminarImagen(){
+        if(lista.getSelectionModel().getSelectedItem()==null){
+            utilerias.mensajes.mensage("Favor de seleccionar una foto a eliminar");
+        }else{
+            listaFotos.remove(lista.getSelectionModel().getSelectedIndex());
+            lista.getItems().remove(lista.getSelectionModel().getSelectedIndex());
         }
     }
 }
