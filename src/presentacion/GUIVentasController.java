@@ -275,7 +275,7 @@ public class GUIVentasController implements Initializable {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
             double nuevoPrecio=utilerias.mensajes.remate(tablaArticulos.getSelectionModel().getSelectedItem());
             if(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getMontoPrestamo()>=nuevoPrecio){
-                utilerias.mensajes.mensage("la prenda no puede precio");
+                utilerias.mensajes.mensage("la prenda no puede tener un precio menor al de lo que se presto");
             }else{
                 tablaArticulos.getSelectionModel().getSelectedItem().setPrecioVenta(nuevoPrecio);
                 agregarCarrito();
@@ -287,6 +287,7 @@ public class GUIVentasController implements Initializable {
          if(!utilerias.validacion.seleccionado(tablaClientes)){
             if(utilerias.mensajes.mensageConfirmacion("Remate Sin Cliente", "Desea guardar el Remate como publico general")){
                datos.Remate.guardarRemate(regresaRemate());
+               limpia();
             }   
     }else{
             datos.Remate.guardarRemate(regresaRemate());

@@ -373,6 +373,7 @@ public class Empeno implements Serializable {
         emp.setFechaInicioEmpeno(empeno.getFechaInicio());
         emp.setEstatus(empeno.getEstatus());
         emp.setNoBolsa(empeno.getNumBolsa());
+        emp.setFechaFinalizacion(empeno.getFechaFinalizacion());
         emp.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(empeno.getIdEmpleado().getIdEmpleado()));
         if(empeno.getMontoRecibido()>0){
             emp.setMontoRecibido(empeno.getMontoRecibido());

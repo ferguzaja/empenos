@@ -268,6 +268,7 @@ public class Prenda implements Serializable {
         prendaDatos.setEmpenoIdempeno(datos.Empeno.clonar(prenda.getEmpeno()));
         prendaDatos.setDescripcion(prenda.getDescripcion());
         prendaDatos.setMontoValuo(prenda.getMontoValuo());
+        prendaDatos.setMontoPrestamo(prenda.getMontoPrestamo());
         Tipoprenda tipoPrenda = Tipoprenda.recuperarTipoPrenda(prenda.getTipoPrenda().getIdTipoPrenda());
         prendaDatos.setTipoprendaIdtipoprenda(tipoPrenda);
         return prendaDatos;

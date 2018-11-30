@@ -302,8 +302,8 @@ public class GUIEmpenosController implements Initializable {
      @FXML
     public void botonMostrar() {
         if (utilerias.validacion.seleccionado(tablaPrenda)) {
-            parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
-            GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+            Map<String, Object> parametrosfoto= utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
+            GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosfoto.get("Loader")).getController();
             fotosController.recibeLista(arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
         }else{
             utilerias.mensajes.mensage("Favor de seleccionar una prenda para ver las fotos");

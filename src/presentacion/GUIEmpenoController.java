@@ -79,7 +79,7 @@ public class GUIEmpenoController implements Initializable {
     @FXML
     private TableColumn<Empeno, String> statusColumn;
     Map<String, Object> parametrosGlobales;
-    private GUIEmpenoController control =this;
+    private GUIEmpenoController control;
 
     public void buscarEmpenos(ActionEvent event) {
         EmpenoJpaController empenoJPA = new EmpenoJpaController();
@@ -292,6 +292,7 @@ public class GUIEmpenoController implements Initializable {
         if (navegacion == 1) {
             botonAtras.setDisable(true);
         }
+        control =this;
     }
 
     public void recibeHashMap(Map<String, Object> parametros) {
