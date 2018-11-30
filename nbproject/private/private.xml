@@ -12,7 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Jahir/Documents/GitHub/empenos/src/presentacion/GUIClienteController.java</file>
+            <file>file:/C:/Users/ferguzaja/Documents/empeno/src/datos/Fotoprenda.java</file>
+            <file>file:/C:/Users/ferguzaja/Documents/empeno/src/presentacion/GUIHistorialVentas.fxml</file>
+            <file>file:/C:/Users/ferguzaja/Documents/empeno/src/presentacion/GUIEmpenoController.java</file>
+            <file>file:/C:/Users/ferguzaja/Documents/empeno/src/presentacion/GUIHistorialVentasController.java</file>
         </group>
     </open-files>
 </project-private>

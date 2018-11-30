@@ -163,7 +163,7 @@ public class TakePictureController implements Initializable {
     private void guardar() {
         FotoPrenda foto = new FotoPrenda();
         foto.setNombre("Foto " + (((int)parametrosFoto.get("size")) + 1));
-        foto.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        foto.setFechaHora(utilerias.fechas.fecha());
         foto.setFoto(imgWebCamCapturedImage.getImage());
         ((GUIAgregarProductoController)parametrosFoto.get("Control")).recibeImagen(foto);
         webCam.close();

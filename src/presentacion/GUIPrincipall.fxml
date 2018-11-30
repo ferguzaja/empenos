@@ -29,7 +29,9 @@
             <Menu mnemonicParsing="false" text="Ventas">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#menuVentas" text="ventas" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuHistorialVentas" text="Historial Ventas" />
                 <MenuItem mnemonicParsing="false" onAction="#menuRemate" text="Remates" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuHistorialRemate" text="Historial Remates" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Reportes">

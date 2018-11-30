@@ -103,6 +103,34 @@ public class GUIPrincipalController implements Initializable {
             Logger.getLogger(GUIPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    @FXML
+    private void menuHistorialVentas() {
+        FXMLLoader loader = new FXMLLoader();
+        AnchorPane root;
+        try {
+            root = (AnchorPane) loader.load(getClass().getResource("GUIHistorialVentas.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+           panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            Logger.getLogger(GUIPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @FXML
+    private void menuHistorialRemate() {
+        FXMLLoader loader = new FXMLLoader();
+        AnchorPane root;
+        try {
+            root = (AnchorPane) loader.load(getClass().getResource("GUIHistorialRemate.fxml").openStream());
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+           panelPrincipal.getChildren().setAll(root);
+        } catch (IOException ex) {
+            Logger.getLogger(GUIPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
             
     @FXML
     private void menuEmpleados(ActionEvent event) {

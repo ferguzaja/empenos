@@ -19,7 +19,7 @@ public class prubas {
     public static void main(String[] args) {
         // TODO code application logic here
         //System.out.println(utilerias.fechas.fechaString(utilerias.fechas.regresaFechas(utilerias.fechas.convertirFechaString(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos())))));
-        String fecha=utilerias.fechas.convertirFechaString(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        String fecha=utilerias.fechas.convertirFechaString(utilerias.fechas.fecha());
         System.out.println(fecha);
         
     }

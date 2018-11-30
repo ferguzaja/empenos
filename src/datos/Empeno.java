@@ -56,7 +56,7 @@ public class Empeno implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "montoRecibido")
-    private Float montoRecibido;
+    private double montoRecibido;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empenoIdempeno")
     private List<Prenda> prendaList;
 
@@ -184,11 +184,11 @@ public class Empeno implements Serializable {
         this.noBolsa = noBolsa;
     }
 
-    public Float getMontoRecibido() {
+    public double getMontoRecibido() {
         return montoRecibido;
     }
 
-    public void setMontoRecibido(Float montoRecibido) {
+    public void setMontoRecibido(double montoRecibido) {
         this.montoRecibido = montoRecibido;
     }
 
@@ -301,19 +301,7 @@ public class Empeno implements Serializable {
 
     public static void finiquitarContrato(logica.Empeno emp) {
         try {
-            datos.Empeno empeno = new datos.Empeno();
-            empeno.setIdempeno(emp.getIdEmpeno());
-            empeno.setFechaInicioEmpeno(emp.getFechaInicio());
-            empeno.setFechaFinEmpeno(emp.getFechaFinEmpeno());
-            empeno.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(emp.getIdEmpleado().getIdEmpleado()));
-            empeno.setCotitular(emp.getCotitular());
-            empeno.setExtencionTiempo(emp.getNumExtencionTiempo());
-            empeno.setFechaExtencion(emp.getFechaExtencion());
-            empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
-            empeno.setMontoRecibido(Float.parseFloat(String.valueOf(emp.getMontoRecibido())));
-            empeno.setNoBolsa(emp.getNumBolsa());
-            empeno.setEstatus(emp.getEstatus());
-            empeno.setClienteIdcliente(datos.Cliente.recuperarCliente(emp.getCliente().getIdCliente()));
+            datos.Empeno empeno = clonar(emp);
             EmpenoJpaController empenoJPA = new EmpenoJpaController();
             empenoJPA.edit(empeno);
         } catch (NonexistentEntityException ex) {
@@ -331,7 +319,7 @@ public class Empeno implements Serializable {
             empeno.setFechaFinalizacion(emp.getFechaFinalizacion());
             empenoJPA.edit(empeno);
             /////Crear el nuevo empeno
-            Date date = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+            Date date = utilerias.fechas.fecha();
             empeno.setFechaInicioEmpeno(date);
             empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
             empeno.setEstatus("activo");
@@ -386,6 +374,9 @@ public class Empeno implements Serializable {
         emp.setEstatus(empeno.getEstatus());
         emp.setNoBolsa(empeno.getNumBolsa());
         emp.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(empeno.getIdEmpleado().getIdEmpleado()));
+        if(empeno.getMontoRecibido()>0){
+            emp.setMontoRecibido(empeno.getMontoRecibido());
+        }
         return emp;
     }
 

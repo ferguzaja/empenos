@@ -240,7 +240,7 @@ public class Pago implements Serializable {
     public static double montoPorPeriodo(logica.Empeno empeno) {
         double monto = 0;
         List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
-        Date diaHoy = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+        Date diaHoy = utilerias.fechas.fecha();
         if (pago.get(0).getFecha().after(diaHoy)) {
             monto = pago.get(0).getDesempeño();
         } else {
@@ -253,7 +253,7 @@ public class Pago implements Serializable {
     public static double montoPorPeriodoRefrendo(logica.Empeno empeno) {
         double monto = 0;
         List<logica.Pago> pago = regresaPagos(empeno.getIdEmpeno());
-        Date diaHoy = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+        Date diaHoy = utilerias.fechas.fecha();
         if (pago.get(0).getFecha().after(diaHoy)) {
             monto = pago.get(0).getRefrendo();
         } else {

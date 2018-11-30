@@ -142,7 +142,7 @@ public class GUIFiniquitoController implements Initializable {
 
     private Empeno cambiarStatus() {
         empeno.setMontoRecibido(Double.valueOf(TFMontoPagar.getText()));
-        empeno.setFechaFinalizacion(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        empeno.setFechaFinalizacion(utilerias.fechas.fecha());
         if(clicFuncion == 1){
             empeno.setEstatus("Refrendo");
         }else{

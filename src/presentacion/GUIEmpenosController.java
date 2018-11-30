@@ -131,7 +131,7 @@ public class GUIEmpenosController implements Initializable {
         if (utilerias.validacion.seleccionado(tablaClientes) || !tablaPrenda.getSelectionModel().isEmpty()) {
             //Registro del empeño
             Empeno empeno = new logica.Empeno();
-            Date date = utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos());
+            Date date = utilerias.fechas.fecha();
             empeno.setFechaInicio(date);
             empeno.setFechaFinEmpeno(fechas.aumentaDias(date, 30));
 

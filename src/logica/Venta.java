@@ -5,6 +5,7 @@
  */
 package logica;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,6 +18,8 @@ public class Venta {
     private Empleado empleado;
     private double gananciaTotal;
     private Cliente cliente;
+    private SimpleDateFormat spd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String txtfecha;
 
     public Venta() {
     }
@@ -43,6 +46,7 @@ public class Venta {
 
     public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
+        txtfecha=spd.format(fechaHora);
     }
 
     public Empleado getEmpleado() {

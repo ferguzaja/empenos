@@ -110,14 +110,19 @@ public class GUIVentasController implements Initializable {
 
     @FXML
     public void llenarTablaArticulos() {
-        TFBuscarArticulos.setText(TFBuscarArticulos.getText().trim());
-        if (TFBuscarArticulos.getText() != "" || TFBuscarArticulos != null) {
             List<ArticuloVenta> listabusqueda = datos.Articuloventa.obtenArticuloVentas(TFBuscarArticulos.getText());
             ObservableList<logica.ArticuloVenta> obsArticulos = FXCollections.observableArrayList(estaEnCarrito(listabusqueda));
             tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));
             descripcionColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));
             precioColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("precioVenta"));
             tablaArticulos.setItems(obsArticulos);
+       
+    }
+    @FXML
+    public void buscarBotonArticulos(){
+        TFBuscarArticulos.setText(TFBuscarArticulos.getText().trim());
+        if (TFBuscarArticulos.getText() != "" || TFBuscarArticulos != null) {
+            llenarTablaArticulos();
         } else {
             utilerias.mensajes.mensage("favor de introducir un valor para la busqueda");
         }
@@ -217,7 +222,7 @@ public class GUIVentasController implements Initializable {
     }
     @FXML
     public void generaVenta(){
-        if(utilerias.validacion.seleccionado(tablaClientes)){
+        if(!utilerias.validacion.seleccionado(tablaClientes)){
             if(utilerias.mensajes.mensageConfirmacion("Venta Sin Cliente", "Desea guardar la venta como publico general")){
                 datos.Venta.guardarVenta(regresaVenta());
             }   
@@ -239,21 +244,29 @@ public class GUIVentasController implements Initializable {
     
     public logica.Venta regresaVenta(){
          logica.Venta venta = new logica.Venta();
-        venta.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        venta.setFechaHora(utilerias.fechas.fecha());
         venta.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
         venta.setGananciaTotal(datos.Articuloventa.regresaMonto(ListaCarrito));
         if(utilerias.validacion.seleccionado(tablaClientes)){
             venta.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+        }else{
+            logica.Cliente cliente = new logica.Cliente();
+            cliente.setIdCliente(1);
+            venta.setCliente(cliente);
         }
         return venta;
     }
     public logica.Remate regresaRemate(){
          logica.Remate remate= new logica.Remate();
-        remate.setFechaHora(utilerias.fechas.Fecha(utilerias.fechas.regresaMilisegundos()));
+        remate.setFechaHora(utilerias.fechas.fecha());
         remate.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
         remate.setPerdidaTotal(datos.Articuloventa.regresaMonto(ListaCarrito));
         if(utilerias.validacion.seleccionado(tablaClientes)){
             remate.setCliente(tablaClientes.getSelectionModel().getSelectedItem());
+        }else{
+            logica.Cliente cliente = new logica.Cliente();
+            cliente.setIdCliente(1);
+            remate.setCliente(cliente);
         }
         return remate;
     }
@@ -271,7 +284,7 @@ public class GUIVentasController implements Initializable {
     }
 
     private void generaRemate() {
-         if(utilerias.validacion.seleccionado(tablaClientes)){
+         if(!utilerias.validacion.seleccionado(tablaClientes)){
             if(utilerias.mensajes.mensageConfirmacion("Remate Sin Cliente", "Desea guardar el Remate como publico general")){
                datos.Remate.guardarRemate(regresaRemate());
             }   

@@ -25,8 +25,8 @@ public class fechas {
         return dateFinal;
     }
 
-    public static Date Fecha(long milisegundos) {
-        Date fecha = new Date(milisegundos);
+    public static Date fecha() {
+        Date fecha = new Date(regresaMilisegundos());
         return fecha;
     }
 

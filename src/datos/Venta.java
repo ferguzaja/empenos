@@ -6,6 +6,7 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -157,4 +158,40 @@ public class Venta implements Serializable {
         this.gananciaTotal = gananciaTotal;
     }
     
+    private static logica.Venta clonarDatosALogica(Venta venta) {
+        logica.Venta ventaEnviar = new logica.Venta();
+        ventaEnviar.setCliente(venta.getClienteIdcliente().clonar());
+        ventaEnviar.setEmpleado(datos.Empleado.datosALogicaClonar(venta.getEmpleadoidEmpleado()));
+        ventaEnviar.setFechaHora(venta.getFechaHora());
+        ventaEnviar.setGananciaTotal(venta.getGananciaTotal());
+        ventaEnviar.setIdVenta(venta.getIdventa());
+        return ventaEnviar;
+    }
+
+    public static List<logica.Venta> ventasNavegacion(int inicio, int fin) {
+        List<logica.Venta> ventas = new ArrayList<logica.Venta>();
+        VentaJpaController ventaJPa = new VentaJpaController();
+        Venta venta = new Venta();
+        for (int i = inicio; i < fin; i++) {
+            venta = ventaJPa.findVenta(i);
+            if (venta != null) {
+                ventas.add(clonarDatosALogica(venta));
+            } else {
+                ventas.add(null);
+                break;
+            }
+        }
+        return ventas;
+    }
+      public static List<logica.Venta> buscarVentas(String text) {
+       VentaJpaController ventaJPa = new VentaJpaController();
+       List<logica.Venta> ventas = new ArrayList<logica.Venta>();
+       List<datos.Venta> ventasEncontradas=ventaJPa.findVentaEntities();
+       for(int i=0; i<ventasEncontradas.size(); i++){
+           //criterio de busqueda
+           ventas.add(clonarDatosALogica(ventasEncontradas.get(i)));
+       }
+       return ventas;
+      }
+
 }

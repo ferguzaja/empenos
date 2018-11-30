@@ -260,17 +260,12 @@ public class GUIEmpenoController implements Initializable {
                GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
                 parametrosInterfaz.put("Controller",control);
                empenoscontroller.recibeReEmpeno(parametrosGlobales,parametrosInterfaz,tablaEmpenos.getSelectionModel().getSelectedItem());
+            }else{
+                utilerias.mensajes.mensage("el contrato debe de estar finiquitado para poder ser Re empeñando");
             }
-        }else{}    
-        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
-            if (tablaEmpenos.getSelectionModel().getSelectedItem().getEstatus().equals("Finiquito")) {
-                parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
-                GUIEmpenosController empenoscontroller = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
-                parametrosInterfaz.put("Controller", empenoscontroller);
-                empenoscontroller.recibeReEmpeno(parametrosGlobales, parametrosInterfaz, tablaEmpenos.getSelectionModel().getSelectedItem());
-            }
-        } else {
-        }
+        }else{
+            utilerias.mensajes.mensage("Favor de seleccionar un contrato");
+        }    
     }
     
     @FXML

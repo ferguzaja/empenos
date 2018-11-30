@@ -226,6 +226,9 @@ public class Empleado implements Serializable {
     public static logica.Empleado datosALogicaClonar(datos.Empleado empleado){
         logica.Empleado emp = new logica.Empleado();
         emp.setIdEmpleado(empleado.getIdempleado());
+        emp.setNombre(empleado.getNombre());
+        emp.setApellidoMaterno(empleado.getApellidoMaterno());
+        emp.setApellidoPaterno(empleado.getApellidoPaterno());
 
         
         return emp;

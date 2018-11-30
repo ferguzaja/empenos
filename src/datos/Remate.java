@@ -6,6 +6,7 @@
 package datos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -154,4 +155,39 @@ public class Remate implements Serializable {
          RemateJpaController remateJPA=new RemateJpaController();
          remateJPA.create(deLogicaADatos(regresaRemate));
      }
+     private static logica.Remate clonarDatosALogica(Remate remate) {
+        logica.Remate remateEnviar = new logica.Remate();
+        remateEnviar.setCliente(remate.getClienteIdcliente().clonar());
+        remateEnviar.setEmpleado(datos.Empleado.datosALogicaClonar(remate.getEmpleadoIdempleado()));
+        remateEnviar.setFechaHora(remate.getFechaHora());
+        remateEnviar.setPerdidaTotal(remate.getPerdida());
+        remateEnviar.setIdRemate(remate.getIdremate());
+        return remateEnviar;
+     }
+     public static List<logica.Remate> remateNavegacion(int inicio, int fin) {
+        List<logica.Remate> remates = new ArrayList<logica.Remate>();
+        RemateJpaController remateJPA = new RemateJpaController();
+        Remate remate = new Remate();
+        for (int i = inicio; i < fin; i++) {
+            remate = remateJPA.findRemate(i);
+            if (remate != null) {
+                remates.add(clonarDatosALogica(remate));
+            } else {
+                remates.add(null);
+                break;
+            }
+        }
+        return remates;
+     }
+
+    public static List<logica.Remate> buscarRemate(String text) {
+       List<logica.Remate> remates = new ArrayList<logica.Remate>();
+        RemateJpaController remateJPA = new RemateJpaController();
+       List<datos.Remate> rematesEncontrados=remateJPA.findRemateEntities();
+       for(int i=0; i<rematesEncontrados.size(); i++){
+           //criterio de busqueda
+           remates.add(clonarDatosALogica(rematesEncontrados.get(i)));
+       }
+       return remates;
+    }
 }
