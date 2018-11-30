@@ -277,7 +277,7 @@ public class GUIEmpenosController implements Initializable {
 
     public void llenarReEmpeno(Empeno empeno) {
         listaPrenda = datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(), false);
-        arregloDeFotos = datos.Fotoprenda.devuelveArregloFotos(listaPrenda, false);
+        arregloDeFotos = datos.Fotoprenda.devuelveArregloFotos(datos.Prenda.prendasPorContrato(empeno.getIdEmpeno(), true), false);
         List<logica.Cliente> lista = new ArrayList<>();
         lista.add(empeno.getCliente());
         llenarTablaClientes(lista);

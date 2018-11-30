@@ -184,7 +184,7 @@ public class Fotoprenda implements Serializable {
         
         for(int i=0; i<lista.size(); i++){
             for(int x=0; x<lista.get(i).size(); x++){
-                try {System.out.println("entro3");
+                try {
                 FPJPA.create(lista.get(i).get(x));
             } catch (Exception ex) {
                 Logger.getLogger(Fotoprenda.class.getName()).log(Level.SEVERE, null, ex);

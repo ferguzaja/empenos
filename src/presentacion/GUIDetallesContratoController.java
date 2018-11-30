@@ -98,13 +98,13 @@ public class GUIDetallesContratoController implements Initializable {
         
     }
     public void llenaDatos(Empeno empeno){
-    TFFechaInicio.setText(empeno.getFechaInicio().toString());
-    TFFechaFin.setText(empeno.getFechaFinEmpeno().toString());
+    TFFechaInicio.setText(empeno.getTxtfechaInicio());
+    TFFechaFin.setText(empeno.getTxtfechaFinEmpeno());
     if(empeno.getCotitular()!=null)
         TFCotitular.setText(empeno.getCotitular());
     if(empeno.getNumExtencionTiempo()!=0){
         TFNoExtension.setText(Integer.toString(empeno.getNumExtencionTiempo()));
-        TFFechaExtension.setText(empeno.getFechaExtencion().toString());
+        TFFechaExtension.setText(empeno.getTxtfechaExtencion());
     }else{
         TFNoExtension.setText("N/A");
         TFFechaExtension.setText("N/A");

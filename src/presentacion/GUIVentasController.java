@@ -92,7 +92,18 @@ public class GUIVentasController implements Initializable {
             parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
             GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
             fotosController.recibeIdPrenda(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
-
+            //deseleccionar 
+            tablaArticulos.getSelectionModel().clearSelection();
+        }else{
+            if(utilerias.validacion.seleccionado(tablaCarrito)){
+               parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GuiFotos.fxml", this);
+            GuiFotosController fotosController = (GuiFotosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
+            fotosController.recibeIdPrenda(tablaCarrito.getSelectionModel().getSelectedItem().getPrenda().getIdPrenda());
+            tablaCarrito.getSelectionModel().clearSelection();
+            }
+            else{
+                utilerias.mensajes.mensage("Favor de seleccionar una articulo para mostrar las fotos");
+            }
         }
 
     }
@@ -139,10 +150,10 @@ public class GUIVentasController implements Initializable {
         if (ListaCarrito.isEmpty()) {
             listaSalida = listaEntrada;
         } else {
-            for (int i = 0; i < listaEntrada.size(); i++) {
-                for (int x = 0; x < ListaCarrito.size(); x++) {
-                    if (listaEntrada.get(i).getIdArticuloVenta() == (ListaCarrito.get(x).getIdArticuloVenta())) {
-                        listaEntrada.remove(i);
+            for (int i = 0; i < ListaCarrito.size(); i++) {
+                for (int x = 0; x < listaEntrada.size(); x++) {
+                    if (ListaCarrito.get(i).getIdArticuloVenta() == listaEntrada.get(x).getIdArticuloVenta()) {
+                        listaEntrada.remove(x);
                         break;
                     }
                 }
@@ -219,8 +230,10 @@ public class GUIVentasController implements Initializable {
     public void seleccionaVentaRemate(){
          if(((int)parametrosGlobales.get("Venta")==0)){
              generaVenta();
+             limpia();
          }else{
              generaRemate();
+             limpia();
          }
     }
     
@@ -265,5 +278,10 @@ public class GUIVentasController implements Initializable {
     }else{
             datos.Remate.guardarRemate(regresaRemate());
         }
+    }
+    public void limpia(){
+        tablaArticulos.getItems().remove(0, tablaArticulos.getSelectionModel().getSelectedIndex());
+        tablaClientes.getItems().remove(0,tablaClientes.getSelectionModel().getSelectedIndex());
+        tablaCarrito.getItems().remove(0,tablaCarrito.getSelectionModel().getSelectedIndex());
     }
 }

@@ -163,8 +163,7 @@ public class Articuloventa implements Serializable {
         for(int i=0; i<articulosEncontrados.size(); i++){
             //validacion de contenido de datos y que este disponible
             if(articulosEncontrados.get(i).getDescripcionArticulo().contains(busqueda)&&articulosEncontrados.get(i).getEstado()==0){
-                 ArticuloVenta enviar =datosALogica(articulosEncontrados.get(i));
-                 articulosEnviar.add(enviar);                
+                 articulosEnviar.add(datosALogica(articulosEncontrados.get(i)));                
             }
         }
         return articulosEnviar;
