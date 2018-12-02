@@ -204,22 +204,22 @@ public class GUIEmpenosController implements Initializable {
     @FXML
     private void botonAgregarPrenda(ActionEvent event) {
         Map<String, Object> parametosPrenda=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
-        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
+        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametosPrenda.get("Loader")).getController();
         parametosPrenda.put("Empenos",guiEmpenosControler);
         parametosPrenda.put("Prenda",0);
-        productosController.recibeHasgMap(parametrosInterfaz);
+        productosController.recibeHasgMap(parametosPrenda);
     }
     @FXML
     private void botonEditarPrenda(ActionEvent event) {
         if(utilerias.validacion.seleccionado(tablaPrenda)){
         Map<String, Object> parametosPrenda=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
-        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
+        GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametosPrenda.get("Loader")).getController();
         parametosPrenda.put("Empenos",guiEmpenosControler);
         parametosPrenda.put("Prenda",1);
         parametosPrenda.put("Editar", tablaPrenda.getSelectionModel().getSelectedItem());
         parametosPrenda.put("posicion",tablaPrenda.getSelectionModel().getSelectedIndex());
         parametosPrenda.put("ListaFotos", arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
-        productosController.recibeHasgMap(parametrosInterfaz);
+        productosController.recibeHasgMap(parametosPrenda);
         }else{
             utilerias.mensajes.mensage("favor de seleccionar una Prenda para editar");
         }

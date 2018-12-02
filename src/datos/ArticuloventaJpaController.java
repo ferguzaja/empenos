@@ -89,28 +89,12 @@ public class ArticuloventaJpaController implements Serializable {
             Articuloventa persistentArticuloventa = em.find(Articuloventa.class, articuloventa.getIdarticuloventa());
             Prenda prendaIdprendaOld = persistentArticuloventa.getPrendaIdprenda();
             Prenda prendaIdprendaNew = articuloventa.getPrendaIdprenda();
-            List<Venta> ventaListOld = persistentArticuloventa.getVentaList();
-            List<Venta> ventaListNew = articuloventa.getVentaList();
-            List<Remate> remateListOld = persistentArticuloventa.getRemateList();
-            List<Remate> remateListNew = articuloventa.getRemateList();
+
             if (prendaIdprendaNew != null) {
                 prendaIdprendaNew = em.getReference(prendaIdprendaNew.getClass(), prendaIdprendaNew.getIdprenda());
                 articuloventa.setPrendaIdprenda(prendaIdprendaNew);
             }
-            List<Venta> attachedVentaListNew = new ArrayList<Venta>();
-            for (Venta ventaListNewVentaToAttach : ventaListNew) {
-                ventaListNewVentaToAttach = em.getReference(ventaListNewVentaToAttach.getClass(), ventaListNewVentaToAttach.getIdventa());
-                attachedVentaListNew.add(ventaListNewVentaToAttach);
-            }
-            ventaListNew = attachedVentaListNew;
-            articuloventa.setVentaList(ventaListNew);
-            List<Remate> attachedRemateListNew = new ArrayList<Remate>();
-            for (Remate remateListNewRemateToAttach : remateListNew) {
-                remateListNewRemateToAttach = em.getReference(remateListNewRemateToAttach.getClass(), remateListNewRemateToAttach.getIdremate());
-                attachedRemateListNew.add(remateListNewRemateToAttach);
-            }
-            remateListNew = attachedRemateListNew;
-            articuloventa.setRemateList(remateListNew);
+            
             articuloventa = em.merge(articuloventa);
             if (prendaIdprendaOld != null && !prendaIdprendaOld.equals(prendaIdprendaNew)) {
                 prendaIdprendaOld.getArticuloventaList().remove(articuloventa);
@@ -119,31 +103,7 @@ public class ArticuloventaJpaController implements Serializable {
             if (prendaIdprendaNew != null && !prendaIdprendaNew.equals(prendaIdprendaOld)) {
                 prendaIdprendaNew.getArticuloventaList().add(articuloventa);
                 prendaIdprendaNew = em.merge(prendaIdprendaNew);
-            }
-            for (Venta ventaListOldVenta : ventaListOld) {
-                if (!ventaListNew.contains(ventaListOldVenta)) {
-                    ventaListOldVenta.getArticuloventaList().remove(articuloventa);
-                    ventaListOldVenta = em.merge(ventaListOldVenta);
-                }
-            }
-            for (Venta ventaListNewVenta : ventaListNew) {
-                if (!ventaListOld.contains(ventaListNewVenta)) {
-                    ventaListNewVenta.getArticuloventaList().add(articuloventa);
-                    ventaListNewVenta = em.merge(ventaListNewVenta);
-                }
-            }
-            for (Remate remateListOldRemate : remateListOld) {
-                if (!remateListNew.contains(remateListOldRemate)) {
-                    remateListOldRemate.getArticuloventaList().remove(articuloventa);
-                    remateListOldRemate = em.merge(remateListOldRemate);
-                }
-            }
-            for (Remate remateListNewRemate : remateListNew) {
-                if (!remateListOld.contains(remateListNewRemate)) {
-                    remateListNewRemate.getArticuloventaList().add(articuloventa);
-                    remateListNewRemate = em.merge(remateListNewRemate);
-                }
-            }
+            }                        
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();

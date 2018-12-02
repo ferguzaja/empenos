@@ -19,9 +19,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DoubleStringConverter;
 import logica.ArticuloVenta;
 
 /**
@@ -42,7 +45,7 @@ public class GUIVentasController implements Initializable {
     @FXML
     private TableColumn<ArticuloVenta, String> descripcionColumn;
     @FXML
-    private TableColumn<ArticuloVenta, String> precioColumn;
+    private TableColumn<ArticuloVenta, Double> precioColumn;
     @FXML
     private Button agregarAlCarritoButton;
     @FXML
@@ -83,7 +86,29 @@ public class GUIVentasController implements Initializable {
     private Button eliminarCarritoButton;
 
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        precioColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+    }
+    
+    public void cambiarDescripcion(CellEditEvent edditcell){
+        logica.ArticuloVenta articulo = tablaArticulos.getSelectionModel().getSelectedItem();
+        articulo.setDescripcion(edditcell.getNewValue().toString());
+        datos.Articuloventa.editarDescripcionArticuloVenta(articulo);
+        utilerias.mensajes.mensage("La descripción ha sido editada");
+    }
+    
+    public void cambiarPrecio(CellEditEvent edditcell){
+        logica.ArticuloVenta articulo = tablaArticulos.getSelectionModel().getSelectedItem();
+        articulo.setPrecioVenta((Double)edditcell.getNewValue());
+        datos.Articuloventa.editarPrecioArticuloVenta(articulo);
+        utilerias.mensajes.mensage("El precio ha sido editado");
+    }
+    
+    public void guardarEdicionArticulo(){
+        descripcionColumn.setOnEditCommit(data -> { data.getRowValue().setDescripcion(data.getNewValue()); });
+        precioColumn.setOnEditCommit(data -> { data.getRowValue().setPrecioVenta(data.getNewValue()); });
+        System.out.println(tablaArticulos.getSelectionModel().getSelectedItem().getDescripcion());
+        System.out.println(tablaArticulos.getSelectionModel().getSelectedItem().getPrecioVenta());
     }
 
     @FXML
@@ -112,9 +137,9 @@ public class GUIVentasController implements Initializable {
     public void llenarTablaArticulos() {
             List<ArticuloVenta> listabusqueda = datos.Articuloventa.obtenArticuloVentas(TFBuscarArticulos.getText());
             ObservableList<logica.ArticuloVenta> obsArticulos = FXCollections.observableArrayList(estaEnCarrito(listabusqueda));
-            tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));
-            descripcionColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));
-            precioColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("precioVenta"));
+            tipoArticuloColum.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("tipoArticulo"));                                    
+            descripcionColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, String>("descripcion"));                        
+            precioColumn.setCellValueFactory(new PropertyValueFactory<ArticuloVenta, Double>("precioVenta"));           
             tablaArticulos.setItems(obsArticulos);
        
     }

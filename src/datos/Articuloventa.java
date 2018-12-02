@@ -8,6 +8,8 @@ package datos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +71,13 @@ public class Articuloventa implements Serializable {
 
     public Articuloventa() {
     }
+
+    public Articuloventa(String descripcionArticulo, Float precioVenta, Short estado, Prenda prendaIdprenda) {
+        this.descripcionArticulo = descripcionArticulo;
+        this.precioVenta = precioVenta;
+        this.estado = estado;
+        this.prendaIdprenda = prendaIdprenda;
+    }        
 
     public Articuloventa(Integer idarticuloventa) {
         this.idarticuloventa = idarticuloventa;
@@ -156,19 +165,21 @@ public class Articuloventa implements Serializable {
     public String toString() {
         return "datos.Articuloventa[ idarticuloventa=" + idarticuloventa + " ]";
     }
-    public static List<logica.ArticuloVenta> obtenArticuloVentas(String busqueda){
-        List<logica.ArticuloVenta> articulosEnviar= new ArrayList<>();
+
+    public static List<logica.ArticuloVenta> obtenArticuloVentas(String busqueda) {
+        List<logica.ArticuloVenta> articulosEnviar = new ArrayList<>();
         ArticuloventaJpaController AJPA = new ArticuloventaJpaController();
-        List<datos.Articuloventa> articulosEncontrados= AJPA.findArticuloventaEntities();
-        for(int i=0; i<articulosEncontrados.size(); i++){
+        List<datos.Articuloventa> articulosEncontrados = AJPA.findArticuloventaEntities();
+        for (int i = 0; i < articulosEncontrados.size(); i++) {
             //validacion de contenido de datos y que este disponible
-            if(articulosEncontrados.get(i).getDescripcionArticulo().contains(busqueda)&&articulosEncontrados.get(i).getEstado()==0){
-                 articulosEnviar.add(datosALogica(articulosEncontrados.get(i)));                
+            if (articulosEncontrados.get(i).getDescripcionArticulo().contains(busqueda) && articulosEncontrados.get(i).getEstado() == 0) {
+                articulosEnviar.add(datosALogica(articulosEncontrados.get(i)));
             }
         }
         return articulosEnviar;
     }
-    public static logica.ArticuloVenta datosALogica(datos.Articuloventa articulo){
+
+    public static logica.ArticuloVenta datosALogica(datos.Articuloventa articulo) {
         ArticuloVenta enviar = new ArticuloVenta();
         enviar.setDescripcion(articulo.getDescripcionArticulo());
         enviar.setEstado(articulo.getEstado());
@@ -177,12 +188,56 @@ public class Articuloventa implements Serializable {
         enviar.setPrenda(datos.Prenda.clonar(articulo.getPrendaIdprenda()));
         return enviar;
     }
-    public static double regresaMonto(List<ArticuloVenta> lista){
-        double monto=0;
-        for(int i=0; i<lista.size(); i++){
-            monto=+(lista.get(i).getPrecioVenta()-lista.get(i).getPrenda().getMontoPrestamo());
+
+    public static double regresaMonto(List<ArticuloVenta> lista) {
+        double monto = 0;
+        for (int i = 0; i < lista.size(); i++) {
+            monto = +(lista.get(i).getPrecioVenta() - lista.get(i).getPrenda().getMontoPrestamo());
         }
         return monto;
     }
     
+    public static void registrarArticulosVenta(List<datos.Prenda> prendas){
+        ArticuloventaJpaController articuloJPA = new ArticuloventaJpaController();
+        datos.Articuloventa articuloVenta;
+        float porcentajeComercializacion = Variables.traerVariables().getPorcentajeComercializacion() / 100;
+        float precioVenta;
+        for (int i = 0; i < prendas.size(); i++) {
+            precioVenta = (float)(prendas.get(i).getMontoValuo() 
+                    * porcentajeComercializacion + prendas.get(i).getMontoValuo());            
+            articuloVenta = new Articuloventa(prendas.get(i).getDescripcion(),
+                    precioVenta,(short)0,prendas.get(i));
+            articuloJPA.create(articuloVenta);
+        }
+    }
+    
+    public static void editarDescripcionArticuloVenta(logica.ArticuloVenta articulo){
+        try {
+            ArticuloventaJpaController articuloJPA = new ArticuloventaJpaController();
+            datos.Articuloventa articuloventa = new Articuloventa();
+            articuloventa.setIdarticuloventa(articulo.getIdArticuloVenta());
+            articuloventa.setDescripcionArticulo(articulo.getDescripcion());
+            articuloventa.setEstado((short)articulo.getEstado());
+            articuloventa.setPrecioVenta((float)articulo.getPrecioVenta());
+            articuloventa.setPrendaIdprenda(datos.Prenda.deLogicaADatos(articulo.getPrenda()));
+            articuloJPA.edit(articuloventa);
+        } catch (Exception ex) {
+            Logger.getLogger(Articuloventa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void editarPrecioArticuloVenta(logica.ArticuloVenta articulo){
+        try {
+            ArticuloventaJpaController articuloJPA = new ArticuloventaJpaController();
+            datos.Articuloventa articuloventa = new Articuloventa();
+            articuloventa.setIdarticuloventa(articulo.getIdArticuloVenta());
+            articuloventa.setDescripcionArticulo(articulo.getDescripcion());
+            articuloventa.setEstado((short)articulo.getEstado());
+            articuloventa.setPrecioVenta((float)articulo.getPrecioVenta());
+            articuloventa.setPrendaIdprenda(datos.Prenda.deLogicaADatos(articulo.getPrenda()));
+            articuloJPA.edit(articuloventa);
+        } catch (Exception ex) {
+            Logger.getLogger(Articuloventa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

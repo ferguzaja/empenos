@@ -270,14 +270,32 @@ public class GUIEmpenoController implements Initializable {
     
     @FXML
     public void verContratosVencidos(){
-        List<Empeno> lista = datos.Empeno.recuperarContratosVencidos();
+        List<logica.Empeno> lista = datos.Empeno.recuperarContratosVencidos();
         if(!lista.isEmpty()){
             llenarTabla(lista);
         }else{
             utilerias.mensajes.mensage("No hay contratos vencidos");
         }        
     }
-
+    
+    @FXML
+    public void comercializarContrato(){
+        if (utilerias.validacion.seleccionado(tablaEmpenos)) {
+            logica.Empeno empeno = tablaEmpenos.getSelectionModel().getSelectedItem();
+            if(empeno.getEstatus().equals("comercializado") || empeno.getEstatus().equals("Finiquito")){
+                utilerias.mensajes.mensage("Verifica que el estatus del empeño sea valido para poder comercializar las prendas");                
+            }else{
+                empeno.setEstatus("comercializado");
+                datos.Empeno.actualizarEmpeno(empeno);
+                datos.Prenda.comercializarPrendas(empeno.getIdEmpeno());
+                utilerias.mensajes.mensage("Las prendas del contrato han sido comercializadas");
+            }
+            
+        }else{
+            utilerias.mensajes.mensage("Favor de seleccionar un contrato");
+        }
+    }
+    
     @FXML
     private boolean extensionTiempo() {
         boolean aceptar = false;

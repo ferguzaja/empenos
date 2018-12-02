@@ -34,5 +34,6 @@
       <Button fx:id="extencionButton" layoutX="370.0" layoutY="506.0" mnemonicParsing="false" onAction="#botonExtension" text="Extencion Tiempo" />
       <Button fx:id="reEmpenoButton" layoutX="500.0" layoutY="506.0" mnemonicParsing="false" onAction="#botonReEmpeno" text="Re-Empeño" />
       <Button fx:id="botonContratoVencido" layoutX="638.0" layoutY="54.0" mnemonicParsing="false" onAction="#verContratosVencidos" text="Contratos vencidos" />
+      <Button fx:id="botonComercializar" layoutX="601.0" layoutY="506.0" mnemonicParsing="false" onAction="#comercializarContrato" text="Comercializar" />
    </children>
 </AnchorPane>

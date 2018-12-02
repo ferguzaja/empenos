@@ -5,9 +5,12 @@
  */
 package datos;
 
+import datos.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -194,7 +197,23 @@ public class Prenda implements Serializable {
         }
         return prendasContrato;
     }
-
+    
+    public static void comercializarPrendas(int idContrato){
+        PrendaJpaController prendaJPA = new PrendaJpaController();
+        List<datos.Prenda> prendas = recuperarPrendas(idContrato);        
+        for (int i = 0; i < prendas.size(); i++) {
+            try {                
+                prendas.get(i).setComercializada((short)1);
+                prendaJPA.edit(prendas.get(i));
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(Prenda.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Prenda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        Articuloventa.registrarArticulosVenta(prendas);
+    }
+    
     public static boolean guardarPrendas(List<logica.Prenda> prendas) {
         boolean guardar = true;
         try {
