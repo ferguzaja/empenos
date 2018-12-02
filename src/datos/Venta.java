@@ -193,5 +193,10 @@ public class Venta implements Serializable {
        }
        return ventas;
       }
+      public static int ultimaVenta(){
+          VentaJpaController ventaJPA = new VentaJpaController();
+          List<datos.Venta> ventasEncontradas=ventaJPA.findVentaEntities();
+          return ventasEncontradas.size()+1;
+      }
 
 }

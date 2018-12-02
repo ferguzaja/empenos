@@ -190,4 +190,9 @@ public class Remate implements Serializable {
        }
        return remates;
     }
+    public static int ultimoRemate(){
+          RemateJpaController remateJPA = new RemateJpaController();
+          List<datos.Remate> remates=remateJPA.findRemateEntities();
+          return remates.size()+1;
+      }
 }

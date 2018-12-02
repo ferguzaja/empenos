@@ -21,7 +21,7 @@
       <Button fx:id="guardar" layoutX="166.0" layoutY="376.0" mnemonicParsing="false" onAction="#botonGuardar" text="Guardar" />
       <Button fx:id="cancelar" layoutX="347.0" layoutY="376.0" mnemonicParsing="false" onAction="#cerrar" text="Cancelar" />
       <Label layoutX="47.0" layoutY="203.0" text="Telefono" />
-      <TextField fx:id="telefono" layoutX="166.0" layoutY="197.0" prefHeight="25.0" prefWidth="242.0" />
+      <TextField fx:id="telefono" layoutX="166.0" layoutY="197.0" onKeyReleased="#validarNumeros" onKeyTyped="#validarNumeros" prefHeight="25.0" prefWidth="242.0" />
       <TextField fx:id="usuario" layoutX="167.0" layoutY="229.0" prefHeight="25.0" prefWidth="242.0" />
       <Label layoutX="53.0" layoutY="267.0" text="Contraseña" />
       <Label layoutX="47.0" layoutY="302.0" text="Confirmacion" />

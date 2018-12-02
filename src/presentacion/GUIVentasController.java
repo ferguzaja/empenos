@@ -298,4 +298,9 @@ public class GUIVentasController implements Initializable {
         tablaClientes.getItems().remove(0,tablaClientes.getSelectionModel().getSelectedIndex());
         tablaCarrito.getItems().remove(0,tablaCarrito.getSelectionModel().getSelectedIndex());
     }
+    public void imprimeTicket(){
+        if(((int)parametrosInterfaz.get("Venta"))==0){
+            
+        }
+    }
 }

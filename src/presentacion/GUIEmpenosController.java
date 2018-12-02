@@ -203,22 +203,22 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonAgregarPrenda(ActionEvent event) {
-        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
+        Map<String, Object> parametosPrenda=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
         GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
-        parametrosInterfaz.put("Empenos",guiEmpenosControler);
-        parametrosInterfaz.put("Prenda",0);
+        parametosPrenda.put("Empenos",guiEmpenosControler);
+        parametosPrenda.put("Prenda",0);
         productosController.recibeHasgMap(parametrosInterfaz);
     }
     @FXML
     private void botonEditarPrenda(ActionEvent event) {
         if(utilerias.validacion.seleccionado(tablaPrenda)){
-        parametrosInterfaz=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
+        Map<String, Object> parametosPrenda=utilerias.mensajes.nuevaInterfaz("GUIAgregarProducto.fxml", this);
         GUIAgregarProductoController productosController = (GUIAgregarProductoController) ((FXMLLoader)parametrosInterfaz.get("Loader")).getController();
-        parametrosInterfaz.put("Empenos",guiEmpenosControler);
-        parametrosInterfaz.put("Prenda",1);
-        parametrosInterfaz.put("Editar", tablaPrenda.getSelectionModel().getSelectedItem());
-        parametrosInterfaz.put("posicion",tablaPrenda.getSelectionModel().getSelectedIndex());
-        parametrosInterfaz.put("ListaFotos", arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
+        parametosPrenda.put("Empenos",guiEmpenosControler);
+        parametosPrenda.put("Prenda",1);
+        parametosPrenda.put("Editar", tablaPrenda.getSelectionModel().getSelectedItem());
+        parametosPrenda.put("posicion",tablaPrenda.getSelectionModel().getSelectedIndex());
+        parametosPrenda.put("ListaFotos", arregloDeFotos.get(tablaPrenda.getSelectionModel().getSelectedIndex()));
         productosController.recibeHasgMap(parametrosInterfaz);
         }else{
             utilerias.mensajes.mensage("favor de seleccionar una Prenda para editar");
