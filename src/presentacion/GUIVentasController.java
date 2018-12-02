@@ -6,6 +6,10 @@
 package presentacion;
 
 import datos.Cliente;
+import jasper.JasperReports;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,6 +92,25 @@ public class GUIVentasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         precioColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+    }
+    
+    public void verTicket(){
+        HashMap<String,String> parametros = new HashMap<String,String>();
+        parametros.put("p_idventa", "1");
+        String path = JasperReports.generarReporteJasper("Ticket_Ventas",parametros);
+        //EXTRA SOLO SI QUIEREN ABRIR EL PDF EN LA MAQUINA
+        openPDF(path);
+    }
+    
+    public static void openPDF(String url){
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File(url);
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     
     public void cambiarDescripcion(CellEditEvent edditcell){
