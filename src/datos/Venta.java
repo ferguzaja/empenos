@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,7 +87,6 @@ public class Venta implements Serializable {
         this.fechaHora = fechaHora;
     }
 
-
     @XmlTransient
     public List<Articuloventa> getArticuloventaList() {
         return articuloventaList;
@@ -135,19 +136,42 @@ public class Venta implements Serializable {
     public String toString() {
         return "datos.Venta[ idventa=" + idventa + " ]";
     }
-    public static datos.Venta deLogicaADatos(logica.Venta venta){
+
+    public static datos.Venta deLogicaADatos(logica.Venta venta) {
         Venta nuevaVenta = new Venta();
         nuevaVenta.setEmpleadoidEmpleado(datos.Empleado.recuperarEmpleado(venta.getEmpleado().getIdEmpleado()));
-        if(venta.getCliente()!=null){
+        if (venta.getCliente() != null) {
             nuevaVenta.setClienteIdcliente(datos.Cliente.recuperarCliente(venta.getCliente().getIdCliente()));
         }
         nuevaVenta.setFechaHora(venta.getFechaHora());
         nuevaVenta.setGananciaTotal(venta.getGananciaTotal());
         return nuevaVenta;
     }
-    public static void guardarVenta(logica.Venta venta){
-        VentaJpaController VJPA = new VentaJpaController();
-        VJPA.create(deLogicaADatos(venta));
+
+    public static void guardarVenta(logica.Venta venta, List<logica.ArticuloVenta> articulos) {
+        try {
+            //Primero se guarda la venta
+            VentaJpaController VJPA = new VentaJpaController();
+            VJPA.create(deLogicaADatos(venta));
+            //se recupera la venta que se acaba de guardar en un objeto venta            
+            datos.Venta objVentas = VJPA.findVenta(recuperaUltimaVenta().getIdventa());
+            //se guardan los articulos de la venta en una lista (hasta ahora pues está vacía)
+            List<Articuloventa> listaArticulos = objVentas.getArticuloventaList();
+            //Se crea el controlador de los articulos venta
+            ArticuloventaJpaController artVentaJPA = new ArticuloventaJpaController();
+            //se recupera el articulo que se quiere relacionar a la venta           
+            for (int i = 0; i < articulos.size(); i++) {
+                Articuloventa articuloVenta = artVentaJPA.findArticuloventa(articulos.get(i).getIdArticuloVenta());
+                //Se agrega el articulo a la lista de articulos de la venta que estaba vacía
+                listaArticulos.add(articuloVenta);
+            }                        
+            //se pasa la lista de articulos al objeto de la venta
+            objVentas.setArticuloventaList(listaArticulos);
+            //por ultimo se edita la venta para que guarde los cambios
+            VJPA.edit(objVentas);
+        } catch (Exception ex) {
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public double getGananciaTotal() {
@@ -157,7 +181,7 @@ public class Venta implements Serializable {
     public void setGananciaTotal(double gananciaTotal) {
         this.gananciaTotal = gananciaTotal;
     }
-    
+
     private static logica.Venta clonarDatosALogica(Venta venta) {
         logica.Venta ventaEnviar = new logica.Venta();
         ventaEnviar.setCliente(venta.getClienteIdcliente().clonar());
@@ -183,20 +207,28 @@ public class Venta implements Serializable {
         }
         return ventas;
     }
-      public static List<logica.Venta> buscarVentas(String text) {
-       VentaJpaController ventaJPa = new VentaJpaController();
-       List<logica.Venta> ventas = new ArrayList<logica.Venta>();
-       List<datos.Venta> ventasEncontradas=ventaJPa.findVentaEntities();
-       for(int i=0; i<ventasEncontradas.size(); i++){
-           //criterio de busqueda
-           ventas.add(clonarDatosALogica(ventasEncontradas.get(i)));
-       }
-       return ventas;
-      }
-      public static int ultimaVenta(){
-          VentaJpaController ventaJPA = new VentaJpaController();
-          List<datos.Venta> ventasEncontradas=ventaJPA.findVentaEntities();
-          return ventasEncontradas.size()+1;
-      }
 
+    public static List<logica.Venta> buscarVentas(String text) {
+        VentaJpaController ventaJPa = new VentaJpaController();
+        List<logica.Venta> ventas = new ArrayList<logica.Venta>();
+        List<datos.Venta> ventasEncontradas = ventaJPa.findVentaEntities();
+        for (int i = 0; i < ventasEncontradas.size(); i++) {
+            //criterio de busqueda
+            ventas.add(clonarDatosALogica(ventasEncontradas.get(i)));
+        }
+        return ventas;
+    }
+
+    public static int ultimaVenta() {
+        VentaJpaController ventaJPA = new VentaJpaController();
+        List<datos.Venta> ventasEncontradas = ventaJPA.findVentaEntities();
+        return ventasEncontradas.size() + 1;
+    }
+    
+    public static datos.Venta recuperaUltimaVenta(){
+        VentaJpaController ventaJPA = new VentaJpaController();
+        List<Venta> ventas = ventaJPA.findVentaEntities();
+        Venta venta = ventas.get(ventas.size() -1);
+        return venta;
+    }
 }

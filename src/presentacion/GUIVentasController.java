@@ -272,13 +272,13 @@ public class GUIVentasController implements Initializable {
     public void generaVenta(){
         if(!utilerias.validacion.seleccionado(tablaClientes)){
             if(utilerias.mensajes.mensageConfirmacion("Venta Sin Cliente", "Desea guardar la venta como publico general")){
-                datos.Venta.guardarVenta(regresaVenta());
+                datos.Venta.guardarVenta(regresaVenta(), ListaCarrito);
             }   
-    }else{
-            datos.Venta.guardarVenta(regresaVenta());
-        }
-       
+        }else{
+            datos.Venta.guardarVenta(regresaVenta(),ListaCarrito);
+        }       
     }
+    
     @FXML
     public void seleccionaVentaRemate(){
          if(((int)parametrosGlobales.get("Venta")==0)){
@@ -291,7 +291,7 @@ public class GUIVentasController implements Initializable {
     }
     
     public logica.Venta regresaVenta(){
-         logica.Venta venta = new logica.Venta();
+        logica.Venta venta = new logica.Venta();
         venta.setFechaHora(utilerias.fechas.fecha());
         venta.setEmpleado(datos.Empleado.datosALogicaClonar(datos.Empleado.recuperarEmpleado(Integer.parseInt(parametrosGlobales.get("idSesion").toString()))));
         venta.setGananciaTotal(datos.Articuloventa.regresaMonto(ListaCarrito));

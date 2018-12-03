@@ -22,11 +22,11 @@
             <TableColumn fx:id="precioColumn" onEditCommit="#cambiarPrecio" prefWidth="101.0" text="Precio " />
         </columns>
       </TableView>
-      <Button fx:id="agregarAlCarritoButton" layoutX="385.0" layoutY="337.0" mnemonicParsing="false" onAction="#ventaORemate" text="Agregar Al Carrito" />
+      <Button fx:id="agregarAlCarritoButton" layoutX="386.0" layoutY="290.0" mnemonicParsing="false" onAction="#ventaORemate" text="Agregar Al Carrito" />
       <TextField fx:id="TFBuscarArticulos" layoutX="69.0" layoutY="182.0" prefHeight="25.0" prefWidth="203.0" />
       <Label layoutX="17.0" layoutY="186.0" text="Articulos:" />
       <Button fx:id="buscarArticulosButton" layoutX="293.0" layoutY="182.0" mnemonicParsing="false" onAction="#buscarBotonArticulos" text="Buscar" />
-      <Button fx:id="comprarButton" layoutX="800.0" layoutY="182.0" mnemonicParsing="false" onAction="#seleccionaVentaRemate" style="-fx-background-image: ..\icons\carrito.png;" text="Comprar" />
+      <Button fx:id="comprarButton" layoutX="536.0" layoutY="518.0" mnemonicParsing="false" onAction="#seleccionaVentaRemate" prefHeight="25.0" prefWidth="101.0" style="-fx-background-image: ..\icons\carrito.png;" text="Comprar" />
       <Button fx:id="mostrarButton" layoutX="21.0" layoutY="522.0" mnemonicParsing="false" onAction="#botonMostrar" text="mostrar Fotos" />
       <TableView fx:id="tablaClientes" layoutX="21.0" layoutY="69.0" prefHeight="104.0" prefWidth="840.0">
          <columns>
@@ -44,9 +44,9 @@
             <TableColumn fx:id="precioCarrito" prefWidth="95.0" text="Precio" />
         </columns>
       </TableView>
-      <TextField fx:id="txtTotal" editable="false" layoutX="779.0" layoutY="509.0" prefHeight="25.0" prefWidth="84.0" />
-      <Label layoutX="738.0" layoutY="513.0" text="Total" />
-      <Button fx:id="eliminarCarritoButton" layoutX="536.0" layoutY="522.0" mnemonicParsing="false" onAction="#eliminarCarrito" text="Eliminar del Carrito" />
+      <TextField fx:id="txtTotal" editable="false" layoutX="777.0" layoutY="518.0" prefHeight="25.0" prefWidth="84.0" />
+      <Label layoutX="736.0" layoutY="526.0" text="Total" />
+      <Button fx:id="eliminarCarritoButton" layoutX="384.0" layoutY="337.0" mnemonicParsing="false" onAction="#eliminarCarrito" prefHeight="0.0" prefWidth="117.0" text="Eliminar del Carrito" />
       <Button layoutX="243.0" layoutY="522.0" mnemonicParsing="false" onAction="#guardarEdicionArticulo" text="Guardar edición" />
       <Button layoutX="385.0" layoutY="464.0" mnemonicParsing="false" onAction="#verTicket" prefHeight="25.0" prefWidth="112.0" text="Ticket" />
    </children>
