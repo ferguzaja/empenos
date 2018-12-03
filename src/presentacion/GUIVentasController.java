@@ -334,11 +334,11 @@ public class GUIVentasController implements Initializable {
     private void generaRemate() {
          if(!utilerias.validacion.seleccionado(tablaClientes)){
             if(utilerias.mensajes.mensageConfirmacion("Remate Sin Cliente", "Desea guardar el Remate como publico general")){
-               datos.Remate.guardarRemate(regresaRemate());
+               datos.Remate.guardarRemate(regresaRemate(),ListaCarrito);
                limpia();
             }   
     }else{
-            datos.Remate.guardarRemate(regresaRemate());
+            datos.Remate.guardarRemate(regresaRemate(),ListaCarrito);
         }
     }
     public void limpia(){

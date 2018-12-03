@@ -46,6 +46,7 @@ public class Venta {
 
     public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
+        if(fechaHora!=null)
         txtfecha=spd.format(fechaHora);
     }
 

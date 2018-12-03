@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -151,9 +153,29 @@ public class Remate implements Serializable {
         nuevoRemate.setPerdida(remate.getPerdidaTotal());
         return nuevoRemate;
     }
-     public static void guardarRemate(logica.Remate regresaRemate) {
+     public static void guardarRemate(logica.Remate regresaRemate, List<logica.ArticuloVenta> articulos) {
          RemateJpaController remateJPA=new RemateJpaController();
          remateJPA.create(deLogicaADatos(regresaRemate));
+         //se recupera la venta que se acaba de guardar en un objeto venta            
+            datos.Remate objRemate = remateJPA.findRemate(recuperaUltimaRemate().getIdremate());
+            //se guardan los articulos de la venta en una lista (hasta ahora pues está vacía)
+            List<Articuloventa> listaArticulos = objRemate.getArticuloventaList();
+            //Se crea el controlador de los articulos venta
+            ArticuloventaJpaController artVentaJPA = new ArticuloventaJpaController();
+            //se recupera el articulo que se quiere relacionar a la venta           
+            for (int i = 0; i < articulos.size(); i++) {
+                Articuloventa articuloVenta = artVentaJPA.findArticuloventa(articulos.get(i).getIdArticuloVenta());
+                //Se agrega el articulo a la lista de articulos de la venta que estaba vacía
+                listaArticulos.add(articuloVenta);
+            }                        
+            //se pasa la lista de articulos al objeto de la venta
+            objRemate.setArticuloventaList(listaArticulos);
+        try {
+            //por ultimo se edita la venta para que guarde los cambios
+            remateJPA.edit(objRemate);
+        } catch (Exception ex) {
+            Logger.getLogger(Remate.class.getName()).log(Level.SEVERE, null, ex);
+        }
      }
      private static logica.Remate clonarDatosALogica(Remate remate) {
         logica.Remate remateEnviar = new logica.Remate();
@@ -195,4 +217,10 @@ public class Remate implements Serializable {
           List<datos.Remate> remates=remateJPA.findRemateEntities();
           return remates.size()+1;
       }
+    public static datos.Remate recuperaUltimaRemate(){
+        RemateJpaController remateJPA = new RemateJpaController();
+        List<Remate> reamtes = remateJPA.findRemateEntities();
+        Remate remate = reamtes.get(reamtes.size() -1);
+        return remate;
+    }
 }
