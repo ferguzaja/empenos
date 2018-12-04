@@ -247,8 +247,6 @@ public class GUIEmpenoController implements Initializable {
         parametrosInterfaz = utilerias.mensajes.nuevaInterfaz("GUIEmpenos.fxml", this);
         GUIEmpenosController empenosController = (GUIEmpenosController) ((FXMLLoader) parametrosInterfaz.get("Loader")).getController();
          parametrosInterfaz.put("Controller",control);
-        empenosController.recibeHashMap(parametrosGlobales,parametrosInterfaz);
-        parametrosInterfaz.put("Controller", empenosController);
         empenosController.recibeHashMap(parametrosGlobales, parametrosInterfaz);
     }
 

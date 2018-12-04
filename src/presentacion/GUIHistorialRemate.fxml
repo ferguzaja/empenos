@@ -19,7 +19,7 @@
       </TableView>
       <Button fx:id="atrasButton" disable="true" layoutX="313.0" layoutY="21.0" mnemonicParsing="false" onAction="#navegarAtras" text="&lt;" />
       <Button fx:id="adelanteButton" layoutX="349.0" layoutY="21.0" mnemonicParsing="false" onAction="#navegarAdelante" text="&gt;" />
-      <Button fx:id="buscarButton" layoutX="222.0" layoutY="21.0" mnemonicParsing="false" text="Bucar" />
+      <Button fx:id="buscarButton" layoutX="222.0" layoutY="21.0" mnemonicParsing="false" onAction="#buscarVenta" text="Bucar" />
       <Button fx:id="detallesButton" layoutX="516.0" layoutY="275.0" mnemonicParsing="false" text="Detalles" />
       <TextField fx:id="txtBuscar" layoutX="57.0" layoutY="21.0" />
       <Label layoutX="14.0" layoutY="25.0" text="buscar" />

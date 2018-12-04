@@ -167,7 +167,8 @@ public class Remate implements Serializable {
                 Articuloventa articuloVenta = artVentaJPA.findArticuloventa(articulos.get(i).getIdArticuloVenta());
                 //Se agrega el articulo a la lista de articulos de la venta que estaba vacía
                 listaArticulos.add(articuloVenta);
-            }                        
+            }
+            datos.Articuloventa.editarVendida(listaArticulos);
             //se pasa la lista de articulos al objeto de la venta
             objRemate.setArticuloventaList(listaArticulos);
         try {
@@ -207,7 +208,7 @@ public class Remate implements Serializable {
         RemateJpaController remateJPA = new RemateJpaController();
        List<datos.Remate> rematesEncontrados=remateJPA.findRemateEntities();
        for(int i=0; i<rematesEncontrados.size(); i++){
-           //criterio de busqueda
+            if((Integer.parseInt(text))==rematesEncontrados.get(i).getIdremate())
            remates.add(clonarDatosALogica(rematesEncontrados.get(i)));
        }
        return remates;

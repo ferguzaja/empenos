@@ -52,9 +52,9 @@ public class Articuloventa implements Serializable {
     private String descripcionArticulo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precioVenta")
-    private Float precioVenta;
+    private double precioVenta;
     @Column(name = "estado")
-    private Short estado;
+    private int estado;
     @JoinTable(name = "ventaarticuloventa", joinColumns = {
         @JoinColumn(name = "articuloventa_idarticuloventa", referencedColumnName = "idarticuloventa")}, inverseJoinColumns = {
         @JoinColumn(name = "venta_idventa", referencedColumnName = "idventa")})
@@ -99,19 +99,19 @@ public class Articuloventa implements Serializable {
         this.descripcionArticulo = descripcionArticulo;
     }
 
-    public Float getPrecioVenta() {
+    public double getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(Float precioVenta) {
+    public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
     }
 
-    public Short getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(Short estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 
@@ -217,8 +217,8 @@ public class Articuloventa implements Serializable {
             datos.Articuloventa articuloventa = new Articuloventa();
             articuloventa.setIdarticuloventa(articulo.getIdArticuloVenta());
             articuloventa.setDescripcionArticulo(articulo.getDescripcion());
-            articuloventa.setEstado((short)articulo.getEstado());
-            articuloventa.setPrecioVenta((float)articulo.getPrecioVenta());
+            articuloventa.setEstado(articulo.getEstado());
+            articuloventa.setPrecioVenta(articulo.getPrecioVenta());
             articuloventa.setPrendaIdprenda(datos.Prenda.deLogicaADatos(articulo.getPrenda()));
             articuloJPA.edit(articuloventa);
         } catch (Exception ex) {
@@ -238,6 +238,17 @@ public class Articuloventa implements Serializable {
             articuloJPA.edit(articuloventa);
         } catch (Exception ex) {
             Logger.getLogger(Articuloventa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void editarVendida(List<datos.Articuloventa> lista){
+        ArticuloventaJpaController articuloJPA = new ArticuloventaJpaController();
+        for(int i=0; i<lista.size(); i++){
+            lista.get(i).setEstado(1);
+            try {
+                articuloJPA.edit(lista.get(i));
+            } catch (Exception ex) {
+                Logger.getLogger(Articuloventa.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

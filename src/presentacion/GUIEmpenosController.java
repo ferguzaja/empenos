@@ -128,7 +128,7 @@ public class GUIEmpenosController implements Initializable {
 
     @FXML
     private void botonGuardarContrato(ActionEvent event) {
-        if (utilerias.validacion.seleccionado(tablaClientes) || !tablaPrenda.getSelectionModel().isEmpty()) {
+        if (utilerias.validacion.seleccionado(tablaClientes) && !listaPrenda.isEmpty()) {
             //Registro del empeño
             Empeno empeno = new logica.Empeno();
             Date date = utilerias.fechas.fecha();

@@ -164,7 +164,8 @@ public class Venta implements Serializable {
                 Articuloventa articuloVenta = artVentaJPA.findArticuloventa(articulos.get(i).getIdArticuloVenta());
                 //Se agrega el articulo a la lista de articulos de la venta que estaba vacía
                 listaArticulos.add(articuloVenta);
-            }                        
+            }
+            datos.Articuloventa.editarVendida(listaArticulos);
             //se pasa la lista de articulos al objeto de la venta
             objVentas.setArticuloventaList(listaArticulos);
             //por ultimo se edita la venta para que guarde los cambios
@@ -213,7 +214,7 @@ public class Venta implements Serializable {
         List<logica.Venta> ventas = new ArrayList<logica.Venta>();
         List<datos.Venta> ventasEncontradas = ventaJPa.findVentaEntities();
         for (int i = 0; i < ventasEncontradas.size(); i++) {
-            //criterio de busqueda
+            if((Integer.parseInt(text))==ventasEncontradas.get(i).getIdventa())
             ventas.add(clonarDatosALogica(ventasEncontradas.get(i)));
         }
         return ventas;

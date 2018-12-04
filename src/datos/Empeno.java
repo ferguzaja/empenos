@@ -326,7 +326,7 @@ public class Empeno implements Serializable {
             float monto = 0;
             empeno.setMontoRecibido(monto);
             empeno.setFechaFinalizacion(null);
-            //empeno.setExtencionTiempo(0);
+            empeno.setExtencionTiempo(0);
             empenoJPA.create(empeno);
             ///Guardar el nuevo número de bolsa
             int idEmpenoNuevo = datos.Empeno.recuperaID().getIdEmpeno();
