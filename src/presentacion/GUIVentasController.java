@@ -96,7 +96,7 @@ public class GUIVentasController implements Initializable {
     
     public void verTicket(){
         HashMap<String,String> parametros = new HashMap<String,String>();
-        parametros.put("p_idventa", "1");
+        parametros.put("p_idventa", "18");
         String path = JasperReports.generarReporteJasper("Ticket_Ventas",parametros);
         //EXTRA SOLO SI QUIEREN ABRIR EL PDF EN LA MAQUINA
         openPDF(path);
@@ -322,8 +322,8 @@ public class GUIVentasController implements Initializable {
     private void agregarRemate() {
         if (utilerias.validacion.seleccionado(tablaArticulos)) {
             double nuevoPrecio=utilerias.mensajes.remate(tablaArticulos.getSelectionModel().getSelectedItem());
-            if(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getMontoPrestamo()>=nuevoPrecio){
-                utilerias.mensajes.mensage("la prenda no puede tener un precio menor al de lo que se presto");
+            if(tablaArticulos.getSelectionModel().getSelectedItem().getPrenda().getMontoPrestamo()<=nuevoPrecio){
+                utilerias.mensajes.mensage("la prenda no puede tener un precio mayor al de lo que se presto");
             }else{
                 tablaArticulos.getSelectionModel().getSelectedItem().setPrecioVenta(nuevoPrecio);
                 agregarCarrito();
